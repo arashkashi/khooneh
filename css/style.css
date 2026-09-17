@@ -419,3 +419,9 @@ svg.plan .tag { fill: #5A6664; font-size: 10px; } svg.plan .north-arrow { fill: 
 .m3-bar .m3-hint { margin-inline-start: auto; color: var(--ink-2); font-size: .82rem; }
 .m3-stage { position: relative; line-height: 0; background: #F6F5F0; }
 .m3-stage canvas { display: block; width: 100% !important; height: auto !important; }
+
+/* folded details */
+.fold { margin: 1rem 0 1.5rem; border-top: 1px solid var(--rule); padding-top: .6rem; }
+.fold summary { cursor: pointer; color: var(--ink-2); }
+.fold summary:hover { color: var(--turq); }
+.two-col .features { padding-inline-start: 1.1rem; margin: .3rem 0 .6rem; }

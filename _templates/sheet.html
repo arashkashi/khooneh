@@ -15,8 +15,21 @@
       <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a></figcaption>
     </figure>
     <div class="node-body">
+      {% if s.impression_fa %}
+      <h2>برداشت</h2>
+      {% for p in s.impression_fa|paras %}<p class="lead">{{ p }}</p>{% endfor %}
+      <div class="two-col">
+        {% if s.matched_fa %}<div><h3>با شاخص‌ها می‌خواند</h3><ul class="features">{% for x in s.matched_fa %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+        {% if s.missed_fa %}<div><h3>چه چیزی را کم دارد</h3><ul class="features">{% for x in s.missed_fa %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+        {% if s.gained_fa %}<div><h3>چه چیزی اضافه می‌کند</h3><ul class="features">{% for x in s.gained_fa %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+        {% if s.open_fa %}<div><h3>چه پرسشی باز می‌ماند</h3><ul class="features">{% for x in s.open_fa %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+      </div>
+      {% if s.improve_fa %}<h3>چطور می‌شد بهتر باشد</h3><ul class="features">{% for x in s.improve_fa %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
+      <details class="fold"><summary>جزئیات روی شیت</summary><ul class="features">{% for x in s.what_to_look_for_fa %}<li>{{ x }}</li>{% endfor %}</ul></details>
+      {% else %}
       <h2>به چه نگاه کنیم</h2>
       <ul class="features">{% for x in s.what_to_look_for_fa %}<li>{{ x }}</li>{% endfor %}</ul>
+      {% endif %}
       {% if s.rooms_fa %}<h2>فضاها</h2><p>{{ s.rooms_fa|join('، ') }}</p>{% endif %}
       {% if s.notes_fa %}<h2>یادداشت</h2>{% for p in s.notes_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
       {{ m.prevnext(prev, nxt, root, 'sheets/') }}
