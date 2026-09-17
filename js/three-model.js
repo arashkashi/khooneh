@@ -4,7 +4,7 @@
 const K = window.KHOONEH;
 const fa = (document.documentElement.lang || 'en').startsWith('fa');
 const KIND = { living: 0xCFE0D8, kitchen: 0xF0DDB4, dining: 0xF0DDB4, bedroom: 0xD9D4EA, bath: 0xC5E1EC, study: 0xE6DEC4, storage: 0xDADAD3, service: 0xD3CCC3,
-  circulation: 0xE9E9E5, outdoor: 0xD6E4C9, void: 0xBFE3E0, parking: 0xE0E1DC, water: 0x2FA39C, green: 0x9FC58F, house management: 0xE6D3BC, hall: 0xEFEFEA };
+  circulation: 0xE9E9E5, outdoor: 0xD6E4C9, void: 0xBFE3E0, parking: 0xE0E1DC, water: 0x2FA39C, green: 0x9FC58F, caretaker: 0xE6D3BC, hall: 0xEFEFEA };
 
 let THREE, OrbitControls;
 async function lib() {

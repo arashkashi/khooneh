@@ -5,10 +5,10 @@
   const NS = 'http://www.w3.org/2000/svg';
   const T = (o, k) => K.T(o, k);
   const fa = K.lang === 'fa';
-  const KIND_FA = { living: 'نشیمن', kitchen: 'آشپزخانه', dining: 'ناهارخوری', bedroom: 'خواب', bath: 'سرویس / حمام', study: 'کار', storage: 'انباری', service: 'تأسیسات', circulation: 'پله و آسانسور', outdoor: 'فضای باز', void: 'ووید', parking: 'پارکینگ', water: 'آب', green: 'سبز', house management: 'مدیریت خانه', hall: 'هال' };
-  const KIND_EN = { living: 'living', kitchen: 'kitchen', dining: 'dining', bedroom: 'bedroom', bath: 'bath', study: 'study', storage: 'storage', service: 'plant', circulation: 'stair & lift', outdoor: 'outdoor', void: 'void', parking: 'parking', water: 'water', green: 'green', house management: 'house management', hall: 'hall' };
+  const KIND_FA = { living: 'نشیمن', kitchen: 'آشپزخانه', dining: 'ناهارخوری', bedroom: 'خواب', bath: 'سرویس / حمام', study: 'کار', storage: 'انباری', service: 'تأسیسات', circulation: 'پله و آسانسور', outdoor: 'فضای باز', void: 'ووید', parking: 'پارکینگ', water: 'آب', green: 'سبز', caretaker: 'سرایدار', hall: 'هال' };
+  const KIND_EN = { living: 'living', kitchen: 'kitchen', dining: 'dining', bedroom: 'bedroom', bath: 'bath', study: 'study', storage: 'storage', service: 'plant', circulation: 'stair & lift', outdoor: 'outdoor', void: 'void', parking: 'parking', water: 'water', green: 'green', caretaker: 'caretaker', hall: 'hall' };
   const faDigits = s => fa ? String(s).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]) : String(s);
-  const FILL = {"living": "#E6EFEB", "kitchen": "#F5E6C6", "dining": "#F2E3C4", "bedroom": "#E8E5F2", "bath": "#D8EDF4", "study": "#EFE9D7", "storage": "#E9E9E4", "service": "#E2DDD6", "circulation": "#F4F4F1", "outdoor": "#E5EEDD", "void": "#DDEFED", "parking": "#EBECE8", "water": "#BFE0DE", "green": "#CFE3C6", "house management": "#F0E3D2", "hall": "#F6F6F3"};
+  const FILL = {"living": "#E6EFEB", "kitchen": "#F5E6C6", "dining": "#F2E3C4", "bedroom": "#E8E5F2", "bath": "#D8EDF4", "study": "#EFE9D7", "storage": "#E9E9E4", "service": "#E2DDD6", "circulation": "#F4F4F1", "outdoor": "#E5EEDD", "void": "#DDEFED", "parking": "#EBECE8", "water": "#BFE0DE", "green": "#CFE3C6", "caretaker": "#F0E3D2", "hall": "#F6F6F3"};
 
   K.renderPlan = function (host, plan, opts = {}) {
     if (!host || !plan) return;

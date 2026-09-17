@@ -13,8 +13,8 @@ window.KHOONEH = {
         note: 'Never drawn. The brief asks for a second basement as a shared recreational and cultural room. This is where the story is open.',
         note_fa: 'هرگز ترسیم نشد. شاخص‌ها زیرزمین دومی می‌خواهند: اتاقی مشترک برای ورزش، آب و دور هم بودن. داستان همین‌جا باز است.' },
       { id: 'b',  name: 'Basement', name_fa: 'زیرزمین', elev: -3.12, clear: 2.72,
-        note: 'House-management unit, powerhouse, stores, a jacuzzi with shower and locker room, and a sunken courtyard open to the sky with a tree.',
-        note_fa: 'واحد مدیریت خانه، موتورخانه، انباری‌ها، جکوزی با دوش و رختکن، و گودال‌باغچه‌ای رو به آسمان با یک درخت.' },
+        note: 'Caretaker unit, powerhouse, stores, a jacuzzi with shower and locker room, and a sunken courtyard open to the sky with a tree.',
+        note_fa: 'واحد سرایدار، موتورخانه، انباری‌ها، جکوزی با دوش و رختکن، و گودال‌باغچه‌ای رو به آسمان با یک درخت.' },
       { id: 'gf', name: 'Ground', name_fa: 'همکف', elev: 0, clear: 2.56,
         note: 'Three cars inside, one in the yard. A shabak screen and a green wall separate cars from the courtyard void; opaque glass flooring lets light down to the basement.',
         note_fa: 'سه ماشین داخل، یکی در حیاط. مشبک و دیوار سبز ماشین‌ها را از حفرهٔ حیاط جدا می‌کند؛ کف شیشه‌ای مات نور را به زیرزمین می‌رساند.' },
@@ -41,7 +41,7 @@ window.KHOONEH = {
     plot: { width: 10.5, depth: 20.14 },
     units: {
       p:  { name: 'Parking',          name_fa: 'پارکینگ',        color: '#c9cdc9' },
-      j:  { name: 'House-management unit',   name_fa: 'واحد مدیریت خانه',   color: '#d8c3a5', area: 52 },
+      j:  { name: 'Caretaker unit',   name_fa: 'واحد سرایدار',   color: '#d8c3a5', area: 52 },
       o:  { name: 'One-bedroom flat', name_fa: 'واحد یک‌خوابه',  color: '#a9c9c6', area: 62 },
       a:  { name: 'Duplex A',         name_fa: 'دوبلکس الف',     color: '#7fb3af', area: 165 },
       s:  { name: 'Student duplex',   name_fa: 'دوبلکس دانشجویی', color: '#e0b56a', area: 76 },
@@ -57,7 +57,7 @@ window.KHOONEH = {
       { name: 'Second floor', name_fa: 'طبقهٔ دوم', segs: [['a', 0.52, 'three bedrooms', 'سه خواب'], ['s', 0.48, 'student living, spiral stair', 'نشیمن دانشجویی، پلهٔ گرد']] },
       { name: 'First floor', name_fa: 'طبقهٔ اول', segs: [['o', 0.48, '62 m² flat', 'واحد ۶۲ متری'], ['a', 0.52, 'living, iwan, kitchen', 'نشیمن، ایوان، آشپزخانه']] },
       { name: 'Ground', name_fa: 'همکف', segs: [['p', 0.82, '5 cars standard, 8 at most', '۵ ماشین استاندارد، حداکثر ۸'], ['c', 0.18, 'sunken garden void', 'حفرهٔ گودال‌باغچه']] },
-      { name: 'Basement', name_fa: 'زیرزمین', segs: [['j', 0.5, '52 m² house-management unit', 'واحد مدیریت خانه ۵۲ متری'], ['c', 0.5, 'pool → hoz, stores, plant', 'استخر ← حوض، انباری، موتورخانه']] }
+      { name: 'Basement', name_fa: 'زیرزمین', segs: [['j', 0.5, '52 m² caretaker unit', 'واحد سرایدار ۵۲ متری'], ['c', 0.5, 'pool → hoz, stores, plant', 'استخر ← حوض، انباری، موتورخانه']] }
     ],
     caption: 'Hover or tap a plate. Three of the four units span two floors; the second floor needs no lift access, so the same plans work whether the street is zoned for three floors or four.',
     caption_fa: 'با رفتن روی هر صفحه یا لمس آن، توضیحش دیده می‌شود. سه واحد از چهار واحد دو طبقه را می‌گیرند؛ طبقهٔ دوم به آسانسور نیاز ندارد، پس همین نقشه‌ها در تراکم سه‌طبقه و چهارطبقه هر دو کار می‌کند.'
