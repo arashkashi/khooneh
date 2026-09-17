@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4 — 2026-09-18 (night), accurate plans, vector sheets, dollhouse 3D
+- All twelve plans redrawn from the sheets' own vector lines by two verifying agents (polygons, walls, doors, windows, stairs, lift); side-by-side verification renderer in `../tools/render_plan_png.py`.
+- Original sheets as cropped vector SVGs with a pan/zoom viewer (`js/sheet-zoom.js`) on every sheet page.
+- 3D: roofless per-floor views (walls with door and window openings, floor plates, stairs, labels, top view) on sheet pages; stacked/explode model on attempt pages (`js/three-model.js`).
+- Fact-check pass applied: loft over the south rooms, 1.20 console toward the yard, dates and counts aligned, private details removed; section diagram corrected.
+- Sheet pages read as impressions (feeling, matched, gained, missed, open, could improve); dimensions folded under details.
+- Interlude on Hossein Amanat; contact set; links work from Finder; «سرایدار» kept by decision.
+
 ## v0.3 — 2026-09-17 (evening), plans, 3D, interlude
 - Schematic floor plans drawn in JS (`js/plan.js`) from `content/plans.json` — twelve plans, 136 rooms tagged to brief items, questions and concepts; plan browser on attempt pages, plan beside each sheet, focused/zoomed plan on brief, question and concept pages.
 - Own PDF scanner (`../tools/scan_plans.py`): plot frames, wall hatch, exact label anchors; plans authored from those anchors (`../tools/author_plans.py`).
