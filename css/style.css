@@ -361,3 +361,17 @@ html[dir="rtl"] .view-label { transform: translate(0, -110%); }
 .view-locator { position: relative; flex: 0 0 auto; display: inline-block; border: 1px solid var(--rule); background: #fff; line-height: 0; }
 .view-locator img { display: block; height: auto; }
 .view-locator i { position: absolute; border: 1.5px solid var(--turq); background: rgba(29,143,138,.18); }
+
+/* vector sheet viewer (PDF.js) */
+.pdf-viewer.is-vector { border: 1px solid var(--rule); background: #fff; }
+.pv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; padding: .4rem .6rem; border-bottom: 1px solid var(--rule); font-size: .9rem; background: var(--paper); }
+.pv-bar button, .pv-bar a { font: inherit; font-size: .9rem; color: var(--ink); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: .15rem .6rem; cursor: pointer; text-decoration: none; }
+.pv-bar button:hover, .pv-bar a:hover { border-color: var(--turq); color: var(--turq); }
+.pv-bar .pv-zoom { min-width: 3.5em; text-align: center; color: var(--ink-2); }
+.pv-bar .pv-hint { margin-inline-start: auto; color: var(--ink-2); font-size: .82rem; }
+.pv-stage { overflow: auto; max-height: 82vh; cursor: grab; background: #fff; direction: ltr; }
+.pv-stage.is-dragging { cursor: grabbing; }
+.pv-stage canvas { display: block; }
+.pdf-viewer:fullscreen { background: #fff; padding: .5rem; }
+.pdf-viewer:fullscreen .pv-stage { max-height: calc(100vh - 4rem); }
+.pv-status { color: var(--ink-2); padding: 1rem; margin: 0; }

@@ -10,7 +10,7 @@
       {% if s.level_fa %}<p class="deck">{{ s.level_fa }}</p>{% endif %}
     </header>
     <figure class="sheet-view">
-      <a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>
+      <div class="pdf-viewer" data-pdf="{{ root }}{{ s.pdf }}"><a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a></div>
       <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a></figcaption>
     </figure>
     <div class="node-body">
@@ -25,3 +25,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
+{% block scripts %}<script type="module" src="{{ root }}js/sheet-viewer.js"></script>{% endblock %}
