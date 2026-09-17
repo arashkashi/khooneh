@@ -60,6 +60,6 @@ window.KHOONEH = {
       { name: 'Basement', name_fa: 'زیرزمین', segs: [['j', 0.5, '52 m² caretaker unit', 'واحد سرایدار ۵۲ متری'], ['c', 0.5, 'pool → hoz, stores, plant', 'استخر ← حوض، انباری، موتورخانه']] }
     ],
     caption: 'Hover or tap a plate. Three of the four units span two floors; the second floor needs no lift access, so the same plans work whether the street is zoned for three floors or four.',
-    caption_fa: 'روی هر صفحه بروید یا لمس کنید. سه واحد از چهار واحد دو طبقه را می‌گیرند؛ طبقهٔ دوم به آسانسور نیاز ندارد، پس همین نقشه‌ها در تراکم سه‌طبقه و چهارطبقه هر دو کار می‌کند.'
+    caption_fa: 'با رفتن روی هر صفحه یا لمس آن، توضیحش دیده می‌شود. سه واحد از چهار واحد دو طبقه را می‌گیرند؛ طبقهٔ دوم به آسانسور نیاز ندارد، پس همین نقشه‌ها در تراکم سه‌طبقه و چهارطبقه هر دو کار می‌کند.'
   }
 };
