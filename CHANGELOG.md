@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.3 — 2026-09-17 (evening), plans, 3D, interlude
+- Schematic floor plans drawn in JS (`js/plan.js`) from `content/plans.json` — twelve plans, 136 rooms tagged to brief items, questions and concepts; plan browser on attempt pages, plan beside each sheet, focused/zoomed plan on brief, question and concept pages.
+- Own PDF scanner (`../tools/scan_plans.py`): plot frames, wall hatch, exact label anchors; plans authored from those anchors (`../tools/author_plans.py`).
+- 3D massing model (`js/three-model.js`, Three.js via import map) on attempt pages: floors and rooms as volumes, explode/stack animation, orbit.
+- Interlude: a question for Hossein Amanat (voice node, story interlude, aside in both single pages).
+- Links carry explicit `index.html` (works from Finder/Safari); contact set to arashkashi@gmail.com; friendlier car and tree in the section.
+- Third-person voice throughout, Persian and English; brief before the story.
+
 ## v0.2 — 2026-09-17, layered bilingual site
 - Persian primary (RTL, Vazirmatn), English single page (Newsreader). Language links in the header.
 - Minimal landing (question + section diagram + doors) → chapters: brief → story → طرح ۱۳۹۹ → طرح ۱۴۰۳ → sheets → open questions → proposal → invitation; concepts as a side entrance; "everything on one page" in both languages.

@@ -8,7 +8,7 @@ Live: https://arashkashi.github.io/khooneh (GitHub Pages, branch `main`, folder 
 - `content/*.json` — the content graph (see `content/SCHEMA.md`). Edit these, not the generated pages.
 - `_templates/` — Jinja2 templates; `_build/build.py` — generator (`python3 _build/build.py` from this folder; needs `pip install jinja2`).
 - `_src/all.fa.html`, `_src/all.en.html` — hand-written "everything on one page" versions, post-processed into `all/` and `en/all/`.
-- `css/`, `js/` — styles (RTL-first, Vazirmatn + Newsreader) and the two diagrams (`section.js`, `units.js`) driven by `js/data.js`.
+- `css/`, `js/` — styles (RTL-first, Vazirmatn + Newsreader); diagrams: `section.js`, `units.js`, `plan.js` (schematic plans from `content/plans.json` → generated `js/plans-data.js`), `three-model.js` (3D massing, Three.js via import map; needs http).
 - `drawings/` — sheets as WebP + original PDFs (built by `../tools/build_site_assets.py`).
 - Generated: `index.html`, `all/`, `brief/`, `story/`, `attempts/`, `sheets/`, `questions/`, `concepts/`, `proposal/`, `invite/`, `en/`.
 
