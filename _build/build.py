@@ -161,7 +161,7 @@ if proposal:
     units_ds = dict(units={k: dict(name_fa=v['name_fa'], name=v['name_fa'], color=v['color'], area=v.get('area')) for k, v in proposal['units'].items()},
                     floors=[dict(name_fa=f['name_fa'], name=f['name_fa'], segs=[[s[0], s[1], s[2], s[2]] for s in f['segs']]) for f in proposal['floors']],
                     axis={'north_fa': 'کوچه (شمال)', 'south_fa': 'حیاط (جنوب)', 'north': 'street (north)', 'south': 'yard (south)'},
-                    caption_fa='روی هر صفحه بروید یا لمس کنید. رنگ‌ها واحدها را دنبال می‌کنند.')
+                    caption_fa='هر صفحه توضیح خودش را دارد؛ رنگ‌ها واحدها را دنبال می‌کنند.')
     write('proposal/', 'proposal.html', p=proposal, groups=related_groups(proposal, 'p1'), backs=backlink_entries('p1'),
           section_json=json.dumps(section_ds, ensure_ascii=False), units_json=json.dumps(units_ds, ensure_ascii=False))
 # invite

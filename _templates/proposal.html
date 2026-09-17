@@ -9,7 +9,7 @@
       <div class="notice">{% for x in p.stance_fa|paras %}<p>{{ x }}</p>{% endfor %}</div>
       {% for x in p.premise_fa|paras %}<p>{{ x }}</p>{% endfor %}
       <h2>یک برش</h2>
-      <figure class="hero-figure"><div data-section="proposal" data-caption="p-sec-cap"></div><figcaption><p class="fig-title">برش پیشنهادی روی زمین ملاصدرا. ترازها فرضی‌اند و روی هر طبقه می‌شود رفت.</p><p id="p-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
+      <figure class="hero-figure"><div data-section="proposal" data-caption="p-sec-cap"></div><figcaption><p class="fig-title">برش پیشنهادی روی زمین ملاصدرا. ترازها فرضی‌اند؛ هر طبقه توضیح خودش را دارد.</p><p id="p-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
       {% if p.levels_note_fa %}{% for x in p.levels_note_fa|paras %}<p class="small muted">{{ x }}</p>{% endfor %}{% endif %}
       <h2>واحدها روی طبقات</h2>
       <figure class="units-figure"><div class="units-host" data-units="proposalUnits" data-legend="p-leg" data-caption="p-cap"></div><ul id="p-leg" class="legend"></ul><figcaption id="p-cap" class="fig-note" aria-live="polite"></figcaption></figure>
