@@ -41,5 +41,5 @@
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
 {% block scripts %}
 <script>window.KHOONEH.proposal = {{ section_json|safe }}; window.KHOONEH.proposalUnits = {{ units_json|safe }};</script>
-<script src="{{ root }}js/section.js"></script><script src="{{ root }}js/units.js"></script>
+<script src="{{ root }}js/section.js?v=3"></script><script src="{{ root }}js/units.js?v=3"></script>
 {% endblock %}
