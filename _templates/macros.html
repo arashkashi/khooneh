@@ -30,3 +30,17 @@
   <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{{ nxt.title_fa or nxt.term_fa or ('شاخص ' ~ (nxt.n|fa)) }} ›</a>{% endif %}</span>
 </nav>
 {% endmacro %}
+{% macro views(items, root) %}
+{% for v in items %}
+<figure class="view">
+  <div class="view-frame">
+    <img src="{{ root }}{{ v.img }}" alt="{{ v.caption_fa }}" width="{{ v.w }}" height="{{ v.h }}" loading="lazy">
+    {% for l in v.labels %}{% if l.label %}<span class="view-label" style="left:{{ l.left }}%;top:{{ l.top }}%">{{ l.label }}</span>{% endif %}{% endfor %}
+  </div>
+  <figcaption>
+    <span class="view-locator" aria-hidden="true"><img src="{{ root }}{{ v.sheet_thumb }}" alt="" width="{{ 44 if v.sheet_h > v.sheet_w else 64 }}"><i style="left:{{ v.locator.left }}%;top:{{ v.locator.top }}%;width:{{ v.locator.width }}%;height:{{ v.locator.height }}%"></i></span>
+    <span>{{ v.caption_fa }} <a href="{{ root }}sheets/{{ v.sheet }}/">{{ v.sheet_title }} ›</a></span>
+  </figcaption>
+</figure>
+{% endfor %}
+{% endmacro %}

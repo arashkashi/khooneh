@@ -6,6 +6,8 @@ Hand-written sources kept as inputs: _src/all.fa.html (Persian all-in-one), _src
 import json, os, re, shutil, sys
 from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from views import render_views
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 C = os.path.join(ROOT, 'content')
@@ -18,7 +20,7 @@ def load(name, default):
 
 brief = load('brief.json', []); story = load('story.json', []); attempts = load('attempts.json', [])
 questions = load('questions.json', []); concepts = load('concepts.json', []); sheets = load('sheets.json', [])
-proposal = load('proposal.json', None); voices = load('voices.json', [])
+proposal = load('proposal.json', None); voices = load('voices.json', []); views_src = load('views.json', [])
 
 FA_DIGITS = str.maketrans('0123456789', '۰۱۲۳۴۵۶۷۸۹')
 def fa_num(x): return str(x).translate(FA_DIGITS)
@@ -106,6 +108,10 @@ def write(url, template, **ctx):
     print('  wrote', url or 'index.html')
 
 sheet_by_id = {s['id']: s for s in sheets}
+views = render_views(ROOT, views_src, sheet_by_id) if views_src else []
+views_by_node = defaultdict(list)
+for v in views:
+    for nid in v.get('for', []): views_by_node[nid].append(v)
 a1_sheets = [s for s in sheets if s['attempt'] == 'a1']; a3_sheets = [s for s in sheets if s['attempt'] == 'a3']
 
 print('building…')
@@ -118,7 +124,7 @@ for v in voices:
 # brief
 write('brief/', 'brief_index.html', items=brief)
 for i, b in enumerate(brief):
-    write(f"brief/{b['id']}/", 'brief_item.html', b=b, groups=related_groups(b, b['id']), backs=backlink_entries(b['id']),
+    write(f"brief/{b['id']}/", 'brief_item.html', b=b, groups=related_groups(b, b['id']), backs=backlink_entries(b['id']), views=views_by_node.get(b['id'], []),
           prev=brief[i - 1] if i > 0 else None, nxt=brief[i + 1] if i + 1 < len(brief) else None)
 # attempts
 for a in attempts:
@@ -131,12 +137,12 @@ for i, s in enumerate(sheets):
 # questions
 write('questions/', 'questions_index.html', items=questions)
 for i, q in enumerate(questions):
-    write(f"questions/{q['id']}/", 'question.html', q=q, groups=related_groups(q, q['id']), backs=backlink_entries(q['id']),
+    write(f"questions/{q['id']}/", 'question.html', q=q, groups=related_groups(q, q['id']), backs=backlink_entries(q['id']), views=views_by_node.get(q['id'], []),
           prev=questions[i - 1] if i > 0 else None, nxt=questions[i + 1] if i + 1 < len(questions) else None)
 # concepts
 write('concepts/', 'concepts_index.html', items=concepts)
 for c in concepts:
-    write(f"concepts/{c['id']}/", 'concept.html', c=c, groups=related_groups(c, c['id']), backs=backlink_entries(c['id']))
+    write(f"concepts/{c['id']}/", 'concept.html', c=c, groups=related_groups(c, c['id']), backs=backlink_entries(c['id']), views=views_by_node.get(c['id'], []))
 # proposal
 if proposal:
     # dataset for the diagrams

@@ -348,3 +348,16 @@ html[lang="en"] .readings td:first-child { font-style: italic; }
 .timeline li.interlude { background: var(--turq-wash); margin: .4rem 0; padding: 1.1rem 1rem; border-top: 0; border-radius: 4px; }
 .timeline li.interlude time { color: var(--turq); }
 .timeline li.interlude a { text-decoration: none; font-weight: 500; }
+
+/* plan views: a crop of a sheet with the zone highlighted */
+.view { margin: 1.2rem 0 1.8rem; }
+.view-frame { position: relative; border: 1px solid var(--rule); background: #fff; overflow: hidden; }
+.view-frame img { width: 100%; height: auto; display: block; }
+.view-label { position: absolute; transform: translate(0, -110%); background: var(--turq); color: #fff; font-size: .8rem; line-height: 1.5; padding: .05rem .5rem; border-radius: 3px; white-space: nowrap; }
+html[dir="rtl"] .view-label { transform: translate(0, -110%); }
+.view figcaption { display: flex; gap: .8rem; align-items: flex-start; margin-top: .5rem; font-size: .92rem; color: var(--ink-2); }
+.view figcaption a { text-decoration: none; color: var(--ink); }
+.view figcaption a:hover { color: var(--turq); }
+.view-locator { position: relative; flex: 0 0 auto; display: inline-block; border: 1px solid var(--rule); background: #fff; line-height: 0; }
+.view-locator img { display: block; height: auto; }
+.view-locator i { position: absolute; border: 1.5px solid var(--turq); background: rgba(29,143,138,.18); }
