@@ -425,3 +425,18 @@ svg.plan .tag { fill: #5A6664; font-size: 10px; } svg.plan .north-arrow { fill: 
 .fold summary { cursor: pointer; color: var(--ink-2); }
 .fold summary:hover { color: var(--turq); }
 .two-col .features { padding-inline-start: 1.1rem; margin: .3rem 0 .6rem; }
+
+/* zoomable vector sheet */
+.zoomer { border: 1px solid var(--rule); background: #fff; }
+.zoom-stage { height: 70vh; min-height: 420px; overflow: hidden; position: relative; touch-action: none; background: #fff; }
+.zoom-layer { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.zoom-layer img { display: block; max-width: none; }
+.pv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; padding: .4rem .6rem; border-bottom: 1px solid var(--rule); font-size: .9rem; background: var(--paper); }
+.pv-bar button, .pv-bar a { font: inherit; font-size: .9rem; color: var(--ink); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: .15rem .6rem; cursor: pointer; text-decoration: none; }
+.pv-bar button:hover, .pv-bar a:hover { border-color: var(--turq); color: var(--turq); }
+.pv-bar .pv-zoom { min-width: 3.5em; text-align: center; color: var(--ink-2); }
+.pv-bar .pv-hint { margin-inline-start: auto; color: var(--ink-2); font-size: .82rem; }
+.pv-stage { cursor: grab; direction: ltr; }
+.pv-stage.is-dragging { cursor: grabbing; }
+.zoomer:fullscreen { background: #fff; } .zoomer:fullscreen .zoom-stage { height: calc(100vh - 3rem); }
+.planfig-3d .model3d { margin: 0; }

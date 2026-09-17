@@ -1,0 +1,62 @@
+{
+ "a1-section": {
+  "svg": "drawings/svg/a1-section.svg",
+  "w": 570,
+  "h": 710
+ },
+ "a1-basement": {
+  "svg": "drawings/svg/a1-basement.svg",
+  "w": 423,
+  "h": 650
+ },
+ "a1-ground": {
+  "svg": "drawings/svg/a1-ground.svg",
+  "w": 423,
+  "h": 650
+ },
+ "a1-first-loft": {
+  "svg": "drawings/svg/a1-first-loft.svg",
+  "w": 460,
+  "h": 810
+ },
+ "a1-second-loft": {
+  "svg": "drawings/svg/a1-second-loft.svg",
+  "w": 460,
+  "h": 810
+ },
+ "a1-third": {
+  "svg": "drawings/svg/a1-third.svg",
+  "w": 422,
+  "h": 648
+ },
+ "a3-basement": {
+  "svg": "drawings/svg/a3-basement.svg",
+  "w": 772,
+  "h": 489
+ },
+ "a3-ground": {
+  "svg": "drawings/svg/a3-ground.svg",
+  "w": 772,
+  "h": 489
+ },
+ "a3-first": {
+  "svg": "drawings/svg/a3-first.svg",
+  "w": 772,
+  "h": 489
+ },
+ "a3-second": {
+  "svg": "drawings/svg/a3-second.svg",
+  "w": 772,
+  "h": 489
+ },
+ "a3-third": {
+  "svg": "drawings/svg/a3-third.svg",
+  "w": 772,
+  "h": 489
+ },
+ "a3-fourth-alt": {
+  "svg": "drawings/svg/a3-fourth-alt.svg",
+  "w": 772,
+  "h": 489
+ }
+}

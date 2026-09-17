@@ -10,8 +10,9 @@
       {% if s.level_fa %}<p class="deck">{{ s.level_fa }}</p>{% endif %}
     </header>
     {% if plan_ids %}<figure class="planfig planfig-sheet">{% for pid in plan_ids %}<div class="plan-host" data-plan="{{ pid }}" data-caption="sp-cap-{{ loop.index }}" data-legend="sp-leg-{{ loop.index }}"></div><ul id="sp-leg-{{ loop.index }}" class="legend plan-legend"></ul><figcaption id="sp-cap-{{ loop.index }}" class="fig-note" aria-live="polite"></figcaption>{% endfor %}</figure>{% endif %}
+    {% for fm in floor_models %}<figure class="planfig planfig-3d"><div class="model3d" data-model3d='{{ fm }}'></div><figcaption><span class="fig-note">طبقه بی‌سقف: از بالا به درون فضاها نگاه کنید. مدل از همان نقشهٔ شماتیک ساخته شده است.</span></figcaption></figure>{% endfor %}
     <figure class="sheet-view">
-      <a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>
+      {% if svg %}<div class="zoomer" data-pdf="{{ root }}{{ s.pdf }}" data-fallback="{{ root }}{{ s.src }}"><img src="{{ root }}{{ svg.svg }}" alt="{{ s.title_fa }}" width="{{ svg.w }}" height="{{ svg.h }}"></div>{% else %}<a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>{% endif %}
       <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a></figcaption>
     </figure>
     <div class="node-body">
@@ -39,4 +40,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
-{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script><script src="{{ root }}js/sheet-zoom.js?v=3"></script><script type="module" src="{{ root }}js/three-model.js?v=3"></script>{% endblock %}

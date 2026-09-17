@@ -108,6 +108,8 @@ def write(url, template, **ctx):
     print('  wrote', url or 'index.html')
 
 sheet_by_id = {s['id']: s for s in sheets}
+svg_index = load('../drawings/svg/index.json', {}) if os.path.exists(os.path.join(ROOT, 'drawings', 'svg', 'index.json')) else {}
+if not svg_index and os.path.exists(os.path.join(ROOT, 'drawings', 'svg', 'index.json')): svg_index = json.load(open(os.path.join(ROOT, 'drawings', 'svg', 'index.json')))
 views = render_views(ROOT, views_src, sheet_by_id) if views_src else []
 views_by_node = defaultdict(list)
 for v in views:
@@ -158,6 +160,7 @@ for a in attempts:
 write('sheets/', 'sheets_index.html', a1=a1_sheets, a3=a3_sheets)
 for i, s in enumerate(sheets):
     write(f"sheets/{s['id']}/", 'sheet.html', s=s, groups=related_groups(s, s['id']), backs=backlink_entries(s['id']), plan_ids=plans_by_sheet.get(s['id'], []),
+          svg=svg_index.get(s['id']), floor_models=[json.dumps(dict(mode='floor', plans=[pid], clear={pid: (MODEL['a1']['clear'].get(pid) or MODEL['a3']['clear'].get(pid) or 3.0)}), ensure_ascii=False) for pid in plans_by_sheet.get(s['id'], [])],
           prev=sheets[i - 1] if i > 0 else None, nxt=sheets[i + 1] if i + 1 < len(sheets) else None)
 # questions
 write('questions/', 'questions_index.html', items=questions)

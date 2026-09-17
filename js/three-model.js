@@ -19,10 +19,13 @@ K.render3D = async function (host, spec) {
   try { await lib(); } catch (e) { host.innerHTML = ''; return; }
   const plans = spec.plans.map(id => K.plans[id]).filter(Boolean);
   if (!plans.length) return;
-  const W = host.clientWidth || 640, H = Math.round(W * 0.66);
+  const floorMode = spec.mode === 'floor';
+  const W = host.clientWidth || 640, H = Math.round(W * (floorMode ? 0.72 : 0.66));
   host.innerHTML = '';
   const bar = document.createElement('div'); bar.className = 'm3-bar';
-  bar.innerHTML = `<button type="button" data-a="explode">${fa ? 'باز کردن طبقات' : 'Explode floors'}</button><button type="button" data-a="rotate" aria-pressed="true">${fa ? 'چرخش' : 'Rotate'}</button><button type="button" data-a="reset">${fa ? 'نمای اول' : 'Reset view'}</button><span class="m3-hint">${fa ? 'کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'Drag to orbit · wheel to zoom'}</span>`;
+  bar.innerHTML = floorMode
+    ? `<button type="button" data-a="top">${fa ? 'از بالا' : 'Top view'}</button><button type="button" data-a="reset">${fa ? 'نمای مایل' : 'Oblique'}</button><button type="button" data-a="rotate" aria-pressed="true">${fa ? 'چرخش' : 'Rotate'}</button><span class="m3-hint">${fa ? 'طبقه بی‌سقف: از بالا به درون فضاها نگاه کنید · کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'The floor without its roof · drag to orbit · wheel to zoom'}</span>`
+    : `<button type="button" data-a="explode">${fa ? 'باز کردن طبقات' : 'Explode floors'}</button><button type="button" data-a="rotate" aria-pressed="true">${fa ? 'چرخش' : 'Rotate'}</button><button type="button" data-a="reset">${fa ? 'نمای اول' : 'Reset view'}</button><span class="m3-hint">${fa ? 'کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'Drag to orbit · wheel to zoom'}</span>`;
   const stage = document.createElement('div'); stage.className = 'm3-stage';
   host.append(bar, stage);
 
@@ -34,14 +37,15 @@ K.render3D = async function (host, spec) {
   const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 500);
   const w = plans[0].plot.w, d = plans[0].plot.d;
   const cx = w / 2, cz = d / 2;
-  const elevs = plans.map(p => spec.elev?.[p.id] ?? p.elev ?? 0);
+  const elevs = plans.map(p => floorMode ? 0 : (spec.elev?.[p.id] ?? p.elev ?? 0));
   const clears = plans.map(p => spec.clear?.[p.id] ?? 3.0);
   const top = Math.max(...elevs.map((e, i) => e + clears[i]));
   const bottom = Math.min(...elevs);
-  const home = new THREE.Vector3(cx + 26, top + 14, cz + 30);
+  const home = floorMode ? new THREE.Vector3(cx + 9, 17, cz + 14) : new THREE.Vector3(cx + 26, top + 14, cz + 30);
+  const topView = new THREE.Vector3(cx, 30, cz + 0.01);
   camera.position.copy(home);
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(cx, (top + bottom) / 2, cz); controls.enableDamping = true; controls.dampingFactor = 0.08; controls.maxPolarAngle = Math.PI * 0.49; controls.autoRotate = true; controls.autoRotateSpeed = 0.6;
+  controls.target.set(cx, floorMode ? 0.8 : (top + bottom) / 2, cz); controls.enableDamping = true; controls.dampingFactor = 0.08; controls.maxPolarAngle = Math.PI * 0.49; controls.autoRotate = true; controls.autoRotateSpeed = floorMode ? 0.35 : 0.6;
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0xd9d2c5, 1.15));
   const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(cx - 20, top + 30, cz - 10); sun.castShadow = true;
@@ -49,9 +53,9 @@ K.render3D = async function (host, spec) {
   scene.add(sun);
 
   // ground: earth slab under the plot, and the plot outline
-  const ground = new THREE.Mesh(new THREE.BoxGeometry(w + 30, 0.6, d + 30), new THREE.MeshStandardMaterial({ color: 0xE8E4DA }));
-  ground.position.set(cx, Math.min(bottom, 0) - 0.3 - (bottom < 0 ? 0 : 0), cz); ground.receiveShadow = true; scene.add(ground);
-  if (bottom < 0) { // excavation: cut visible as a darker box top below ground level
+  const ground = new THREE.Mesh(new THREE.BoxGeometry(w + 30, 0.6, d + 30), new THREE.MeshStandardMaterial({ color: floorMode ? 0xF3F2ED : 0xE8E4DA }));
+  ground.position.set(cx, Math.min(bottom, 0) - 0.3, cz); ground.receiveShadow = true; scene.add(ground);
+  if (bottom < 0 && !floorMode) { // excavation: cut visible as a darker box top below ground level
     const pit = new THREE.Mesh(new THREE.BoxGeometry(w, -bottom + 0.02, d), new THREE.MeshStandardMaterial({ color: 0xF6F5F0 }));
     pit.position.set(cx, bottom / 2, cz); scene.add(pit);
   }
@@ -68,8 +72,30 @@ K.render3D = async function (host, spec) {
   plans.forEach((p, i) => {
     const g = new THREE.Group(); g.userData.base = 0; g.userData.index = i;
     const y = elevs[i], h = clears[i];
-    (p.footprint || []).forEach(r => { const s = box(r, y - 0.3, 0.3, 0x2b3230, 1, 0); g.add(s); g.add(new THREE.LineSegments(new THREE.EdgesGeometry(s.geometry), new THREE.LineBasicMaterial({ color: 0x1a201e })).translateX(s.position.x).translateY(s.position.y).translateZ(s.position.z)); });
+    (p.footprint || []).forEach(r => { const s = box(r, y - 0.3, 0.3, floorMode ? 0x9aa39f : 0x2b3230, 1, 0); g.add(s); g.add(new THREE.LineSegments(new THREE.EdgesGeometry(s.geometry), new THREE.LineBasicMaterial({ color: 0x1a201e })).translateX(s.position.x).translateY(s.position.y).translateZ(s.position.z)); });
+    if (floorMode) {
+      const wallH = Math.min(h - 0.3, 2.7), wt = 0.12;
+      (p.rooms || []).forEach(r => {
+        if (r.kind === 'void') return;
+        const pts = r.poly ? r.poly : [[r.m[0], r.m[1]], [r.m[2], r.m[1]], [r.m[2], r.m[3]], [r.m[0], r.m[3]]];
+        // floor plate
+        const shape = new THREE.Shape(pts.map(([x, z]) => new THREE.Vector2(x, z)));
+        const plate = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshStandardMaterial({ color: KIND[r.kind] ?? 0xEDEDE8, roughness: 1, side: THREE.DoubleSide }));
+        plate.rotation.x = Math.PI / 2; plate.position.y = y + 0.02; plate.receiveShadow = true; g.add(plate);
+        const outdoor = r.kind === 'outdoor' || r.kind === 'green' || r.kind === 'parking' || r.kind === 'water';
+        if (outdoor) return;
+        // walls along every edge (interior partitions are shared, so they get drawn twice — harmless)
+        for (let i = 0; i < pts.length; i++) {
+          const [x1, z1] = pts[i], [x2, z2] = pts[(i + 1) % pts.length];
+          const len = Math.hypot(x2 - x1, z2 - z1); if (len < 0.05) continue;
+          const wall = new THREE.Mesh(new THREE.BoxGeometry(len, wallH, wt), new THREE.MeshStandardMaterial({ color: 0xF7F6F2, roughness: 0.95, transparent: true, opacity: 0.85 }));
+          wall.position.set((x1 + x2) / 2, y + wallH / 2, (z1 + z2) / 2); wall.rotation.y = -Math.atan2(z2 - z1, x2 - x1); wall.castShadow = true; wall.receiveShadow = true; g.add(wall);
+          const cap = new THREE.LineSegments(new THREE.EdgesGeometry(wall.geometry), new THREE.LineBasicMaterial({ color: 0x3a4442 })); cap.position.copy(wall.position); cap.rotation.copy(wall.rotation); g.add(cap);
+        }
+      });
+    }
     (p.rooms || []).forEach(r => {
+      if (floorMode) return;
       if (r.kind === 'void') return;
       const outdoor = r.kind === 'outdoor' || r.kind === 'green' || r.kind === 'parking' && p.id.endsWith('ground') && r.id === 'yard';
       const tall = (r.tags || []).includes('c-double-height-loft') && r.kind === 'living';
@@ -100,7 +126,8 @@ K.render3D = async function (host, spec) {
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.a === 'explode') { exploded = !exploded; target = exploded ? 1 : 0; b.textContent = exploded ? (fa ? 'بستن طبقات' : 'Stack floors') : (fa ? 'باز کردن طبقات' : 'Explode floors'); }
     if (b.dataset.a === 'rotate') { controls.autoRotate = !controls.autoRotate; b.setAttribute('aria-pressed', controls.autoRotate); }
-    if (b.dataset.a === 'reset') { camera.position.copy(home); controls.target.set(cx, (top + bottom) / 2, cz); }
+    if (b.dataset.a === 'reset') { camera.position.copy(home); controls.target.set(cx, floorMode ? 0.8 : (top + bottom) / 2, cz); }
+    if (b.dataset.a === 'top') { camera.position.copy(topView); controls.target.set(cx, 0, cz); }
   });
   const ease = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
   const tick = () => {
