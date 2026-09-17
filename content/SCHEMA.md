@@ -1,6 +1,6 @@
 # Khooneh content graph — schema (v0.2)
 
-The site is generated from these JSON files by `tools/build_site.py`. Every node has an `id`, Persian text as primary (`_fa`), optional English (`_en`), and a `related` map of ids so pages can cross-link in both directions. Persian: plain, first-person Arash voice where it is his statement; neutral where it summarises the architect. Persian digits in prose. Never anything from the private chat (family matter, conflict, names). The architect is «معمار», never named.
+The site is generated from these JSON files by `tools/build_site.py`. Every node has an `id`, Persian text as primary (`_fa`), optional English (`_en`), and a `related` map of ids so pages can cross-link in both directions. Voice (both languages): THIRD PERSON ONLY — never «من / ما / شما», never “I / we / you”. Say «یک خانواده», «صاحب زمین», «کسی که», «هر کس», “a family”, “the owner”, “someone”, “whoever”. Sentences short and smooth; one idea per sentence; no slogans. The owner's positions are reported (“the owner asked for…”), the architect's likewise («معمار»). Persian digits in prose. Never anything from the private chat (family matter, conflict, names). The architect is «معمار», never named.
 
 Files (one owner each):
 - `attempts.json`  — [{id:"a1"|"a3", title_fa, years_fa, deck_fa, intro_fa (2–3 paragraphs, "\n\n" separated), what_it_did_fa:[...], what_happened_fa, plot:{w,d,area}, units_fa:[{name_fa, where_fa, area, character_fa}], related:{sheets:[], brief:[], questions:[], concepts:[]}}]
