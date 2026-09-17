@@ -1,0 +1,16 @@
+# Never publish the private corpus, chat, or reports.
+../private/
+private/
+**/private/
+*_chat*.txt
+*whatsapp*
+*.txt
+!robots.txt
+**/2024-architect-reports/
+**/2024-2025-owner-reviews/
+*observations*.pdf
+*report*.pdf
+*گزارش*
+*مشاهدات*
+.DS_Store
+node_modules/

@@ -1,0 +1,126 @@
+{
+ "2020": [
+  {
+   "slug": "section-b-b",
+   "title": "Section B-B",
+   "date": "1399/03/15",
+   "w": 1505,
+   "h": 2200,
+   "pdf": "drawings/pdf/2020_section-b-b.pdf",
+   "src": "drawings/2020/section-b-b.webp",
+   "thumb": "drawings/2020/section-b-b-thumb.webp"
+  },
+  {
+   "slug": "basement",
+   "title": "Basement plan \u22123.12",
+   "date": "1399/06/13",
+   "w": 1506,
+   "h": 2200,
+   "pdf": "drawings/pdf/2020_basement.pdf",
+   "src": "drawings/2020/basement.webp",
+   "thumb": "drawings/2020/basement-thumb.webp"
+  },
+  {
+   "slug": "ground",
+   "title": "Ground floor \u00b10.00",
+   "date": "1399/06/13",
+   "w": 1505,
+   "h": 2200,
+   "pdf": "drawings/pdf/2020_ground.pdf",
+   "src": "drawings/2020/ground.webp",
+   "thumb": "drawings/2020/ground-thumb.webp"
+  },
+  {
+   "slug": "first-loft",
+   "title": "First floor +2.96 with loft +6.08",
+   "date": "1399/06/13",
+   "w": 1506,
+   "h": 2200,
+   "pdf": "drawings/pdf/2020_first-loft.pdf",
+   "src": "drawings/2020/first-loft.webp",
+   "thumb": "drawings/2020/first-loft-thumb.webp"
+  },
+  {
+   "slug": "second-loft",
+   "title": "Second floor +8.88 with loft",
+   "date": "1399/06/13",
+   "w": 1505,
+   "h": 2200,
+   "pdf": "drawings/pdf/2020_second-loft.pdf",
+   "src": "drawings/2020/second-loft.webp",
+   "thumb": "drawings/2020/second-loft-thumb.webp"
+  },
+  {
+   "slug": "third",
+   "title": "Third floor +12.58",
+   "date": "1399/06/13",
+   "w": 1505,
+   "h": 2200,
+   "pdf": "drawings/pdf/2020_third.pdf",
+   "src": "drawings/2020/third.webp",
+   "thumb": "drawings/2020/third-thumb.webp"
+  }
+ ],
+ "2024": [
+  {
+   "slug": "basement",
+   "title": "Basement \u22123.50",
+   "date": "1403/08/19",
+   "w": 2200,
+   "h": 1505,
+   "pdf": "drawings/pdf/2024_basement.pdf",
+   "src": "drawings/2024/basement.webp",
+   "thumb": "drawings/2024/basement-thumb.webp"
+  },
+  {
+   "slug": "ground",
+   "title": "Ground floor, parking (final study)",
+   "date": "1403/09/05",
+   "w": 2200,
+   "h": 1505,
+   "pdf": "drawings/pdf/2024_ground.pdf",
+   "src": "drawings/2024/ground.webp",
+   "thumb": "drawings/2024/ground-thumb.webp"
+  },
+  {
+   "slug": "first",
+   "title": "First floor",
+   "date": "1403/08/19",
+   "w": 2200,
+   "h": 1506,
+   "pdf": "drawings/pdf/2024_first.pdf",
+   "src": "drawings/2024/first.webp",
+   "thumb": "drawings/2024/first-thumb.webp"
+  },
+  {
+   "slug": "second",
+   "title": "Second floor",
+   "date": "1403/08/19",
+   "w": 2200,
+   "h": 1506,
+   "pdf": "drawings/pdf/2024_second.pdf",
+   "src": "drawings/2024/second.webp",
+   "thumb": "drawings/2024/second-thumb.webp"
+  },
+  {
+   "slug": "third",
+   "title": "Third floor",
+   "date": "1403/08/19",
+   "w": 2200,
+   "h": 1505,
+   "pdf": "drawings/pdf/2024_third.pdf",
+   "src": "drawings/2024/third.webp",
+   "thumb": "drawings/2024/third-thumb.webp"
+  },
+  {
+   "slug": "fourth-alt",
+   "title": "Fourth floor (alternative)",
+   "date": "1403/08/21",
+   "w": 2200,
+   "h": 1505,
+   "pdf": "drawings/pdf/2024_fourth-alt.pdf",
+   "src": "drawings/2024/fourth-alt.webp",
+   "thumb": "drawings/2024/fourth-alt-thumb.webp"
+  }
+ ]
+}
