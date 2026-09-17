@@ -34,6 +34,8 @@ const ringSegs = (pts, y) => { const out = []; for (let i = 0; i < pts.length; i
 const std = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.92, metalness: 0, ...extra });
 const mesh = (geom, mat, cast = true, receive = true) => { const m = new THREE.Mesh(geom, mat); m.castShadow = cast; m.receiveShadow = receive; return m; };
 const rectIntersect = (a, b) => { const r = [Math.max(a[0], b[0]), Math.max(a[1], b[1]), Math.min(a[2], b[2]), Math.min(a[3], b[3])]; return r[2] - r[0] > 0.05 && r[3] - r[1] > 0.05 ? r : null; };
+const pointInPoly = (pts, x, z) => { let inside = false; for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) { const [xi, zi] = pts[i], [xj, zj] = pts[j]; if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) inside = !inside; } return inside; };
+const pointInRoom = (r, x, z) => Array.isArray(r.poly) && r.poly.length >= 3 ? pointInPoly(r.poly, x, z) : (Array.isArray(r.m) && x >= r.m[0] && x <= r.m[2] && z >= r.m[1] && z <= r.m[3]);
 const rectInside = (inner, outer, tol) => inner[0] >= outer[0] - tol && inner[1] >= outer[1] - tol && inner[2] <= outer[2] + tol && inner[3] <= outer[3] + tol;
 
 // interval union along one line; joins gaps ≤ gap. ivs: [[a0,a1],...] → sorted, merged
@@ -51,89 +53,177 @@ function snapper(values, tol = 0.22, spread = 0.3) {
   flush(); return x => map.get(+x.toFixed(3)) ?? x;
 }
 
-// ---------- walls: one coherent set per floor, from the union of room edges ----------
-// returns { walls: [{axis:'h'|'v', c, A0, A1, f0, f1, notch: {neg:[], pos:[]}, pieces:[{a0,a1,y0,y1,glass}]}], diag: [[x1,z1,x2,z2]] }
-function buildWalls(plan, snapX, snapZ, wallH) {
-  const t = WALL_T, ht = t / 2, H = new Map(), V = new Map(), diag = [];
-  const addH = (z, x0, x1) => { const k = +z.toFixed(3); if (!H.has(k)) H.set(k, []); H.get(k).push([x0, x1]); };
-  const addV = (x, z0, z1) => { const k = +x.toFixed(3); if (!V.has(k)) V.set(k, []); V.get(k).push([z0, z1]); };
-  (plan.rooms || []).forEach(r => {
-    if (r.kind === 'void' || OPEN_KINDS.has(r.kind)) return;
-    const pts = (r.poly || rectPts(r.m)).map(([x, z]) => [snapX(x), snapZ(z)]);
-    for (let i = 0; i < pts.length; i++) {
-      const [x1, z1] = pts[i], [x2, z2] = pts[(i + 1) % pts.length];
-      if (Math.abs(z1 - z2) < 1e-6) addH(z1, x1, x2); else if (Math.abs(x1 - x2) < 1e-6) addV(x1, z1, z2); else diag.push([x1, z1, x2, z2]);
-    }
+// ---------- walls ----------
+// A wall run: { axis:'h'|'v', c (line coordinate), ht (half thickness), A0, A1 (extent along the line), f0, f1 (free ends → cross line on top),
+//   notch: {neg:[], pos:[]} (where a crossing wall joins, the side line of the top outline is interrupted), pieces:[{a0,a1,y0,y1,glass}] }
+// Explicit `walls` (centreline segments with thickness; they already leave gaps at doors and windows) are used when the plan has them;
+// otherwise the union of the interior room edges gives one wall per shared edge.
+const wallRec = (axis, c, ht, A0, A1) => ({ axis, c: +c.toFixed(3), ht, A0, A1, f0: true, f1: true, notch: { neg: [], pos: [] }, pieces: null });
+function collectWalls(plan, wallH) {
+  const hs = [], vs = [], diag = [], explicit = (plan.walls || []).filter(w => Array.isArray(w) && w.length >= 4 && [w[0], w[1], w[2], w[3]].every(Number.isFinite));
+  const groups = new Map();
+  const add = (axis, c, ht, a0, a1) => { const k = axis + ':' + c.toFixed(2) + ':' + ht.toFixed(3); if (!groups.has(k)) groups.set(k, { axis, c, ht, ivs: [] }); groups.get(k).ivs.push([a0, a1]); };
+  let joinGap = 0.12;
+  if (explicit.length) {
+    joinGap = 0.01;
+    explicit.forEach(([x1, z1, x2, z2, t]) => {
+      const ht = Math.min(0.2, Math.max(0.025, (Number.isFinite(t) ? t : WALL_T) / 2));
+      if (Math.abs(z1 - z2) < 0.01) add('h', (z1 + z2) / 2, ht, x1, x2); else if (Math.abs(x1 - x2) < 0.01) add('v', (x1 + x2) / 2, ht, z1, z2); else diag.push([x1, z1, x2, z2, ht * 2]);
+    });
+  } else {
+    const snapX = snapper((plan.rooms || []).flatMap(r => r.poly ? r.poly.map(q => q[0]) : [r.m[0], r.m[2]]));
+    const snapZ = snapper((plan.rooms || []).flatMap(r => r.poly ? r.poly.map(q => q[1]) : [r.m[1], r.m[3]]));
+    (plan.rooms || []).forEach(r => {
+      if (r.kind === 'void' || OPEN_KINDS.has(r.kind)) return;
+      const pts = (r.poly || rectPts(r.m)).map(([x, z]) => [snapX(x), snapZ(z)]);
+      for (let i = 0; i < pts.length; i++) {
+        const [x1, z1] = pts[i], [x2, z2] = pts[(i + 1) % pts.length];
+        if (Math.abs(z1 - z2) < 1e-6) add('h', z1, WALL_T / 2, x1, x2); else if (Math.abs(x1 - x2) < 1e-6) add('v', x1, WALL_T / 2, z1, z2); else diag.push([x1, z1, x2, z2, WALL_T]);
+      }
+    });
+  }
+  const ext = explicit.length ? 0 : WALL_T / 2; // room-edge walls: stretch the horizontal runs so corners are filled
+  for (const { axis, c, ht, ivs } of groups.values()) unionIntervals(ivs, joinGap).forEach(([a0, a1]) => {
+    if (a1 - a0 < 0.04) return;
+    const w = wallRec(axis, c, ht, axis === 'h' ? a0 - ext : a0, axis === 'h' ? a1 + ext : a1);
+    w.pieces = [{ a0: w.A0, a1: w.A1, y0: 0, y1: wallH }]; (axis === 'h' ? hs : vs).push(w);
   });
-  const walls = [];
-  for (const [c, ivs] of H) unionIntervals(ivs).forEach(([a0, a1]) => a1 - a0 > 0.05 && walls.push({ axis: 'h', c, A0: a0 - ht, A1: a1 + ht, f0: true, f1: true, notch: { neg: [], pos: [] } }));
-  const hs = walls.filter(w => w.axis === 'h');
-  for (const [x, ivs] of V) unionIntervals(ivs).forEach(([z0, z1]) => {
-    if (z1 - z0 <= 0.05) return;
-    const cross = hs.filter(h => h.A0 - 1e-3 <= x && x <= h.A1 + 1e-3);
-    // snap the ends onto a horizontal wall's centreline, then trim the horizontal walls' thickness out of the run
-    cross.forEach(h => { if (Math.abs(z0 - h.c) <= 0.2) z0 = h.c; if (Math.abs(z1 - h.c) <= 0.2) z1 = h.c; });
-    let runs = [{ A0: z0, A1: z1, f0: true, f1: true }];
-    cross.filter(h => h.c > z0 - ht && h.c < z1 + ht).sort((a, b) => a.c - b.c).forEach(h => {
+  return { hs, vs, diag, explicit: explicit.length > 0 };
+}
+
+// openings. doors:[[x,y,width,swing]] (hinge point at the end of a wall, leaf width, swing n|s|e|w), windows:[[x1,y1,x2,y2]], elements {type:'door'}.
+// The opening span is bridged into the wall run as pieces (lintel over doors, sill + glass + lintel for windows) so the top outline stays continuous.
+function applyOpenings(hs, vs, plan, wallH) {
+  const doors = [], DIR = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
+  const along = (w, x, z) => w.axis === 'h' ? x : z, across = (w, x, z) => w.axis === 'h' ? z : x;
+  const onLine = (list, c, tol) => list.filter(w => Math.abs(w.c - c) <= tol);
+  const bridge = (list, axis, c, ht, o0, o1, mk) => { // merge the opening span into the run(s) of this line touching it, or make a new run
+    const on = list.filter(w => Math.abs(w.c - c) <= 0.01);
+    const L = on.find(w => Math.abs(w.A1 - o0) <= 0.12 && w.A0 < o0), R = on.find(w => w !== L && Math.abs(w.A0 - o1) <= 0.12 && w.A1 > o1);
+    const inside = on.find(w => w.A0 < o0 + 0.02 && w.A1 > o1 - 0.02);
+    if (inside) { // a door or window cut into a continuous run
+      const out = []; inside.pieces.forEach(p => { if (o1 <= p.a0 || o0 >= p.a1 || p.y1 - p.y0 < wallH - 1e-3) { out.push(p); return; } if (o0 > p.a0) out.push({ ...p, a1: o0 }); out.push(...mk(o0, o1)); if (o1 < p.a1) out.push({ ...p, a0: o1 }); }); inside.pieces = out; return inside;
+    }
+    let w;
+    if (L) { w = L; w.pieces.push(...mk(L.A1, o1)); w.A1 = o1; }
+    else if (R) { w = R; w.pieces.unshift(...mk(o0, R.A0)); w.A0 = o0; }
+    else { w = wallRec(axis, c, ht, o0, o1); w.pieces = mk(o0, o1); list.push(w); return w; }
+    if (L && R) { w.pieces.push(...R.pieces); w.A1 = R.A1; w.f1 = R.f1; list.splice(list.indexOf(R), 1); }
+    return w;
+  };
+  const doorPieces = (a0, a1) => a1 - a0 < 0.05 ? [] : [{ a0, a1, y0: DOOR_H, y1: wallH }];
+  const winPieces = (a0, a1) => { const top = Math.min(DOOR_H, wallH - 0.2); return a1 - a0 < 0.05 ? [] : [{ a0, a1, y0: 0, y1: SILL }, { a0, a1, y0: SILL, y1: top, glass: true }, { a0, a1, y0: top, y1: wallH }]; };
+  // doors
+  const ops = (plan.doors || []).map(([x, z, w, sw]) => ({ x, z, w: w || 0.9, sw: DIR[sw] || null }));
+  (plan.elements || []).forEach(el => { if (el.type === 'door' && el.m) { const m = el.m; ops.push({ x: m[2] - m[0] >= m[3] - m[1] ? m[0] : (m[0] + m[2]) / 2, z: m[2] - m[0] >= m[3] - m[1] ? (m[1] + m[3]) / 2 : m[1], w: Math.max(m[2] - m[0], m[3] - m[1]), sw: null, s: 1 }); } });
+  ops.forEach(op => {
+    // candidate walls: the hinge sits on the wall line, at (or near) one end of a run — the leaf fills the gap beyond that end
+    const cands = [];
+    [...hs, ...vs].forEach(w => {
+      const d = Math.abs(across(w, op.x, op.z) - w.c), a = along(w, op.x, op.z); if (d > Math.max(0.2, w.ht + 0.05)) return;
+      if (Math.abs(w.A1 - a) <= 0.15) cands.push({ w, s: 1, score: 3 - d });
+      if (Math.abs(w.A0 - a) <= 0.15) cands.push({ w, s: -1, score: 3 - d });
+      if (a > w.A0 + 0.15 && a < w.A1 - 0.15) cands.push({ w, s: 0, score: 1 - d });
+    });
+    if (!cands.length) return;
+    cands.forEach(cd => { const par = op.sw && (cd.w.axis === 'h' ? op.sw[0] : op.sw[1]); if (par && cd.s === par) cd.score += 0.5; const list = cd.w.axis === 'h' ? hs : vs; const a = along(cd.w, op.x, op.z), sp = cd.s >= 0 ? [a, a + op.w] : [a - op.w, a]; if (cd.s !== 0 && list.some(o => o !== cd.w && o.A0 < sp[1] - 0.05 && o.A1 > sp[0] + 0.05)) cd.score -= 2; });
+    cands.sort((a, b) => b.score - a.score);
+    const { w, s } = cands[0], list = w.axis === 'h' ? hs : vs, a = along(w, op.x, op.z);
+    let sgn = s || op.s || (op.sw ? (w.axis === 'h' ? op.sw[0] : op.sw[1]) : 0) || 1;
+    let o0 = sgn > 0 ? a : a - op.w, o1 = sgn > 0 ? a + op.w : a; if (s === 0) { o0 = Math.max(w.A0 + 0.05, sgn > 0 ? a : a - op.w); o1 = Math.min(w.A1 - 0.05, o0 + op.w); }
+    if (o1 - o0 < 0.3) return;
+    bridge(list, w.axis, w.c, w.ht, o0, o1, doorPieces);
+    // which way the leaf opens: the swing letter when it is across the wall; otherwise away from a hall / stair
+    let side = op.sw && ((w.axis === 'h' && op.sw[1]) || (w.axis === 'v' && op.sw[0])) || 0;
+    if (!side) { const px = w.axis === 'h' ? (o0 + o1) / 2 : w.c + 0.3, pz = w.axis === 'h' ? w.c + 0.3 : (o0 + o1) / 2; side = (plan.rooms || []).some(r => (r.kind === 'hall' || r.kind === 'circulation') && pointInRoom(r, px, pz)) ? -1 : 1; }
+    doors.push({ axis: w.axis, c: w.c, hinge: sgn > 0 ? o0 : o1, sgn, side, w: o1 - o0 });
+  });
+  // windows
+  (plan.windows || []).forEach(([x1, z1, x2, z2]) => {
+    if (![x1, z1, x2, z2].every(Number.isFinite)) return;
+    const horizontal = Math.abs(z1 - z2) <= Math.abs(x1 - x2), list = horizontal ? hs : vs, c = horizontal ? (z1 + z2) / 2 : (x1 + x2) / 2;
+    const o0 = horizontal ? Math.min(x1, x2) : Math.min(z1, z2), o1 = horizontal ? Math.max(x1, x2) : Math.max(z1, z2); if (o1 - o0 < 0.2) return;
+    const near = onLine(list, c, 0.2).sort((p, q) => Math.abs(p.c - c) - Math.abs(q.c - c)), ref = near.find(w => Math.abs(w.A1 - o0) <= 0.12 || Math.abs(w.A0 - o1) <= 0.12 || (w.A0 < o0 + 0.02 && w.A1 > o1 - 0.02)) || near[0];
+    bridge(list, horizontal ? 'h' : 'v', ref ? ref.c : c, ref ? ref.ht : WALL_T / 2, o0, o1, winPieces);
+  });
+  return doors;
+}
+
+// crossings: the horizontal runs keep their length; vertical runs lose the thickness of every horizontal run they meet (no doubled slabs,
+// no z-fighting), and each junction interrupts the horizontal run's side line so the top outline is the outline of the union
+function trimWalls(hs, vs, snapTol) {
+  const out = [...hs];
+  vs.forEach(v => {
+    const x = v.c, cross = hs.filter(h => h.A0 - 1e-3 <= x && x <= h.A1 + 1e-3);
+    let z0 = v.A0, z1 = v.A1;
+    // ends that sit on a horizontal run's centreline (or abut its face) are junctions: pull them onto the centreline so the trim takes over
+    cross.forEach(h => { if (Math.abs(z0 - h.c) <= snapTol || Math.abs(z0 - (h.c + h.ht)) <= 0.02) z0 = h.c; if (Math.abs(z1 - h.c) <= snapTol || Math.abs(z1 - (h.c - h.ht)) <= 0.02) z1 = h.c; });
+    let runs = [{ A0: z0, A1: z1, f0: v.f0, f1: v.f1 }];
+    cross.filter(h => h.c + h.ht > z0 + 1e-6 && h.c - h.ht < z1 - 1e-6).sort((a, b) => a.c - b.c).forEach(h => {
       const next = [];
       runs.forEach(r => {
-        if (h.c + ht <= r.A0 || h.c - ht >= r.A1) { next.push(r); return; }
-        if (h.c - ht > r.A0 + 0.01) { next.push({ A0: r.A0, A1: h.c - ht, f0: r.f0, f1: false }); h.notch.neg.push([x - ht, x + ht]); }
-        if (h.c + ht < r.A1 - 0.01) { next.push({ A0: h.c + ht, A1: r.A1, f0: false, f1: r.f1 }); h.notch.pos.push([x - ht, x + ht]); }
+        if (h.c + h.ht <= r.A0 + 1e-6 || h.c - h.ht >= r.A1 - 1e-6) { next.push(r); return; }
+        if (h.c - h.ht > r.A0 + 0.01) { next.push({ A0: r.A0, A1: h.c - h.ht, f0: r.f0, f1: false }); h.notch.neg.push([x - v.ht, x + v.ht]); }
+        if (h.c + h.ht < r.A1 - 0.01) { next.push({ A0: h.c + h.ht, A1: r.A1, f0: false, f1: r.f1 }); h.notch.pos.push([x - v.ht, x + v.ht]); }
       });
       runs = next;
     });
-    runs.forEach(r => walls.push({ axis: 'v', c: x, ...r, notch: { neg: [], pos: [] } }));
-  });
-  walls.forEach(w => { w.pieces = [{ a0: w.A0, a1: w.A1, y0: 0, y1: wallH }]; });
-  return { walls, diag };
-}
-
-// openings: cut doors (gap + lintel) and windows (sill + glass + lintel) into the wall pieces when the plan carries them
-function cutOpenings(walls, plan, wallH) {
-  const t = WALL_T, ops = [];
-  (plan.doors || []).forEach(([x, y, w, _swing]) => ops.push({ x, z: y, w: w || 0.9, y0: 0, y1: DOOR_H, glass: false }));
-  (plan.elements || []).forEach(el => { if (el.type !== 'door') return; const m = el.m; ops.push({ x: (m[0] + m[2]) / 2, z: (m[1] + m[3]) / 2, w: Math.max(m[2] - m[0], m[3] - m[1]), y0: 0, y1: DOOR_H, glass: false }); });
-  (plan.windows || []).forEach(([x1, y1, x2, y2]) => ops.push({ x: (x1 + x2) / 2, z: (y1 + y2) / 2, w: Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)), y0: SILL, y1: Math.min(DOOR_H, wallH - 0.2), glass: true }));
-  ops.forEach(op => {
-    const w = walls.find(w => w.axis === 'h' ? (Math.abs(w.c - op.z) <= t && op.x >= w.A0 && op.x <= w.A1) : (Math.abs(w.c - op.x) <= t && op.z >= w.A0 && op.z <= w.A1));
-    if (!w) return;
-    const a = w.axis === 'h' ? op.x : op.z, c0 = Math.max(w.A0 + 0.05, a - op.w / 2), c1 = Math.min(w.A1 - 0.05, a + op.w / 2);
-    if (c1 - c0 < 0.2) return;
-    const out = [];
-    w.pieces.forEach(p => {
-      if (c1 <= p.a0 || c0 >= p.a1 || p.y1 - p.y0 < wallH - 1e-3) { out.push(p); return; }
-      if (c0 > p.a0) out.push({ ...p, a1: c0 });
-      if (op.y0 > 0) out.push({ a0: c0, a1: c1, y0: 0, y1: op.y0 });
-      if (op.glass) out.push({ a0: c0, a1: c1, y0: op.y0, y1: op.y1, glass: true });
-      if (op.y1 < wallH) out.push({ a0: c0, a1: c1, y0: op.y1, y1: wallH });
-      if (c1 < p.a1) out.push({ ...p, a0: c1 });
+    runs.forEach(r => {
+      const w = wallRec('v', x, v.ht, r.A0, r.A1); w.f0 = r.f0; w.f1 = r.f1;
+      w.pieces = v.pieces.map(p => ({ ...p, a0: Math.max(p.a0, r.A0), a1: Math.min(p.a1, r.A1) })).filter(p => p.a1 - p.a0 > 0.01);
+      if (!w.pieces.length) return;
+      // horizontal runs that end against this run's face (T-junction): no cross line there, and the face line is interrupted
+      hs.forEach(h => {
+        if (h.c < r.A0 - 1e-3 || h.c > r.A1 + 1e-3) return;
+        if (Math.abs(h.A1 - (x - v.ht)) <= 0.02) { h.f1 = false; w.notch.neg.push([h.c - h.ht, h.c + h.ht]); }
+        if (Math.abs(h.A0 - (x + v.ht)) <= 0.02) { h.f0 = false; w.notch.pos.push([h.c - h.ht, h.c + h.ht]); }
+      });
+      out.push(w);
     });
-    w.pieces = out;
   });
+  return out;
 }
 
-// wall meshes + the top outline (union outline: side lines minus junction notches, cross lines at free ends only)
+// wall meshes + the top outline (side lines minus junction notches, cross lines at free ends)
 function wallGroup(walls, diag, wallH, y, mats) {
-  const g = new THREE.Group(), t = WALL_T, ht = t / 2, solid = [], glass = [], lines = [];
+  const g = new THREE.Group(), solid = [], glass = [], lines = [];
   walls.forEach(w => {
+    const ht = w.ht;
     w.pieces.forEach(p => {
-      const geo = w.axis === 'h' ? boxAt(p.a0, y + p.y0, w.c - ht, p.a1, y + p.y1, w.c + ht) : boxAt(w.c - ht, y + p.y0, p.a0, w.c + ht, y + p.y1, p.a1);
+      if (p.a1 - p.a0 < 0.01 || p.y1 - p.y0 < 0.01) return;
+      const gt = p.glass ? Math.min(0.02, ht) : ht;
+      const geo = w.axis === 'h' ? boxAt(p.a0, y + p.y0, w.c - gt, p.a1, y + p.y1, w.c + gt) : boxAt(w.c - gt, y + p.y0, p.a0, w.c + gt, y + p.y1, p.a1);
       (p.glass ? glass : solid).push(geo);
     });
     const yl = y + wallH + 0.004, side = (off, notches) => unionIntervals(notches, 0).reduce((ivs, n) => subtractInterval(ivs, n), [[w.A0, w.A1]]).forEach(([a0, a1]) => {
-      if (w.axis === 'h') lines.push(a0, yl, w.c + off, a1, yl, w.c + off); else lines.push(w.c + off, yl, a0, w.c + off, yl, a1);
+      if (a1 - a0 < 0.01) return; if (w.axis === 'h') lines.push(a0, yl, w.c + off, a1, yl, w.c + off); else lines.push(w.c + off, yl, a0, w.c + off, yl, a1);
     });
     side(-ht, w.notch.neg); side(ht, w.notch.pos);
     [[w.f0, w.A0], [w.f1, w.A1]].forEach(([free, a]) => { if (!free) return; if (w.axis === 'h') lines.push(a, yl, w.c - ht, a, yl, w.c + ht); else lines.push(w.c - ht, yl, a, w.c + ht, yl, a); });
   });
-  diag.forEach(([x1, z1, x2, z2]) => { // non-axis edges of polygon rooms: a plain slab each
+  diag.forEach(([x1, z1, x2, z2, t]) => { // non-axis walls: a plain slab each
     const len = Math.hypot(x2 - x1, z2 - z1); if (len < 0.05) return;
-    const geo = new THREE.BoxGeometry(len, wallH, t); geo.rotateY(-Math.atan2(z2 - z1, x2 - x1)); geo.translate((x1 + x2) / 2, y + wallH / 2, (z1 + z2) / 2); solid.push(geo);
+    const geo = new THREE.BoxGeometry(len, wallH, t || WALL_T); geo.rotateY(-Math.atan2(z2 - z1, x2 - x1)); geo.translate((x1 + x2) / 2, y + wallH / 2, (z1 + z2) / 2); solid.push(geo);
   });
   if (solid.length) g.add(mesh(mergeGeometries(solid, false), mats.wall));
   if (glass.length) g.add(mesh(mergeGeometries(glass, false), mats.glass, false, false));
   if (lines.length) g.add(lineSegs(lines, 0x3f4745, 0.55));
+  return g;
+}
+
+// door leaves standing open (with the swing arc on the floor, as in the plan) so the openings read as doors from above
+function doorGroup(doors, y, mats) {
+  const g = new THREE.Group(), leaves = [], arcs = [], open = THREE.MathUtils.degToRad(78);
+  doors.forEach(d => {
+    const hx = d.axis === 'h' ? d.hinge : d.c, hz = d.axis === 'h' ? d.c : d.hinge;
+    const cl = d.axis === 'h' ? [d.sgn, 0] : [0, d.sgn], pp = d.axis === 'h' ? [0, d.side] : [d.side, 0];
+    const dir = [cl[0] * Math.cos(open) + pp[0] * Math.sin(open), cl[1] * Math.cos(open) + pp[1] * Math.sin(open)];
+    const leaf = new THREE.BoxGeometry(d.w - 0.04, DOOR_H - 0.05, 0.04).translate((d.w - 0.04) / 2 + 0.02, (DOOR_H - 0.05) / 2, 0).rotateY(Math.atan2(-dir[1], dir[0])).translate(hx, y + 0.02, hz);
+    leaves.push(leaf);
+    const n = 10; for (let i = 0; i < n; i++) { const t0 = open * i / n, t1 = open * (i + 1) / n; const P = t => [hx + d.w * (cl[0] * Math.cos(t) + pp[0] * Math.sin(t)), hz + d.w * (cl[1] * Math.cos(t) + pp[1] * Math.sin(t))]; const p0 = P(t0), p1 = P(t1); arcs.push(p0[0], y + 0.03, p0[1], p1[0], y + 0.03, p1[1]); }
+  });
+  if (leaves.length) g.add(mesh(mergeGeometries(leaves, false), mats.door));
+  if (arcs.length) g.add(lineSegs(arcs, 0x3f4745, 0.5));
   return g;
 }
 
@@ -189,7 +279,7 @@ function labelSprite(text) {
   ctx.font = font; const tw = Math.ceil(ctx.measureText(text).width);
   c.width = tw + 36; c.height = px + 26;
   ctx.font = font; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = 'rgba(255,255,255,0.82)'; ctx.beginPath(); ctx.roundRect(1, 1, c.width - 2, c.height - 2, c.height / 2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.82)'; ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(1, 1, c.width - 2, c.height - 2, c.height / 2); else ctx.rect(1, 1, c.width - 2, c.height - 2); ctx.fill();
   ctx.fillStyle = '#2b3230'; ctx.fillText(text, c.width / 2, c.height / 2 + 2);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter;
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false }));
@@ -197,36 +287,42 @@ function labelSprite(text) {
 }
 
 // ---------- one roofless floor (dollhouse) ----------
+const polyArea = pts => Math.abs(pts.reduce((a, [x, z], i) => { const [x2, z2] = pts[(i + 1) % pts.length]; return a + x * z2 - x2 * z; }, 0)) / 2;
+const polyCentroid = pts => { let a = 0, cx = 0, cz = 0; for (let i = 0; i < pts.length; i++) { const [x, z] = pts[i], [x2, z2] = pts[(i + 1) % pts.length], f = x * z2 - x2 * z; a += f; cx += (x + x2) * f; cz += (z + z2) * f; } return Math.abs(a) < 1e-9 ? [pts[0][0], pts[0][1]] : [cx / (3 * a), cz / (3 * a)]; };
 function dollhouseFloor(p, y, clear, mats, withLabels) {
   const g = new THREE.Group(), wallH = Math.min(WALL_H, clear || WALL_H);
-  const rooms = p.rooms || [], els = p.elements || [];
-  const snapX = snapper(rooms.flatMap(r => r.poly ? r.poly.map(q => q[0]) : [r.m[0], r.m[2]]));
-  const snapZ = snapper(rooms.flatMap(r => r.poly ? r.poly.map(q => q[1]) : [r.m[1], r.m[3]]));
-  const ptsOf = r => (r.poly || rectPts(r.m)).map(([x, z]) => [snapX(x), snapZ(z)]);
+  const rooms = (p.rooms || []).filter(r => Array.isArray(r.m) && r.m.length === 4 && r.m.every(Number.isFinite)), els = p.elements || [], fps = (p.footprint || []).filter(f => Array.isArray(f) && f.length === 4 && f.every(Number.isFinite));
+  const { hs, vs, diag, explicit } = collectWalls(p, wallH);
+  // with explicit walls the rooms are exact; without, snap the room edges onto the wall lines so plates meet the walls
+  const snapX = explicit ? x => x : snapper(rooms.flatMap(r => r.poly ? r.poly.map(q => q[0]) : [r.m[0], r.m[2]]));
+  const snapZ = explicit ? z => z : snapper(rooms.flatMap(r => r.poly ? r.poly.map(q => q[1]) : [r.m[1], r.m[3]]));
+  const ptsOf = r => (Array.isArray(r.poly) && r.poly.length >= 3 ? r.poly : rectPts(r.m)).map(([x, z]) => [snapX(x), snapZ(z)]);
   const voids = rooms.filter(r => r.kind === 'void');
   // slab under the footprint, with the voids cut out
-  (p.footprint || []).forEach(fp => {
+  fps.forEach(fp => {
     const inner = [fp[0] + 0.02, fp[1] + 0.02, fp[2] - 0.02, fp[3] - 0.02]; // holes must stay clear of the outer contour
-    const holes = voids.map(v => v.poly ? v.poly : (rectIntersect(v.m, inner) && rectPts(rectIntersect(v.m, inner)))).filter(Boolean);
+    const holes = voids.map(v => v.poly ? (rectInside(v.m, inner, 0) ? v.poly : null) : (rectIntersect(v.m, inner) && rectPts(rectIntersect(v.m, inner)))).filter(Boolean);
     g.add(mesh(slabGeom(rectPts(fp), holes, SLAB), mats.slab).translateY(y));
     g.add(lineSegs(ringSegs(rectPts(fp), y + 0.002), 0x5a6664, 0.5));
     g.add(lineSegs(ringSegs(rectPts(fp), y - SLAB), 0x5a6664, 0.35));
   });
   // floor plates by kind: larger rooms lower, so overlapping strips (a console over a room) never fight
-  const byArea = rooms.filter(r => r.kind !== 'void').map(r => ({ r, a: r.poly ? 1e3 : (r.m[2] - r.m[0]) * (r.m[3] - r.m[1]) })).sort((a, b) => b.a - a.a);
-  byArea.forEach(({ r }, i) => {
-    const pts = ptsOf(r), py = y + 0.012 + i * 0.0025;
+  const byArea = rooms.filter(r => r.kind !== 'void').map(r => ({ r, pts: ptsOf(r) })).map(o => ({ ...o, a: polyArea(o.pts) })).sort((a, b) => b.a - a.a);
+  byArea.forEach(({ r, pts }, i) => {
+    const py = y + 0.012 + i * 0.0015;
     g.add(mesh(flatGeom(pts), std(KIND[r.kind] ?? 0xEDEDE8, { roughness: 1 }), false, true).translateY(py));
     g.add(lineSegs(ringSegs(pts, py + 0.002), 0x5a6664, 0.28));
   });
   voids.forEach(v => g.add(lineSegs(ringSegs(ptsOf(v), y + 0.004), 0x1D8F8A, 0.8)));
-  // walls
-  const { walls, diag } = buildWalls(p, snapX, snapZ, wallH);
-  cutOpenings(walls, p, wallH);
+  // walls (explicit or from room edges), openings, door leaves
+  const doors = applyOpenings(hs, vs, p, wallH);
+  const walls = trimWalls(hs, vs, explicit ? 0.03 : 0.2);
   g.add(wallGroup(walls, diag, wallH, y, mats));
+  if (doors.length) g.add(doorGroup(doors, y, mats));
   // elements
+  const outsideFootprint = (x, z) => !fps.some(f => x >= f[0] && x <= f[2] && z >= f[1] && z <= f[3]);
   els.forEach(el => {
-    const m = el.m; if (!m) return;
+    const m = el.m; if (!Array.isArray(m) || m.length !== 4 || !m.every(Number.isFinite) || m[2] - m[0] < 0.05 || m[3] - m[1] < 0.05) return;
     const enclosed = rooms.some(r => r.kind === 'circulation' && rectInside(m, r.m, 0.12));
     if (el.type === 'stair') { const s = stairGroup(m, wallH, mats); s.position.y = y + 0.02; g.add(s); }
     else if (el.type === 'lift') { const l = liftGroup(m, wallH, enclosed, mats); l.position.y = y + 0.02; g.add(l); }
@@ -234,16 +330,32 @@ function dollhouseFloor(p, y, clear, mats, withLabels) {
     else if (el.type === 'tree') g.add(treeGroup(m, y));
     else if (el.type === 'water') g.add(mesh(boxAt(m[0], y + 0.005, m[1], m[2], y + 0.16, m[3]), mats.water, false, true));
     else if (el.type === 'green') g.add(mesh(boxAt(m[0], y, m[1], m[2], y + 0.32, m[3]), mats.green));
-    else if (el.type === 'balcony') { g.add(mesh(boxAt(m[0], y - 0.15, m[1], m[2], y + 0.02, m[3]), mats.slab)); const s = 0.04, rails = [boxAt(m[0], y, m[1], m[2], y + 1.0, m[1] + s), boxAt(m[0], y, m[3] - s, m[2], y + 1.0, m[3]), boxAt(m[0], y, m[1], m[0] + s, y + 1.0, m[3]), boxAt(m[2] - s, y, m[1], m[2], y + 1.0, m[3])]; g.add(mesh(mergeGeometries(rails, false), mats.glass, false, false)); }
+    else if (el.type === 'balcony') { // a slab, railed on the sides that face out of the building; inside the footprint only its outline
+      const s = 0.04, cx = (m[0] + m[2]) / 2, cz = (m[1] + m[3]) / 2, rails = [];
+      if (!outsideFootprint(cx, cz) && !outsideFootprint(cx, m[1] - 0.2) && !outsideFootprint(cx, m[3] + 0.2) && !outsideFootprint(m[0] - 0.2, cz) && !outsideFootprint(m[2] + 0.2, cz)) { g.add(lineSegs(ringSegs(rectPts(m), y + 0.06), 0x5a6664, 0.6)); return; }
+      g.add(mesh(boxAt(m[0], y - 0.15, m[1], m[2], y + 0.02, m[3]), mats.slab));
+      if (outsideFootprint(cx, m[1] - 0.2)) rails.push(boxAt(m[0], y, m[1], m[2], y + 1.0, m[1] + s));
+      if (outsideFootprint(cx, m[3] + 0.2)) rails.push(boxAt(m[0], y, m[3] - s, m[2], y + 1.0, m[3]));
+      if (outsideFootprint(m[0] - 0.2, cz)) rails.push(boxAt(m[0], y, m[1], m[0] + s, y + 1.0, m[3]));
+      if (outsideFootprint(m[2] + 0.2, cz)) rails.push(boxAt(m[2] - s, y, m[1], m[2], y + 1.0, m[3]));
+      if (rails.length) g.add(mesh(mergeGeometries(rails, false), mats.glass, false, false));
+    }
     else if (el.type === 'void') { const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([...rectPts(m), rectPts(m)[0]].map(([x, z]) => new THREE.Vector3(x, y + 0.05, z))), new THREE.LineDashedMaterial({ color: 0x1D8F8A, dashSize: 0.3, gapSize: 0.18 })); l.computeLineDistances(); g.add(l); }
   });
   // labels
-  if (withLabels) (document.fonts?.ready || Promise.resolve()).then(() => rooms.forEach(r => {
-    if (r.kind === 'void' || r.poly) return; const w = r.m[2] - r.m[0], d = r.m[3] - r.m[1];
-    if (w * d < 2.5 || Math.min(w, d) < 0.9) return;
-    const text = fa ? (r.name_fa || r.name_en) : (r.name_en || r.name_fa); if (!text) return;
-    const s = labelSprite(text.replace(/\s+[—-]\s+/g, ' · ')); s.position.set((r.m[0] + r.m[2]) / 2, y + (OPEN_KINDS.has(r.kind) ? 0.5 : 1.25), (r.m[1] + r.m[3]) / 2); g.add(s);
-  }));
+  // labels: largest rooms first; a label that would sit on top of one already placed is dropped (they are billboards of fixed world size)
+  if (withLabels) (document.fonts?.ready || Promise.resolve()).then(() => {
+    const placed = [];
+    byArea.forEach(({ r, pts }) => {
+      if (r.kind === 'void') return; const w = r.m[2] - r.m[0], d = r.m[3] - r.m[1];
+      if (polyArea(pts) < 2.5 || Math.min(w, d) < 0.9) return;
+      let text = fa ? (r.name_fa || r.name_en) : (r.name_en || r.name_fa); if (!text) return;
+      const parts = text.split(/\s+[—–-]\s+/); text = parts[parts.length - 1].trim() || text;   // "duplex A — bedroom" → "bedroom"
+      const [cx, cz] = polyCentroid(pts), s = labelSprite(text), sw = s.scale.x;
+      if (placed.some(q => Math.abs(q.x - cx) < (q.w + sw) / 2 + 0.2 && Math.abs(q.z - cz) < 0.8)) return;
+      placed.push({ x: cx, z: cz, w: sw }); s.position.set(cx, y + (OPEN_KINDS.has(r.kind) ? 0.5 : 1.25), cz); g.add(s);
+    });
+  });
   return g;
 }
 
@@ -285,7 +397,7 @@ K.render3D = async function (host, spec) {
   const fit = Math.hypot(bw, bd) / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
   const homeTarget = floorMode ? new THREE.Vector3(bx, 0.6, bz) : new THREE.Vector3(cx, (top + bottom) / 2, cz);
   const view = (az, el, dist) => new THREE.Vector3(homeTarget.x + dist * Math.sin(az) * Math.cos(el), homeTarget.y + dist * Math.sin(el), homeTarget.z + dist * Math.cos(az) * Math.cos(el));
-  const home = floorMode ? view(THREE.MathUtils.degToRad(24), THREE.MathUtils.degToRad(52), fit * 1.3) : new THREE.Vector3(cx + 26, top + 14, cz + 30);
+  const home = floorMode ? view(THREE.MathUtils.degToRad(24), THREE.MathUtils.degToRad(52), fit * 1.12) : new THREE.Vector3(cx + 26, top + 14, cz + 30);
   const topView = new THREE.Vector3(bx, fit * 1.0, bz + 0.01);
   camera.position.copy(home);
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -301,10 +413,9 @@ K.render3D = async function (host, spec) {
   sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02; sun.shadow.radius = 4;
   const sc = sun.shadow.camera, sr = floorMode ? Math.max(bw, bd) * 0.8 + 6 : 30; sc.left = -sr; sc.right = sr; sc.top = sr; sc.bottom = -sr; sc.near = 1; sc.far = 140; sc.updateProjectionMatrix();
   scene.add(sun);
-  if (location.search.includes('noshadow')) renderer.shadowMap.enabled = false; // DEBUG
 
   const mats = {
-    wall: std(0xF3EFE7, { roughness: 0.95 }), slab: std(0xD9D5CC), stair: std(0xE4DFD5), shaft: std(0xCFCCC4),
+    wall: std(0xF3EFE7, { roughness: 0.95 }), slab: std(0xD9D5CC), stair: std(0xE4DFD5), shaft: std(0xCFCCC4), door: std(0xC9B99A, { roughness: 0.8 }),
     glass: new THREE.MeshStandardMaterial({ color: 0xBFE0EC, transparent: true, opacity: 0.45, roughness: 0.2, depthWrite: false }),
     water: new THREE.MeshStandardMaterial({ color: 0x2FA39C, transparent: true, opacity: 0.85, roughness: 0.3 }), green: std(0x9FC58F, { roughness: 1 }),
   };
@@ -329,7 +440,11 @@ K.render3D = async function (host, spec) {
   };
   plans.forEach((p, i) => {
     const y = elevs[i], h = clears[i];
-    if (floorMode) { const g = dollhouseFloor(p, y, h, mats, true); g.userData.index = i; scene.add(g); floors.push(g); return; }
+    if (floorMode) { // a bad plan record must not blank the stage: build what can be built
+      const g = new THREE.Group(); g.userData.index = i;
+      try { g.add(dollhouseFloor(p, y, h, mats, true)); } catch (e) { console.warn('3D floor', p.id, e); }
+      scene.add(g); floors.push(g); return;
+    }
     // stacked massing: slab per footprint, a block per room, simple elements
     const g = new THREE.Group(); g.userData.base = 0; g.userData.index = i;
     (p.footprint || []).forEach(r => { const s = box(r, y - 0.3, 0.3, 0x2b3230, 1, 0); g.add(s); g.add(new THREE.LineSegments(new THREE.EdgesGeometry(s.geometry), new THREE.LineBasicMaterial({ color: 0x1a201e })).translateX(s.position.x).translateY(s.position.y).translateZ(s.position.z)); });
@@ -344,7 +459,7 @@ K.render3D = async function (host, spec) {
       e.position.copy(m.position); g.add(e);
     });
     (p.elements || []).forEach(el => {
-      const m = el.m; if (!m) return;
+      const m = el.m; if (!Array.isArray(m) || m.length !== 4 || m[2] - m[0] < 0.05 || m[3] - m[1] < 0.05) return;
       if (el.type === 'tree') g.add(treeGroup(m, y));
       else if (el.type === 'car') g.add(carGroup(m, y + 0.02));
       else if (el.type === 'water') g.add(box(m, y + 0.02, 0.3, 0x2FA39C, 0.9, 0));
@@ -353,21 +468,32 @@ K.render3D = async function (host, spec) {
   });
 
   // explode animation (eased), auto-rotate toggle, reset / top
-  let exploded = false, t = 0, target = 0;
+  let exploded = false, t = 0, target = 0, kPrev = 0;
+  const lift = floorMode ? 0 : (floors.length - 1) * 3.2 / 2;
   const rotateBtn = bar.querySelector('[data-a="rotate"]');
   const setRotate = on => { controls.autoRotate = on; rotateBtn?.setAttribute('aria-pressed', on); };
   bar.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.a === 'explode') { exploded = !exploded; target = exploded ? 1 : 0; b.textContent = exploded ? (fa ? 'بستن طبقات' : 'Stack floors') : (fa ? 'باز کردن طبقات' : 'Explode floors'); }
     if (b.dataset.a === 'rotate') setRotate(!controls.autoRotate);
-    if (b.dataset.a === 'reset') { camera.position.copy(home); controls.target.copy(homeTarget); }
+    if (b.dataset.a === 'reset') { // the first view, kept consistent with how far the floors are spread right now
+      const off = home.clone().sub(homeTarget).multiplyScalar(1 + 0.55 * kPrev);
+      controls.target.copy(homeTarget); controls.target.y += kPrev * lift; camera.position.copy(controls.target).add(off);
+    }
     if (b.dataset.a === 'top') { setRotate(false); camera.position.copy(topView); controls.target.set(bx, 0, bz); }
   });
   const ease = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  let last = performance.now();
   const tick = () => {
-    t += (target - t) * 0.06;
+    const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000); last = now;
+    t += (target - t) * (1 - Math.exp(-dt * 5));                       // time-based, so the explode looks the same at any frame rate
     const k = ease(Math.max(0, Math.min(1, t)));
-    if (!floorMode) floors.forEach((g, i) => { g.position.y = k * i * 3.2; });
+    if (!floorMode && k !== kPrev) { // spread the floors, and follow them: lift the orbit target and back the camera off by the same measure
+      floors.forEach((g, i) => { g.position.y = k * i * 3.2; });
+      const off = camera.position.clone().sub(controls.target);
+      controls.target.y += (k - kPrev) * lift; camera.position.copy(controls.target).add(off.multiplyScalar((1 + 0.55 * k) / (1 + 0.55 * kPrev)));
+      kPrev = k;
+    }
     controls.update(); renderer.render(scene, camera); requestAnimationFrame(tick);
   };
   tick();
@@ -376,6 +502,6 @@ K.render3D = async function (host, spec) {
 };
 
 document.querySelectorAll('[data-model3d]').forEach(h => {
-  const spec = JSON.parse(h.dataset.model3d);
-  K.render3D(h, spec);
+  let spec = null; try { spec = JSON.parse(h.dataset.model3d); } catch (e) { return; }
+  K.render3D(h, spec).catch(e => console.warn('3D model', e));
 });
