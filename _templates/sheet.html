@@ -9,6 +9,7 @@
       <h1>{{ s.title_fa }}</h1>
       {% if s.level_fa %}<p class="deck">{{ s.level_fa }}</p>{% endif %}
     </header>
+    {% if plan_ids %}<figure class="planfig planfig-sheet">{% for pid in plan_ids %}<div class="plan-host" data-plan="{{ pid }}" data-caption="sp-cap-{{ loop.index }}" data-legend="sp-leg-{{ loop.index }}"></div><ul id="sp-leg-{{ loop.index }}" class="legend plan-legend"></ul><figcaption id="sp-cap-{{ loop.index }}" class="fig-note" aria-live="polite"></figcaption>{% endfor %}</figure>{% endif %}
     <figure class="sheet-view">
       <a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>
       <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a></figcaption>
@@ -25,3 +26,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
+{% block scripts %}<script src="{{ root }}js/plans-data.js"></script><script src="{{ root }}js/plan.js"></script>{% endblock %}

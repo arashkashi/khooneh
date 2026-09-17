@@ -363,3 +363,49 @@ html[dir="rtl"] .view-label { transform: translate(0, -110%); }
 .view-locator img { display: block; height: auto; }
 .view-locator i { position: absolute; border: 1.5px solid var(--turq); background: rgba(29,143,138,.18); }
 
+
+/* schematic plans */
+svg.plan { width: 100%; height: auto; display: block; font-family: inherit; direction: ltr; background: #fff; border: 1px solid var(--rule); }
+svg.plan .plot { fill: none; stroke: #CFD5D2; stroke-width: 1; stroke-dasharray: 4 4; }
+svg.plan .yard { fill: #ECEDE9; }
+svg.plan .body { fill: #fff; stroke: #161C1B; stroke-width: 3; }
+svg.plan .room-fill { stroke: #5A6664; stroke-width: .8; }
+svg.plan .room { cursor: pointer; }
+svg.plan .room:hover .room-fill, svg.plan .room:focus-visible .room-fill { stroke: #1D8F8A; stroke-width: 2; }
+svg.plan .room:focus { outline: none; }
+svg.plan .room-label { fill: #161C1B; font-size: 10.5px; pointer-events: none; }
+svg.plan .room-area { fill: #5A6664; font-size: 9px; pointer-events: none; }
+svg.plan .kind-living .room-fill { fill: #E6EFEB; } svg.plan .kind-kitchen .room-fill { fill: #F5E6C6; } svg.plan .kind-dining .room-fill { fill: #F2E3C4; }
+svg.plan .kind-bedroom .room-fill { fill: #E8E5F2; } svg.plan .kind-bath .room-fill { fill: #D8EDF4; } svg.plan .kind-study .room-fill { fill: #EFE9D7; }
+svg.plan .kind-storage .room-fill { fill: #E9E9E4; } svg.plan .kind-service .room-fill { fill: #E2DDD6; } svg.plan .kind-circulation .room-fill { fill: #F4F4F1; }
+svg.plan .kind-outdoor .room-fill { fill: #E5EEDD; } svg.plan .kind-void .room-fill { fill: #DDEFED; } svg.plan .kind-parking .room-fill { fill: #EBECE8; }
+svg.plan .kind-water .room-fill { fill: #BFE0DE; } svg.plan .kind-green .room-fill { fill: #CFE3C6; } svg.plan .kind-caretaker .room-fill { fill: #F0E3D2; } svg.plan .kind-hall .room-fill { fill: #F6F6F3; }
+svg.plan .is-dim { opacity: .28; }
+svg.plan .is-focus .room-fill { stroke: #1D8F8A; stroke-width: 2.5; }
+svg.plan .stair { fill: #F4F4F1; stroke: #5A6664; stroke-width: .8; } svg.plan .tread { stroke: #5A6664; stroke-width: .7; }
+svg.plan .lift { fill: #F4F4F1; stroke: #5A6664; stroke-width: .8; }
+svg.plan .car-top { fill: #ECEDE9; stroke: #5A6664; stroke-width: 1; } svg.plan .car-roof { fill: #fff; stroke: #5A6664; stroke-width: .7; }
+svg.plan .canopy { fill: #4F7D4A; opacity: .38; } svg.plan .trunk-dot { fill: #9C6B3C; }
+svg.plan .void { fill: #DDEFED; fill-opacity: .6; stroke: #1D8F8A; stroke-width: 1; stroke-dasharray: 4 3; }
+svg.plan .water { fill: #1D8F8A; opacity: .75; } svg.plan .green-bed { fill: #4F7D4A; opacity: .45; }
+svg.plan .balcony { fill: none; stroke: #5A6664; stroke-width: .8; stroke-dasharray: 3 3; } svg.plan .door { fill: #fff; }
+svg.plan .elem-label { fill: #5A6664; font-size: 9.5px; pointer-events: none; }
+svg.plan .tag { fill: #5A6664; font-size: 10px; } svg.plan .north-arrow { fill: #161C1B; } svg.plan .scale-line { stroke: #5A6664; stroke-width: 1; }
+.plan-browser { margin: 1.2rem 0 2rem; }
+.plan-tabs { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .8rem; }
+.plan-tabs button { font: inherit; font-size: .9rem; color: var(--ink-2); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: .25rem .7rem; cursor: pointer; }
+.plan-tabs button[aria-selected="true"] { border-color: var(--ink); color: var(--ink); }
+.plan-tabs button:hover { border-color: var(--turq); color: var(--turq); }
+.plan-host { max-width: 560px; margin: 0 auto; }
+.plan-browser .plan-host { max-width: 640px; }
+.plan-legend { justify-content: center; }
+.plan-legend i.kind-living { background: #E6EFEB; } .plan-legend i.kind-kitchen { background: #F5E6C6; } .plan-legend i.kind-dining { background: #F2E3C4; } .plan-legend i.kind-bedroom { background: #E8E5F2; }
+.plan-legend i.kind-bath { background: #D8EDF4; } .plan-legend i.kind-study { background: #EFE9D7; } .plan-legend i.kind-storage { background: #E9E9E4; } .plan-legend i.kind-service { background: #E2DDD6; }
+.plan-legend i.kind-circulation { background: #F4F4F1; border: 1px solid var(--rule); } .plan-legend i.kind-outdoor { background: #E5EEDD; } .plan-legend i.kind-void { background: var(--turq-wash); } .plan-legend i.kind-parking { background: #EBECE8; }
+.plan-legend i.kind-water { background: #BFE0DE; } .plan-legend i.kind-green { background: #CFE3C6; } .plan-legend i.kind-caretaker { background: #F0E3D2; } .plan-legend i.kind-hall { background: #F6F6F3; border: 1px solid var(--rule); }
+.planfig { margin: 1rem 0 1.6rem; }
+.planfig figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; margin-top: .4rem; font-size: .95rem; }
+.planfig figcaption a { text-decoration: none; color: var(--ink-2); }
+.planfig figcaption a:hover { color: var(--turq); }
+.btn-small { padding: .2rem .7rem; font-size: .85rem; }
+.planfig-sheet .plan-host { max-width: 520px; margin: 0 auto; }

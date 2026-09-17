@@ -11,6 +11,7 @@
     </header>
     <div class="node-body">
       {% for p in a.intro_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      {% if plan_ids %}<h2>طبقه‌به‌طبقه</h2><p class="muted small">نقشه‌های شماتیک، بازترسیم‌شده از شیت‌ها؛ اندازه‌ها تقریبی است. هر فضا توضیح خودش را دارد.</p><div class="plan-browser breakout" data-plans="{{ plan_ids|join(',') }}" data-start="{{ plan_ids[2] if plan_ids|length > 2 else plan_ids[0] }}"></div>{% endif %}
       {% if a.id == 'a1' %}
       <figure class="hero-figure"><div data-section="attempt1" data-caption="sec-cap"></div><figcaption><p class="fig-title">برش B-B، با مقیاس از روی شیت. هر طبقه توضیح خودش را دارد.</p><p id="sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
       {% else %}
@@ -37,4 +38,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
-{% block scripts %}<script src="{{ root }}js/section.js"></script><script src="{{ root }}js/units.js"></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}js/section.js"></script><script src="{{ root }}js/units.js"></script><script src="{{ root }}js/plans-data.js"></script><script src="{{ root }}js/plan.js"></script>{% endblock %}

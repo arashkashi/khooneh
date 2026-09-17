@@ -11,7 +11,8 @@
     </header>
     <div class="node-body">
       {% if b.gloss_fa %}<h2>یعنی چه</h2>{% for p in b.gloss_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
-      {% if views %}<h2>روی نقشه</h2>{{ m.views(views, root) }}{% endif %}
+      {% if plans %}<h2>روی نقشه</h2>{{ m.focusplans(plans, b.id, root) }}{% endif %}
+      {% if views %}{{ m.views(views, root) }}{% endif %}
       <div class="two-col">
         <div><h3>در طرح ۱۳۹۹</h3>{% for p in (b.in_attempt1_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
         <div><h3>در طرح ۱۴۰۳</h3>{% for p in (b.in_attempt3_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
@@ -23,3 +24,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
+{% block scripts %}<script src="{{ root }}js/plans-data.js"></script><script src="{{ root }}js/plan.js"></script>{% endblock %}

@@ -44,3 +44,15 @@
 </figure>
 {% endfor %}
 {% endmacro %}
+{% macro focusplans(plans, nid, root) %}
+{% for p in plans %}
+<figure class="planfig">
+  <div class="plan-host" data-plan="{{ p.id }}" data-focus="{{ nid }}" data-caption="pf-cap-{{ loop.index }}" data-toggle="pf-tg-{{ loop.index }}"></div>
+  <figcaption>
+    <button type="button" class="btn btn-small" id="pf-tg-{{ loop.index }}" hidden></button>
+    <span id="pf-cap-{{ loop.index }}" class="fig-note" aria-live="polite"></span>
+    <a href="{{ root }}sheets/{{ p.sheet }}/">{{ p.name_fa }} — شیت اصلی ›</a>
+  </figcaption>
+</figure>
+{% endfor %}
+{% endmacro %}
