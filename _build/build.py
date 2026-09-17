@@ -86,12 +86,23 @@ def next_chapter(url):
 
 # ---------- writing
 def depth_root(url): return '../' * url.count('/')
+_HREF = re.compile(r'href="([^"]*)"')
+def fix_links(html):
+    """Relative links that end in a folder get an explicit index.html, so pages work from file:// as well as on a server."""
+    def fix(m):
+        h = m.group(1)
+        if h.startswith(('http://', 'https://', 'mailto:', 'data:', '#', '//')): return m.group(0)
+        path, frag = (h.split('#', 1) + [''])[:2]
+        if path == '' or path.endswith('/'):
+            path += 'index.html'
+        return f'href="{path}{"#" + frag if frag else ""}"'
+    return _HREF.sub(fix, html)
 def write(url, template, **ctx):
     out = os.path.join(ROOT, url, 'index.html') if url else os.path.join(ROOT, 'index.html')
     os.makedirs(os.path.dirname(out), exist_ok=True)
     tpl = env.get_template(template)
     html = tpl.render(root=depth_root(url), url=url, nav=NAV, lang='fa', dir='rtl', next_chapter=next_chapter(url), kind_fa=KIND_FA, **ctx)
-    open(out, 'w', encoding='utf-8').write(html)
+    open(out, 'w', encoding='utf-8').write(fix_links(html))
     print('  wrote', url or 'index.html')
 
 sheet_by_id = {s['id']: s for s in sheets}
@@ -169,10 +180,10 @@ def all_page(src, url, lang):
     html = relocate(html, root)
     html = html.replace('href="#top"', f'href="{root}"')
     out = os.path.join(ROOT, url, 'index.html'); os.makedirs(os.path.dirname(out), exist_ok=True)
-    open(out, 'w', encoding='utf-8').write(html); print('  wrote', url)
+    open(out, 'w', encoding='utf-8').write(fix_links(html)); print('  wrote', url)
 all_page('_src/all.fa.html', 'all/', 'fa')
 all_page('_src/all.en.html', 'en/all/', 'en')
 # English landing
 write_en = env.get_template('landing_en.html').render(root='../', url='en/', chapters=CHAPTERS, proposal=proposal)
-os.makedirs(os.path.join(ROOT, 'en'), exist_ok=True); open(os.path.join(ROOT, 'en', 'index.html'), 'w', encoding='utf-8').write(write_en); print('  wrote en/')
+os.makedirs(os.path.join(ROOT, 'en'), exist_ok=True); open(os.path.join(ROOT, 'en', 'index.html'), 'w', encoding='utf-8').write(fix_links(write_en)); print('  wrote en/')
 print('done.')
