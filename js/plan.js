@@ -39,12 +39,12 @@
       const rw = (r.m[2] - r.m[0]), rh = (r.m[3] - r.m[1]);
       const area = (rw * rh).toFixed(1);
       const name = T(r, 'name') || KIND_FA[r.kind];
-      const estW = name.length * 5.4 + 6;   // rough text width at 10.5px
-      if (rw * S > estW && rh * S > 16) {
-        text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.15, name, { class: 'room-label', 'text-anchor': 'middle' }, g);
+      const est = str => str.length * 6.6 + 8;   // rough text width at 10.5px (Persian glyphs are wide)
+      const short = r.short_fa || (name.includes(' — ') ? name.split(' — ').pop() : name);
+      const label = rw * S > est(name) ? name : rw * S > est(short) ? short : null;
+      if (label && rh * S > 16) {
+        text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.15, label, { class: 'room-label', 'text-anchor': 'middle' }, g);
         if (rw * S > 70 && rh * S > 34) text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.7, faDigits(area) + ' m²', { class: 'room-area', 'text-anchor': 'middle' }, g);
-      } else if (rw * S > 26 && rh * S > 14 && r.short_fa) {
-        text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.15, r.short_fa, { class: 'room-label', 'text-anchor': 'middle' }, g);
       }
       g.setAttribute('aria-label', `${name}, ${area} m²`);
       const on = () => { if (opts.caption) opts.caption.innerHTML = `<strong>${name}</strong> <span>${faDigits(area)} m² · ${faDigits(rw.toFixed(1))} × ${faDigits(rh.toFixed(1))}</span>${r.note ? '<br>' + (T(r, 'note') || '') : ''}`; };
@@ -90,7 +90,8 @@
     const nt = el('text', { x: 0, y: 18, class: 'tag', 'text-anchor': 'middle' }, na); nt.textContent = fa ? 'شمال' : 'N';
     const minY = Math.min(0, ...(plan.elements || []).map(e => e.m[1]), ...(plan.rooms || []).map(r => r.m[1]));
     text(w / 2, minY - 0.45, T(plan, 'street') || (fa ? 'کوچه (شمال)' : 'street (north)'), { class: 'tag', 'text-anchor': 'middle' });
-    text(w / 2, d - 0.5, T(plan, 'yardLabel') || (fa ? 'حیاط (جنوب)' : 'yard (south)'), { class: 'tag', 'text-anchor': 'middle' });
+    const yardR = (plan.yard || [])[0];
+    text(w / 2, yardR ? (yardR[1] + yardR[3]) / 2 + 0.15 : d - 0.5, T(plan, 'yardLabel') || (fa ? 'حیاط (جنوب)' : 'yard (south)'), { class: 'tag', 'text-anchor': 'middle' });
     const sb = el('g', { class: 'scale', transform: `translate(${X(0)} ${Y(d) + 18})` });
     el('line', { x1: 0, y1: 0, x2: 5 * S, y2: 0, class: 'scale-line' }, sb);
     for (let i = 0; i <= 5; i++) el('line', { x1: i * S, y1: -3, x2: i * S, y2: 3, class: 'scale-line' }, sb);
