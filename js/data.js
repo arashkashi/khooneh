@@ -7,7 +7,7 @@ window.KHOONEH = {
     plot: { width: 10.55, depth: 19.0 },
     yardDepth: 6.4,      // south yard, ground level
     bodyDepth: 11.4,     // GF/basement body
-    console: 1.2,        // upper floors project north over the street
+    console: 1.2,        // upper floors project 1.20 toward the yard (south); a 0.50 flower box sits on the street edge
     levels: [
       { id: 'm2', name: 'Level −2', name_fa: 'طبقهٔ ۲−', elev: -6.2, clear: 2.8, ghost: true,
         note: 'Never drawn. The brief asks for a second basement as a shared recreational and cultural room. This is where the story is open.',
@@ -18,12 +18,12 @@ window.KHOONEH = {
       { id: 'gf', name: 'Ground', name_fa: 'همکف', elev: 0, clear: 2.56,
         note: 'Three cars inside, one in the yard. A shabak screen and a green wall separate cars from the courtyard void; opaque glass flooring lets light down to the basement.',
         note_fa: 'سه ماشین داخل، یکی در حیاط. مشبک و دیوار سبز ماشین‌ها را از حفرهٔ حیاط جدا می‌کند؛ کف شیشه‌ای مات نور را به زیرزمین می‌رساند.' },
-      { id: 'f1', name: 'First floor', name_fa: 'طبقهٔ اول', elev: 2.96, clear: 5.52, double: true,
+      { id: 'f1', name: 'First floor', name_fa: 'طبقهٔ اول', elev: 2.96, clear: 5.52, double: true, voidSpan: [13.2, 19.0],
         note: 'Open kitchen–dining–living under a 5.52 m ceiling, two bedrooms, a study box, a balcony with a sliding floor, and a stair up to the loft.',
         note_fa: 'آشپزخانه، ناهارخوری و نشیمن یکپارچه زیر سقفی ۵٫۵۲ متری، دو خواب، اتاقک کار، بالکنی با کف کشویی، و پله‌ای به نیم‌طبقه.' },
-      { id: 'l1', name: 'Loft', name_fa: 'نیم‌طبقه', elev: 6.08, clear: 2.56, loft: true,
-        note: 'Library, bedroom, bath and a “smoking-free room” with its own exhaust, hung over the north half of the first floor.',
-        note_fa: 'کتابخانه، خواب، حمام و «اتاق سیگار» با اگزاست مستقل، آویخته روی نیمهٔ شمالی طبقهٔ اول.' },
+      { id: 'l1', name: 'Loft', name_fa: 'نیم‌طبقه', elev: 6.08, clear: 2.56, loft: true, span: [6.4, 13.2],
+        note: 'Library, bedroom, bath and a “smoking-free room” with its own exhaust, hung over the south rooms of the first floor; the living room at the street side stays double-height.',
+        note_fa: 'کتابخانه، خواب، حمام و «اتاق سیگار» با اگزاست مستقل، آویخته روی اتاق‌های جنوبی طبقهٔ اول؛ نشیمن سمت کوچه دوارتفاعه می‌ماند.' },
       { id: 'f2', name: 'Second floor', name_fa: 'طبقهٔ دوم', elev: 8.88, clear: 3.3,
         note: 'Family room, library, laundry, two bedrooms, a north balcony — and its own loft above.',
         note_fa: 'اتاق خانواده، کتابخانه، لباسشویی، دو خواب، بالکن شمالی — و نیم‌طبقه‌ای از آنِ خودش در بالا.' },

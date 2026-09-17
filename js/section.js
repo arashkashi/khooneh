@@ -74,7 +74,7 @@
     text(0.3, 0.55, tag('yard'), { class: 'tag' }); text(northGF + 0.25, -0.75, tag('street'), { class: 'tag' });
     // upper slabs and walls
     upper.forEach(L => rect(south, L.elev, north, L.elev - slab, { class: 'slab' }));
-    lofts.forEach(L => rect(L.from != null ? L.from : 11.5, L.elev, north, L.elev - slab, { class: 'slab' }));
+    lofts.forEach(L => { const sp = L.span || [11.5, north]; rect(sp[0], L.elev, sp[1], L.elev - slab, { class: 'slab' }); });
     if (roof) {
       rect(15.8, roof.elev + 1.6, 18.4, roof.elev + 1.6 - slab, { class: 'slab' });
       line(15.8, roof.elev, 15.8, roof.elev + 1.6, { class: 'wall' }); line(18.4, roof.elev, 18.4, roof.elev + 1.6, { class: 'wall' });
@@ -86,10 +86,11 @@
     // double-height voids
     D.levels.filter(l => l.double).forEach(L => {
       const next = upper.find(u => u.elev > L.elev);
-      const x1 = L.voidTo != null ? L.voidTo : 11.5;
-      rect(south, L.elev, x1, next.elev - slab, { class: 'void' });
-      line(9.0, L.elev, 9.0, next.elev - slab, { class: 'dim' });
-      text(9.25, (L.elev + next.elev) / 2, L.clear.toFixed(2), { class: 'dim-label' });
+      const vs = L.voidSpan || [south, 11.5];
+      rect(vs[0], L.elev, vs[1], next.elev - slab, { class: 'void' });
+      const dx = (vs[0] + vs[1]) / 2;
+      line(dx, L.elev, dx, next.elev - slab, { class: 'dim' });
+      text(dx + 0.25, (L.elev + next.elev) / 2, L.clear.toFixed(2), { class: 'dim-label' });
     });
     // level ladder
     const ladder = el('g', { class: 'ladder' });

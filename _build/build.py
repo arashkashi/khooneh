@@ -175,8 +175,8 @@ if proposal:
     for L in proposal['levels']:
         d = dict(id=L['id'], name_fa=L['name_fa'], name=L['name_fa'], elev=L['elev'], clear=L['clear'], note_fa=L.get('program_fa', ''), note=L.get('program_fa', ''))
         if L['id'] == 'm2': d['ghost'] = True; d['short_fa'] = '۲−'; d['label_fa'] = 'طبقهٔ ۲− — مشروط'
-        if L['id'].startswith('l'): d['loft'] = True; d['from'] = 12.5
-        if L['clear'] >= 5: d['double'] = True; d['voidTo'] = 12.5; d['default'] = True
+        if L['id'].startswith('l'): d['loft'] = True; d['span'] = [12.5, 20.14]
+        if L['clear'] >= 5: d['double'] = True; d['voidSpan'] = [6.07, 12.5]; d['default'] = True
         lv.append(d)
     lv.sort(key=lambda x: x['elev'])
     section_ds = dict(plot={'width': 10.5, 'depth': 20.14}, yardDepth=6.07, bodyDepth=14.01, console=1.2, levels=lv,
