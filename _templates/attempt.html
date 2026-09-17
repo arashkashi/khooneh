@@ -17,6 +17,7 @@
       {% else %}
       <figure class="units-figure"><div class="units-host" data-units="attempt3" data-legend="u-leg" data-caption="u-cap"></div><ul id="u-leg" class="legend"></ul><figcaption id="u-cap" class="fig-note" aria-live="polite"></figcaption></figure>
       {% endif %}
+      {% if model_json %}<h2>حجم</h2><p class="muted small">مدل سه‌بعدی ساده از همان نقشه‌ها؛ ارتفاع طبقات ۱۴۰۳ فرضی است. طبقات را می‌شود از هم باز کرد.</p><div class="model3d breakout" data-model3d='{{ model_json }}'></div>{% endif %}
       <h2>چه کرد</h2>
       <ul class="features">{% for f in a.what_it_did_fa %}<li>{{ f }}</li>{% endfor %}</ul>
       {% if a.units_fa %}
@@ -38,4 +39,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
-{% block scripts %}<script src="{{ root }}js/section.js"></script><script src="{{ root }}js/units.js"></script><script src="{{ root }}js/plans-data.js"></script><script src="{{ root }}js/plan.js"></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}js/section.js"></script><script src="{{ root }}js/units.js"></script><script src="{{ root }}js/plans-data.js"></script><script src="{{ root }}js/plan.js"></script><script type="module" src="{{ root }}js/three-model.js"></script>{% endblock %}

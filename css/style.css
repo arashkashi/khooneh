@@ -409,3 +409,13 @@ svg.plan .tag { fill: #5A6664; font-size: 10px; } svg.plan .north-arrow { fill: 
 .planfig figcaption a:hover { color: var(--turq); }
 .btn-small { padding: .2rem .7rem; font-size: .85rem; }
 .planfig-sheet .plan-host { max-width: 520px; margin: 0 auto; }
+
+/* 3D model */
+.model3d { margin: 1.2rem 0 2rem; border: 1px solid var(--rule); background: #fff; }
+.m3-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; padding: .4rem .6rem; border-bottom: 1px solid var(--rule); font-size: .9rem; background: var(--paper); }
+.m3-bar button { font: inherit; font-size: .9rem; color: var(--ink); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: .15rem .6rem; cursor: pointer; }
+.m3-bar button:hover { border-color: var(--turq); color: var(--turq); }
+.m3-bar button[aria-pressed="true"] { border-color: var(--ink); }
+.m3-bar .m3-hint { margin-inline-start: auto; color: var(--ink-2); font-size: .82rem; }
+.m3-stage { position: relative; line-height: 0; background: #F6F5F0; }
+.m3-stage canvas { display: block; width: 100% !important; height: auto !important; }

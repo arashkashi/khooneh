@@ -142,9 +142,18 @@ write('brief/', 'brief_index.html', items=brief)
 for i, b in enumerate(brief):
     write(f"brief/{b['id']}/", 'brief_item.html', b=b, groups=related_groups(b, b['id']), backs=backlink_entries(b['id']), views=views_by_node.get(b['id'], []), plans=[plans_by_id[i] for i in focus_plans(b['id'])],
           prev=brief[i - 1] if i > 0 else None, nxt=brief[i + 1] if i + 1 < len(brief) else None)
+# 3D model specs per attempt (elevations from the sheets where drawn; 1403 floor-to-floor assumed 3.20 m)
+MODEL = {
+ 'a1': dict(plans=['a1-basement', 'a1-ground', 'a1-first', 'a1-loft1', 'a1-second', 'a1-third'],
+            elev={'a1-basement': -3.12, 'a1-ground': 0.0, 'a1-first': 2.96, 'a1-loft1': 6.08, 'a1-second': 8.88, 'a1-third': 12.58},
+            clear={'a1-basement': 2.72, 'a1-ground': 2.56, 'a1-first': 2.8, 'a1-loft1': 2.5, 'a1-second': 3.3, 'a1-third': 3.3}),
+ 'a3': dict(plans=['a3-basement', 'a3-ground', 'a3-first', 'a3-second', 'a3-third', 'a3-fourth'],
+            elev={'a3-basement': -3.5, 'a3-ground': 0.0, 'a3-first': 3.0, 'a3-second': 6.2, 'a3-third': 9.4, 'a3-fourth': 12.6},
+            clear={'a3-basement': 3.0, 'a3-ground': 2.7, 'a3-first': 2.9, 'a3-second': 2.9, 'a3-third': 2.9, 'a3-fourth': 2.9}),
+}
 # attempts
 for a in attempts:
-    write(f"attempts/{a['id']}/", 'attempt.html', a=a, sheets=[s for s in sheets if s['attempt'] == a['id']], groups=related_groups(a, a['id']), backs=backlink_entries(a['id']), plan_ids=[p['id'] for p in plans if p['attempt'] == a['id']])
+    write(f"attempts/{a['id']}/", 'attempt.html', a=a, sheets=[s for s in sheets if s['attempt'] == a['id']], groups=related_groups(a, a['id']), backs=backlink_entries(a['id']), plan_ids=[p['id'] for p in plans if p['attempt'] == a['id']], model_json=json.dumps(MODEL.get(a['id'], {}), ensure_ascii=False) if plans else '')
 # sheets
 write('sheets/', 'sheets_index.html', a1=a1_sheets, a3=a3_sheets)
 for i, s in enumerate(sheets):
