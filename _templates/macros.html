@@ -26,7 +26,7 @@
 {% endmacro %}
 {% macro prevnext(prev, nxt, root, base) %}
 <nav class="sheet-nav" aria-label="قبلی و بعدی">
-  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {{ prev.title_fa or prev.term_fa }}</a>{% endif %}</span>
-  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{{ nxt.title_fa or nxt.term_fa }} ›</a>{% endif %}</span>
+  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {{ prev.title_fa or prev.term_fa or ('شاخص ' ~ (prev.n|fa)) }}</a>{% endif %}</span>
+  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{{ nxt.title_fa or nxt.term_fa or ('شاخص ' ~ (nxt.n|fa)) }} ›</a>{% endif %}</span>
 </nav>
 {% endmacro %}
