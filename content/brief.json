@@ -1,0 +1,444 @@
+[
+ {
+  "id": "b01",
+  "n": 1,
+  "text_fa": "اهمیت آشپزخانه به عنوان فضایی که خیلی زمان زیادی در اون صرف میشه، و دسترسی آسان به اتاق نشیمن، راحتی حرکت و چیدمان وسایل و نور طبیعی. شاید تلفیق نشیمن و آشپزخانه؟؟",
+  "text_en": "The kitchen as the centre of time. Easy reach to the living room, ease of movement and layout, natural light. Perhaps merge living and kitchen?",
+  "theme": "kitchen",
+  "gloss_fa": "آشپزخانه جایی است که بیشترین وقت خانه در آن می‌گذرد؛ می‌خواهم به نشیمن باز باشد، نور بگیرد و کار کردن در آن رو به فضا باشد، نه رو به دیوار.",
+  "in_attempt1_fa": "در طبقهٔ اول، آشپزخانه و ناهارخوری و نشیمن در یک فضای یکپارچهٔ ۷٫۰۵ در ۴٫۵۷ متر زیر سقف ۵٫۵۲ متری قرار گرفت؛ طبقهٔ سوم هم همین چیدمان باز را دارد.",
+  "in_attempt3_fa": "در دوبلکس الف آشپزخانه‌ای باز حدود ۸ مترمربع کنار نشیمن و ایوان جنوبی گذاشته شد؛ در دوبلکس اصلی آشپزخانهٔ طبقهٔ چهارم ۴٫۲۲ در ۴٫۱۳ متر است. در بازبینی خواستم کار در آشپزخانه رو به فضای باز باشد (جزیره) و نور صبح شرقی به آشپزخانه برسد که باکس پله آن را گرفته بود.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-first-loft",
+    "a1-third",
+    "a3-first",
+    "a3-fourth-alt"
+   ],
+   "questions": [
+    "q-both-sides"
+   ],
+   "concepts": [
+    "c-double-height-loft",
+    "c-nested-floors"
+   ]
+  }
+ },
+ {
+  "id": "b02",
+  "n": 2,
+  "text_fa": "اهمیت و راحتی ضیافت شام در منزل و دور همی های دوستانه و خانوادگی باظرفیت ۸ نفر البته با -۸ شامل شدن ساکنین خانه، دسترسی سریع و آسان به اشپزخانه برای پذیرایی و نظافت. در صورت امکان فراهم کردن گوشه دنج برای صحبتهای ۲ نفره.",
+  "text_en": "Dinner for eight. Hosting friends and family (8 incl. residents) comfortably; quick access to the kitchen for serving and cleaning; if possible a snug corner for a two-person conversation.",
+  "theme": "hosting",
+  "gloss_fa": "شام برای هشت نفر با احتساب خود ما، بی‌آنکه پذیرایی و جمع کردن سفره به دویدن تبدیل شود؛ و اگر شد، گوشه‌ای دنج برای حرف دونفره.",
+  "in_attempt1_fa": "ناهارخوری در دل همان فضای باز طبقهٔ اول، در چند قدمی آشپزخانه و رو به بالکن جنوبی؛ گوشهٔ دنج مشخصی ترسیم نشده.",
+  "in_attempt3_fa": "نشیمن و ناهارخوری طبقهٔ چهارم (۷٫۲۵ در ۵٫۱۸ متر) با میز هشت‌نفره ترسیم شده و به آشپزخانه چسبیده است؛ ایوان جنوبی دوبلکس الف می‌توانست همان گوشهٔ دنج باشد، اما من نتوانستم آن را به‌عنوان اتاق بخوانم.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-first-loft",
+    "a3-fourth-alt",
+    "a3-first"
+   ],
+   "questions": [],
+   "concepts": [
+    "c-iwan"
+   ]
+  }
+ },
+ {
+  "id": "b03",
+  "n": 3,
+  "text_fa": "اتاق کار با میز کار با کاربری دوگانه اتاق مهمان همراه با دسترسی به نور طبیعی و فضا برای آرشیو کردن مدارک کاری و زندگی. اتاق کار نیاز به فضای بزرگی ندارد.",
+  "text_en": "A small study that doubles as a guest room, with daylight and room to archive work and life documents. It need not be large.",
+  "theme": "work",
+  "gloss_fa": "یک اتاق کوچک با میز کار که در نبود مهمان، محل کار و بایگانی مدارک باشد؛ نور طبیعی مهم است، بزرگی نه.",
+  "in_attempt1_fa": "«اتاقک کار» (Study Box) در طبقهٔ اول، اتاق مطالعه در طبقهٔ سوم، و کتابخانه در نیم‌طبقه‌ها ترسیم شد.",
+  "in_attempt3_fa": "اتاق مستقلی به نام کار ترسیم نشد؛ خواب سوم دوبلکس‌ها در عمل این نقش را می‌گیرد.",
+  "status": "answered",
+  "related": {
+   "sheets": [
+    "a1-first-loft",
+    "a1-third",
+    "a1-second-loft"
+   ],
+   "questions": [],
+   "concepts": [
+    "c-double-height-loft"
+   ]
+  }
+ },
+ {
+  "id": "b04",
+  "n": 4,
+  "text_fa": "سرویس بهداشتی بزرگتر از اندازه های رایج (به نظر در طرحهایی که من دیدم از لحاظ مقدار تخصیص فضا به سرویس بهداشتی کم فروشی شده) همراه با وان و دوش ایستاده مجزا. در مورد سرویس بهداشتی دوم با توجه به کمبود فضا اولویت شاید بالا نباشد. من شخصا از وجود نور طبیعی در‌ سرویس بهداشتی لذت می برم در صورت امکان و صلاحدید وجود پنجره در سرویس بهداشتی",
+  "text_en": "A bathroom larger than the norm — bath and separate standing shower. (Most plans I've seen short-change the bathroom.) A second bathroom is low priority given space. A window in the bathroom if at all possible — I enjoy daylight there.",
+  "theme": "bath",
+  "gloss_fa": "حمامی بزرگ‌تر از عرف، با وان و دوش جدا، و اگر شد پنجره؛ دومی اولویت ندارد. به نظرم در بیشتر نقشه‌ها به سرویس بهداشتی کم‌فروشی می‌شود.",
+  "in_attempt1_fa": "حمام‌های با وان در هر طبقه ترسیم شده؛ هیچ‌کدام پنجره ندارد.",
+  "in_attempt3_fa": "دوبلکس اصلی دو حمام دارد (حمام مستر ۲٫۸۶ در ۲٫۰۵ متر)؛ من گفتم به‌جای دو حمام مجزا «یک حمام با عشق» کافی است. پنجره در سرویس‌ها نیست.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-first-loft",
+    "a3-fourth-alt",
+    "a3-third"
+   ],
+   "questions": [],
+   "concepts": []
+  }
+ },
+ {
+  "id": "b05",
+  "n": 5,
+  "text_fa": "جمعا سه اتاق همراه اتاق کار/مهمان. دو اتاق دیگر به عنوان خواب برای پدر و مادر و یک اتاق خواب فرزند. اگر‌امکان تغییر طراحی در طبقات مختلف باشه برای خانواده بازنشسته (پدر و‌مادر بنده) جمعا دو خواب کافی میباشد، و برای دو خانوار دیگر دو خواب یکی برای اولیا و یک خواب برای فرزند.",
+  "text_en": "Three rooms in total incl. the study/guest room: two bedrooms for the parents and one for a child. If floors can differ: the retired household (my parents) needs two bedrooms; the two other households need two each (parents + child).",
+  "theme": "rooms",
+  "gloss_fa": "سه اتاق با احتساب اتاق کار برای هر خانوار؛ برای پدر و مادرم دو خواب کافی است. یعنی طبقات لازم نیست شبیه هم باشند.",
+  "in_attempt1_fa": "طبقات با هم فرق دارند: طبقهٔ اول دو خواب + اتاقک کار + نیم‌طبقه، طبقهٔ دوم دو خواب + اتاق خانواده، طبقهٔ سوم خواب اصلی + اتاق مطالعه (واحد پدر و مادر).",
+  "in_attempt3_fa": "دوبلکس الف سه خواب، دوبلکس اصلی سه خواب (مستر در طبقهٔ چهارم و دو خواب در سوم)، واحد یک‌خوابهٔ ۶۲ متری و واحد دانشجویی یک‌خوابه. واحد مشخصی برای پدر و مادرم تعریف نشد.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-third",
+    "a1-first-loft",
+    "a3-second",
+    "a3-third"
+   ],
+   "questions": [
+    "q-mix"
+   ],
+   "concepts": [
+    "c-nested-floors",
+    "c-student-unit"
+   ]
+  }
+ },
+ {
+  "id": "b06",
+  "n": 6,
+  "text_fa": "واحد سرایدار ساکن در ساختمان شامل اشپزخانه یک حال و یک خواب.",
+  "text_en": "A resident caretaker's unit: kitchen, a living room, one bedroom.",
+  "theme": "caretaker",
+  "gloss_fa": "سرایداری که در خود ساختمان زندگی کند: آشپزخانه، یک هال، یک خواب.",
+  "in_attempt1_fa": "واحد سرایدار در غرب زیرزمین با نشیمن، آشپزخانه، خواب و سرویس، کنار گودال‌باغچه.",
+  "in_attempt3_fa": "واحد سرایدار ۵۱٫۸۰ مترمربعی در زیرزمین با خواب، آشپزخانه و سرویس؛ معمار پرسید این واحد واقعاً سرایداری است یا واحد تفریحی، چون پاسخ چیدمان زیرزمین را عوض می‌کند.",
+  "status": "answered",
+  "related": {
+   "sheets": [
+    "a1-basement",
+    "a3-basement"
+   ],
+   "questions": [
+    "q-level-minus-2"
+   ],
+   "concepts": [
+    "c-caretaker",
+    "c-godal-baghcheh"
+   ]
+  }
+ },
+ {
+  "id": "b07",
+  "n": 7,
+  "text_fa": "ایجاد فضای کوچکی برای عنوان محیط ورزش برای ۳-۴ نفر صرفا برای حرکتهای کششی و ورزشهای طبی بدون نیاز فضا به ابزار مخصوص و مکانیکی همچنین یک حوضچه کوچک برای نشستن ۲-۳ نفر مجهز به جت برای اب گرم/سرد برای تقویت عروق و در‌صورت امکان فضا سونای خشک چوبی یک‌نفره، این فضا‌عمومی برای تمامی اهالی ساختمان می باشد.",
+  "text_en": "A small shared wellness space for 3–4 people — stretching and therapeutic movement, no machines; a small sitting pool for 2–3 with hot/cold jets for circulation; if space allows, a one-person dry wooden sauna. Shared by all residents.",
+  "theme": "wellness",
+  "gloss_fa": "فضایی کوچک و مشترک برای همهٔ اهالی: حرکات کششی سه‌چهار نفر بدون دستگاه، حوضچه‌ای برای نشستن دو‌سه نفر با جت آب گرم و سرد، و اگر شد سونای خشک یک‌نفره.",
+  "in_attempt1_fa": "جکوزی ۱٫۷۵ در ۱٫۷۵ متر، دوش و رختکن در گوشهٔ جنوب‌غربی زیرزمین، کنار گودال‌باغچه. فضای ورزش و سونا ترسیم نشد.",
+  "in_attempt3_fa": "استخری ۶٫۶۶ در ۲٫۶۰ متر در زیرزمین ترسیم شد؛ من گفتم استخر به این معنا مناسب نیست و خواستم حوضی با کاشی قدیمی و رنگ فیروزه‌ای باشد که سه‌چهار نفر در آن بنشینند، با کابین سونای خشک کنارش. معمار پذیرفت استخر به حوض تبدیل شود.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-basement",
+    "a3-basement"
+   ],
+   "questions": [
+    "q-level-minus-2"
+   ],
+   "concepts": [
+    "c-hoz",
+    "c-bahamestan"
+   ]
+  }
+ },
+ {
+  "id": "b08",
+  "n": 8,
+  "text_fa": "ایجاد فضای سبز موثر و خلاق در فضای محدود حیاط.",
+  "text_en": "Effective, creative greenery in the tight courtyard.",
+  "theme": "green",
+  "gloss_fa": "حیاط کوچک است؛ سبزی‌اش باید مؤثر و خلاق باشد، نه چند باغچهٔ مربع.",
+  "in_attempt1_fa": "دیوار سبز و «فیلتر بصری سبز» دو طرف حفرهٔ حیاط، طاق سبز، فلاورباکس در کنسول شمالی، و درختی در گودال‌باغچه.",
+  "in_attempt3_fa": "باغچه‌ای مربع در گوشهٔ حیاط جلوی ماشین‌ها؛ من پرسیدم فلسفهٔ این ابعاد چیست و پیشنهاد دادم باغچهٔ کنار دیوار برای گیاهان بالارونده (یاس، رز) باشد. معمار این را جزئیات مرحلهٔ بعد دانست.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-ground",
+    "a3-ground",
+    "a3-basement"
+   ],
+   "questions": [
+    "q-tree"
+   ],
+   "concepts": [
+    "c-tree",
+    "c-godal-baghcheh",
+    "c-shabak"
+   ]
+  }
+ },
+ {
+  "id": "b09",
+  "n": 9,
+  "text_fa": "روف گاردن دارای قابلیت کشت سبزیجات و فضای سبز قابلیت دسترسی تمام طبقات.",
+  "text_en": "A roof garden that can grow vegetables, accessible from all floors.",
+  "theme": "roof",
+  "gloss_fa": "بامی که در آن سبزی بکاریم و همهٔ طبقات به آن راه داشته باشند.",
+  "in_attempt1_fa": "بام در تراز ۱۶٫۲۸+ با باکس پلهٔ سراسری؛ کاشت روی بام ترسیم نشده ولی راه همهٔ طبقات به آن باز است.",
+  "in_attempt3_fa": "معمار بام سبز را اختصاصی دوبلکس اصلی تعریف کرد و آن را به حفظ محرمیت و حس همسایگی ربط داد؛ من گفتم بام خصوصی ضروری نیست و پرگولا یا سقف حصیری برای بام پیشنهاد دادم.",
+  "status": "contradicted",
+  "related": {
+   "sheets": [
+    "a1-section",
+    "a3-fourth-alt"
+   ],
+   "questions": [
+    "q-roof"
+   ],
+   "concepts": [
+    "c-roof-garden"
+   ]
+  }
+ },
+ {
+  "id": "b10",
+  "n": 10,
+  "text_fa": "انباری متناسب برای واحدها.",
+  "text_en": "Adequate storage per unit.",
+  "theme": "storage",
+  "gloss_fa": "هر واحد انباری متناسب خودش را داشته باشد.",
+  "in_attempt1_fa": "انباری‌ها در زیرزمین و دو انباری در همکف کنار باکس پله.",
+  "in_attempt3_fa": "چهار انباری در ضلع شرقی زیرزمین به‌اضافهٔ موتورخانه.",
+  "status": "answered",
+  "related": {
+   "sheets": [
+    "a1-basement",
+    "a1-ground",
+    "a3-basement"
+   ],
+   "questions": [],
+   "concepts": []
+  }
+ },
+ {
+  "id": "b11",
+  "n": 11,
+  "text_fa": "از طرفی تمایل زیاد به پنجره بزرگ. و دریافت نور زیاد و از طرفی به علت فرم کوچه و خ. عملا پنجره اکثرا پشت پرده می ماند، همچنان امیدوار به راه حل این تناقض؟",
+  "text_en": "The window paradox. A strong wish for big windows and lots of light — yet, because of the street and alley, windows mostly end up behind curtains. Still hoping for a solution to this contradiction.",
+  "theme": "windows",
+  "gloss_fa": "پنجرهٔ بزرگ و نور زیاد می‌خواهیم، اما در این کوچه پنجره عملاً پشت پرده می‌ماند. هنوز امیدوارم راه‌حلی برای این تناقض باشد.",
+  "in_attempt1_fa": "مشبک میان پارکینگ و حیاط، بالکن‌های جنوبی، و کنسول ۱٫۲۰ متری شمالی؛ اما نمای شمالی ترسیم نشده و تناقض پنجره حل نشده.",
+  "in_attempt3_fa": "معمار در گزارش اول نمای دوپوسته با لایهٔ شیشه یا پلی‌کربنات را برای صدا و محرمیت پیشنهاد داد و در طبقهٔ چهارم «نمای شیشه‌ای دوپوسته» ترسیم کرد؛ ایوان‌ها هم قرار بود واسطهٔ درون و بیرون باشند. برای من هنوز پاسخ روشن نیست.",
+  "status": "open",
+  "related": {
+   "sheets": [
+    "a1-ground",
+    "a3-fourth-alt",
+    "a3-first"
+   ],
+   "questions": [
+    "q-window-paradox",
+    "q-both-sides"
+   ],
+   "concepts": [
+    "c-double-skin",
+    "c-shabak",
+    "c-iwan"
+   ]
+  }
+ },
+ {
+  "id": "b12",
+  "n": 12,
+  "text_fa": "نما ساده و مقاوم به گذر زمان یک نمونه در عکسها براتون ارسال می کنم.",
+  "text_en": "A simple façade that ages well. (Reference photo to follow.)",
+  "theme": "facade",
+  "gloss_fa": "نمایی ساده که با گذر زمان پیر شود، نه زشت؛ نمونه‌اش را در عکس فرستادم.",
+  "in_attempt1_fa": "هیچ نمایی در شیت‌های ۱۳۹۹ نیست.",
+  "in_attempt3_fa": "معمار همسایه‌ها را کلاسیک و سنگ‌کاری‌شده توصیف کرد و پیشنهاد داد نمای مدرن با دوپوسته و جزئیات ظریف در هماهنگی با خط و تناسبات آن‌ها باشد؛ نمایی ترسیم نشد.",
+  "status": "open",
+  "related": {
+   "sheets": [
+    "a3-fourth-alt"
+   ],
+   "questions": [
+    "q-facade"
+   ],
+   "concepts": [
+    "c-double-skin"
+   ]
+  }
+ },
+ {
+  "id": "b13",
+  "n": 13,
+  "text_fa": "با توجه به صحبتهای انجام شده امکان ایجاد فضا در طبقه ۱- در صورت نیاز ممکن است. وحتی مهنای ۲.",
+  "text_en": "Space at level −1 is possible if needed — and even level −2.",
+  "theme": "basement",
+  "gloss_fa": "زیرزمین اول ممکن است، و حتی زیرزمین دوم — به‌عنوان فضایی مشترک، نه انبار.",
+  "in_attempt1_fa": "یک زیرزمین در تراز ۳٫۱۲− با سرایدار، جکوزی و گودال‌باغچه. طبقهٔ ۲− ترسیم نشد.",
+  "in_attempt3_fa": "یک زیرزمین در تراز ۳٫۵۰− که معمار آن را «طبقهٔ بسیار مهم برای کل ساختمان به‌عنوان فضای عمومی مشترک» خواند؛ قرار شد زیرزمین آخرین اولویت باشد. طبقهٔ ۲− ترسیم نشد.",
+  "status": "open",
+  "related": {
+   "sheets": [
+    "a1-basement",
+    "a1-section",
+    "a3-basement"
+   ],
+   "questions": [
+    "q-level-minus-2",
+    "q-convertible"
+   ],
+   "concepts": [
+    "c-bahamestan",
+    "c-godal-baghcheh"
+   ]
+  }
+ },
+ {
+  "id": "b14",
+  "n": 14,
+  "text_fa": "امکان تنفس طبیعی ساختمان بدون ورود سر و صدای بیرون از خانه.",
+  "text_en": "The building should breathe naturally without letting street noise in.",
+  "theme": "ventilation",
+  "gloss_fa": "ساختمان نفس بکشد، بی‌آنکه صدای کوچه وارد خانه شود.",
+  "in_attempt1_fa": "ساختمان دوکله است و از هر دو جبهه پنجره دارد؛ عایق صدا مشخص نشده.",
+  "in_attempt3_fa": "معمار گفت کوچه به بلوار تازه‌احداث می‌رسد و صدا و حتی لرزش زیاد می‌شود، و نمای دوپوسته را برای همین پیشنهاد کرد. من خواستم زیرزمین تهویه‌ای به بام داشته باشد که تابستان باز و زمستان بسته شود.",
+  "status": "open",
+  "related": {
+   "sheets": [
+    "a3-basement",
+    "a3-fourth-alt"
+   ],
+   "questions": [
+    "q-breathing"
+   ],
+   "concepts": [
+    "c-cross-ventilation",
+    "c-double-skin"
+   ]
+  }
+ },
+ {
+  "id": "b15",
+  "n": 15,
+  "text_fa": "سادگی و هزینه کم اجرا",
+  "text_en": "Simplicity and low construction cost.",
+  "theme": "cost",
+  "gloss_fa": "ساده بسازیم و ارزان.",
+  "in_attempt1_fa": "سقف بلند ۵٫۵۲ متری، کف شیشه‌ای مات روی حیاط و کف کشویی بالکن، هزینه‌بر است؛ برآوردی نشد.",
+  "in_attempt3_fa": "معمار گفت کف شیشه‌ای برای پارک خودرو بسیار پرهزینه است و سقف وافل و رمپ‌های تأسیساتی را قابل حل دانست؛ برآوردی نشد.",
+  "status": "open",
+  "related": {
+   "sheets": [
+    "a1-ground",
+    "a1-section"
+   ],
+   "questions": [
+    "q-cost-in-quantities"
+   ],
+   "concepts": []
+  }
+ },
+ {
+  "id": "b16",
+  "n": 16,
+  "text_fa": "راه کار تهویه و چرخش طبیعی هوا از طریق معابر و پنجره های باز همزمان در فضای شمالی و جنوبی",
+  "text_en": "Natural ventilation and air circulation through passages and simultaneously open windows on the north and south sides.",
+  "theme": "ventilation",
+  "gloss_fa": "هوا از میان راهروها و پنجره‌های هم‌زمان باز شمالی و جنوبی بچرخد.",
+  "in_attempt1_fa": "هر طبقه از شمال (کوچه) تا جنوب (حیاط) کشیده شده و در هر دو جبهه بازشو دارد.",
+  "in_attempt3_fa": "واحدهای دوبلکس به هر دو جبهه راه دارند؛ من نوشتم دوکله بودن ساختمان امکان خوبی برای تهویه می‌دهد و این مسیرها باید باز شود. واحد یک‌خوابه فقط جبههٔ شمالی دارد.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-first-loft",
+    "a3-first",
+    "a3-second"
+   ],
+   "questions": [
+    "q-breathing",
+    "q-both-sides"
+   ],
+   "concepts": [
+    "c-cross-ventilation"
+   ]
+  }
+ },
+ {
+  "id": "b17",
+  "n": 17,
+  "text_fa": "قابلیت ارزیابی مقدار مصالح مورد نیاز نه به ریال بلکه به مقدار",
+  "text_en": "Ability to estimate the material quantities needed — in quantities, not in rials.",
+  "theme": "cost",
+  "gloss_fa": "بتوانیم مصالح را به مقدار — تُن و مترمکعب — برآورد کنیم، نه به ریال که هر روز عوض می‌شود.",
+  "in_attempt1_fa": "—",
+  "in_attempt3_fa": "—",
+  "status": "open",
+  "related": {
+   "sheets": [],
+   "questions": [
+    "q-cost-in-quantities"
+   ],
+   "concepts": []
+  }
+ },
+ {
+  "id": "b18",
+  "n": 18,
+  "text_fa": "راه پله دارای پنجره فضای مورد استفاده برای بازی و نشستن صعود و نزول از تپه کوچک راه پله بزرگ ولی فضا کم بگیره :) پله های تو در تو",
+  "text_en": "A staircase with a window; a place to play and sit; climbing a small hill. A generous stair that takes little space :) — nested stairs.",
+  "theme": "stairs",
+  "gloss_fa": "راه‌پله‌ای با پنجره که جای بازی و نشستن باشد، مثل بالا رفتن از تپه‌ای کوچک؛ بزرگ باشد ولی جا نگیرد: پله‌های تو در تو.",
+  "in_attempt1_fa": "یک راه‌پلهٔ سراسری در باکس شرقی و پله‌های داخلی به نیم‌طبقه‌ها؛ برش B-B رفت‌وآمد پله‌ها میان ترازها را نشان می‌دهد.",
+  "in_attempt3_fa": "باکس پله و آسانسور در دل توده و دور از جداره‌های نورگیر (بی‌پنجره)، پلهٔ گرد در واحد دانشجویی، و پلهٔ دوبلکس اصلی روی نمای شفاف کنار یک ووید. من پلهٔ قیچی را برای کم کردن عرض پیشنهاد دادم؛ معمار آن را «گزینهٔ ناچار» دانست.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-section",
+    "a3-second",
+    "a3-third"
+   ],
+   "questions": [
+    "q-both-sides"
+   ],
+   "concepts": [
+    "c-nested-floors",
+    "c-double-height-loft"
+   ]
+  }
+ },
+ {
+  "id": "b19",
+  "n": 19,
+  "text_fa": "اسانسور بزرگتر از حدود استاندارد اسان برای حمل بار و مقاوم در مقابل overload",
+  "text_en": "A lift larger than standard, easy for moving loads, robust against overload.",
+  "theme": "lift",
+  "gloss_fa": "آسانسوری بزرگ‌تر از استاندارد، برای بار و مقاوم در برابر اضافه‌بار.",
+  "in_attempt1_fa": "آسانسور ۱٫۶۰ در ۲٫۰۰ متر کنار باکس پله.",
+  "in_attempt3_fa": "آسانسور ۱٫۶۰ در ۲٫۰۰ متر در باکس مرکزی؛ طبقهٔ دوم عمداً به آسانسور نیاز ندارد.",
+  "status": "partly",
+  "related": {
+   "sheets": [
+    "a1-ground",
+    "a3-ground"
+   ],
+   "questions": [],
+   "concepts": [
+    "c-parking"
+   ]
+  }
+ }
+]
