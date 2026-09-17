@@ -19,3 +19,15 @@ Fixed ids
 - story events: e-1398-list, e-1399-first-design, e-1399-plot-lost, e-1400-second-plot, e-1403-third-attempt, e-1403-reviews, e-1404-paused, e-1405-page
 
 Sources of truth: private/knowledge/*.md, private/geometry.json, private/renders/ (view them), the 19-point brief verbatim in private/knowledge/01-brief.md. Owner-observation PDFs have a broken text layer — paraphrase only.
+
+## plans.json — schematic floor plans (drawn by js/plan.js in the style of the section diagram)
+Array of plans, one per plan sheet (not the section): ids a1-basement, a1-ground, a1-first, a1-loft1, a1-second, a1-third, a3-basement, a3-ground, a3-first, a3-second, a3-third, a3-fourth.
+Each: {id, attempt:"a1"|"a3", sheet:"<sheet id>", name_fa, elev (m, number or null), north:"up"|"right", mirrored:false,
+  plot_px:[x0,y0,x1,y1] — the PLOT boundary rectangle on the sheet image as FRACTIONS of image width/height (x from left, y from top),
+  plot_m:{w, d} — plot width and depth in metres (a1: 10.55 × 19.00; a3: 10.50 × 20.14),
+  footprint_px:[[x0,y0,x1,y1], …] — rectangles (fractions) that together make the built body on this level (walls drawn around their union),
+  rooms:[{id:"kitchen", name_fa, name_en, kind, px:[x0,y0,x1,y1] (fractions), tags:["b01","c-hoz", …]}],
+  elements:[{type:"stair"|"lift"|"car"|"tree"|"void"|"water"|"green"|"balcony"|"door", px:[x0,y0,x1,y1], label_fa?}]}
+kinds: living, kitchen, dining, bedroom, bath, study, storage, service, circulation, outdoor, void, parking, water, green, caretaker, hall.
+tags: ids of brief items (b01–b19), questions (q-*), concepts (c-*) that this room illustrates — used to focus the plan on sub-pages.
+Coordinates are fractions of the site WebP image (drawings/2020|2024/*.webp); the build converts them to metres via plot_px/plot_m and `north`.
