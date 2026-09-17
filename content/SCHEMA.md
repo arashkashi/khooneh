@@ -31,3 +31,9 @@ Each: {id, attempt:"a1"|"a3", sheet:"<sheet id>", name_fa, elev (m, number or nu
 kinds: living, kitchen, dining, bedroom, bath, study, storage, service, circulation, outdoor, void, parking, water, green, caretaker, hall.
 tags: ids of brief items (b01–b19), questions (q-*), concepts (c-*) that this room illustrates — used to focus the plan on sub-pages.
 Coordinates are fractions of the site WebP image (drawings/2020|2024/*.webp); the build converts them to metres via plot_px/plot_m and `north`.
+
+### plans — v2 (polygons, walls, openings)
+Split per attempt: `plans-a1.json`, `plans-a3.json` (merged by the build). Coordinates in METRES, north up, x from the west edge of the plot, y from the street edge southward.
+Room: {id, name_fa, name_en, kind, m:[x0,y0,x1,y1] (bbox, required — used for focus/zoom), poly:[[x,y],…] (optional exact outline, clockwise), tags, note_fa, short_fa}.
+Plan extras: walls:[[x1,y1,x2,y2,thickness]] (drawn as ink lines; use for the outer walls and main partitions), windows:[[x1,y1,x2,y2]] (turquoise), doors:[[x,y,width,swing "n"|"s"|"e"|"w"]] (hinge point, leaf width, swing direction), elements as before (stair, lift, car, tree, void, water, green, balcony).
+Verification: `python3 tools/render_plan_png.py khooneh/content/plans-a1.json a1-first out.png` draws the plan beside the sheet (north up, same orientation).

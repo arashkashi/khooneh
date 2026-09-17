@@ -20,7 +20,7 @@ def load(name, default):
 
 brief = load('brief.json', []); story = load('story.json', []); attempts = load('attempts.json', [])
 questions = load('questions.json', []); concepts = load('concepts.json', []); sheets = load('sheets.json', [])
-proposal = load('proposal.json', None); voices = load('voices.json', []); views_src = load('views.json', []); plans = load('plans.json', [])
+proposal = load('proposal.json', None); voices = load('voices.json', []); views_src = load('views.json', []); plans = load('plans-a1.json', []) + load('plans-a3.json', [])
 
 FA_DIGITS = str.maketrans('0123456789', '۰۱۲۳۴۵۶۷۸۹')
 def fa_num(x): return str(x).translate(FA_DIGITS)

@@ -36,7 +36,8 @@
     const rooms = el('g', { class: 'rooms' });
     (plan.rooms || []).forEach(r => {
       const g = el('g', { class: 'room kind-' + r.kind + (matches(r) ? ' is-focus' : focus.size ? ' is-dim' : ''), tabindex: 0, role: 'button' }, rooms);
-      rect(r.m, { class: 'room-fill', fill: FILL[r.kind] || '#EDEDE8', stroke: '#5A6664', 'stroke-width': .8 }, g);
+      if (r.poly) el('polygon', { points: r.poly.map(([x, y]) => `${X(x)},${Y(y)}`).join(' '), class: 'room-fill', fill: FILL[r.kind] || '#EDEDE8', stroke: '#5A6664', 'stroke-width': .8 }, g);
+      else rect(r.m, { class: 'room-fill', fill: FILL[r.kind] || '#EDEDE8', stroke: '#5A6664', 'stroke-width': .8 }, g);
       const rw = (r.m[2] - r.m[0]), rh = (r.m[3] - r.m[1]);
       const area = (rw * rh).toFixed(1);
       const name = T(r, 'name') || KIND_FA[r.kind];
@@ -85,6 +86,13 @@
       }
       if (matches(e)) focusBoxes.push(m);
     });
+    // walls (thick ink lines) and openings
+    (plan.walls || []).forEach(wl => el('line', { x1: X(wl[0]), y1: Y(wl[1]), x2: X(wl[2]), y2: Y(wl[3]), class: 'wall', stroke: '#161C1B', 'stroke-width': Math.max(2, (wl[4] || 0.2) * S), 'stroke-linecap': 'square' }));
+    (plan.windows || []).forEach(wn => el('line', { x1: X(wn[0]), y1: Y(wn[1]), x2: X(wn[2]), y2: Y(wn[3]), class: 'window', stroke: '#1D8F8A', 'stroke-width': 2 }));
+    (plan.doors || []).forEach(dr => { const [x, y, wd, dir] = dr; const r0 = wd * S; const cx0 = X(x), cy0 = Y(y);
+      const ends = { n: [cx0 + r0, cy0, cx0, cy0 - r0], s: [cx0 + r0, cy0, cx0, cy0 + r0], e: [cx0, cy0 + r0, cx0 + r0, cy0], w: [cx0, cy0 + r0, cx0 - r0, cy0] }[dir || 'n'];
+      el('path', { d: `M${ends[0]} ${ends[1]} A${r0} ${r0} 0 0 ${dir === 's' || dir === 'w' ? 1 : 0} ${ends[2]} ${ends[3]}`, fill: 'none', stroke: '#5A6664', 'stroke-width': .8, class: 'door-arc' });
+      el('line', { x1: cx0, y1: cy0, x2: ends[2], y2: ends[3], stroke: '#5A6664', 'stroke-width': 1.2, class: 'door-leaf' }); });
     // north arrow, street / yard tags, scale bar
     const na = el('g', { class: 'north', transform: `translate(${X(w) + 14} ${Y(0) + 10})` });
     el('path', { d: 'M0 -9 L5 6 L0 3 L-5 6 Z', class: 'north-arrow', fill: '#161C1B' }, na);
