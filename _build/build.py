@@ -2,7 +2,7 @@
 """Generate the layered Khooneh site from content/*.json + _templates/*.html.
 Run from the khooneh folder:  python3 _build/build.py
 Outputs: index.html (landing), all/, story/, brief/, attempts/, sheets/, questions/, concepts/, proposal/, invite/, en/.
-Hand-written sources kept as inputs: index.fa.html (Persian all-in-one), index.en.html (English all-in-one)."""
+Hand-written sources kept as inputs: _src/all.fa.html (Persian all-in-one), _src/all.en.html (English all-in-one)."""
 import json, os, re, shutil, sys
 from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -167,8 +167,8 @@ def all_page(src, url, lang):
     html = html.replace('href="#top"', f'href="{root}"')
     out = os.path.join(ROOT, url, 'index.html'); os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, 'w', encoding='utf-8').write(html); print('  wrote', url)
-all_page('index.fa.html', 'all/', 'fa')
-all_page('index.en.html', 'en/all/', 'en')
+all_page('_src/all.fa.html', 'all/', 'fa')
+all_page('_src/all.en.html', 'en/all/', 'en')
 # English landing
 write_en = env.get_template('landing_en.html').render(root='../', url='en/', chapters=CHAPTERS, proposal=proposal)
 os.makedirs(os.path.join(ROOT, 'en'), exist_ok=True); open(os.path.join(ROOT, 'en', 'index.html'), 'w', encoding='utf-8').write(write_en); print('  wrote en/')
