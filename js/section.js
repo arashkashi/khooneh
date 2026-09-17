@@ -48,9 +48,13 @@
       rect(0, 0, c0, -0.25, { class: 'slab' }); rect(c1, 0, south, -0.25, { class: 'slab' });
       line(c0, 0, c0, bElev, { class: 'green' }); line(c1, 0, c1, bElev, { class: 'green' });
       const tree = el('g', { class: 'tree' });
-      line(3.3, bElev, 3.3, 2.2, { class: 'trunk' }, tree);
-      el('ellipse', { cx: X(3.3), cy: Y(3.6), rx: 2.3 * S, ry: 2.0 * S, class: 'canopy' }, tree);
-      line(2.4, bElev, 3.3, bElev + 0.7, { class: 'root' }, tree); line(4.2, bElev, 3.3, bElev + 0.7, { class: 'root' }, tree);
+      // a slightly leaning trunk with two branches, roots, and a soft three-lobed canopy
+      el('path', { d: `M${X(3.3)} ${Y(bElev)} C ${X(3.35)} ${Y(bElev + 1.5)}, ${X(3.15)} ${Y(0.6)}, ${X(3.25)} ${Y(2.3)}`, class: 'trunk' }, tree);
+      el('path', { d: `M${X(3.22)} ${Y(1.2)} C ${X(2.9)} ${Y(1.7)}, ${X(2.5)} ${Y(2.0)}, ${X(2.3)} ${Y(2.6)}`, class: 'branch' }, tree);
+      el('path', { d: `M${X(3.24)} ${Y(1.7)} C ${X(3.7)} ${Y(2.2)}, ${X(4.0)} ${Y(2.4)}, ${X(4.3)} ${Y(2.9)}`, class: 'branch' }, tree);
+      line(2.5, bElev, 3.3, bElev + 0.6, { class: 'root' }, tree); line(4.1, bElev, 3.3, bElev + 0.6, { class: 'root' }, tree);
+      [[3.3, 3.9, 1.9], [2.2, 3.0, 1.25], [4.45, 3.15, 1.35], [3.1, 2.75, 1.2]].forEach(([cx, cy, r]) => el('circle', { cx: X(cx), cy: Y(cy), r: r * S, class: 'canopy' }, tree));
+      el('circle', { cx: X(2.9), cy: Y(4.3), r: 0.7 * S, class: 'canopy-light' }, tree);
     } else { rect(0, 0, south, -0.25, { class: 'slab' }); }
     // basement floor, hoz, walls
     rect(0.3, bElev, northGF, bElev - slab, { class: 'slab' });
@@ -58,8 +62,13 @@
     line(0.3, 0, 0.3, bElev - slab, { class: 'wall' });
     // ground: slab, car, shabak, tags
     rect(south, 0, northGF, -slab, { class: 'slab' });
-    el('rect', { x: X(9.2), y: Y(1.45), width: 4.3 * S, height: 1.2 * S, rx: 10, class: 'car' });
-    el('circle', { cx: X(10.1), cy: Y(0.25), r: 0.3 * S, class: 'car' }); el('circle', { cx: X(12.6), cy: Y(0.25), r: 0.3 * S, class: 'car' });
+    const car = el('g', { class: 'car' });
+    // a small round hatchback: body, cabin, two windows, wheels with hubs, a headlight
+    el('path', { d: `M${X(9.3)} ${Y(0.42)} L${X(9.3)} ${Y(0.95)} Q${X(9.3)} ${Y(1.15)} ${X(9.55)} ${Y(1.15)} L${X(10.35)} ${Y(1.15)} Q${X(10.6)} ${Y(1.15)} ${X(10.85)} ${Y(1.45)} L${X(11.35)} ${Y(1.95)} Q${X(11.6)} ${Y(2.15)} ${X(11.9)} ${Y(2.15)} L${X(12.9)} ${Y(2.15)} Q${X(13.35)} ${Y(2.15)} ${X(13.55)} ${Y(1.85)} L${X(13.85)} ${Y(1.2)} Q${X(13.95)} ${Y(0.95)} ${X(13.95)} ${Y(0.7)} L${X(13.95)} ${Y(0.42)} Z`, class: 'car-body' }, car);
+    el('path', { d: `M${X(11.0)} ${Y(1.3)} L${X(11.45)} ${Y(1.85)} L${X(12.25)} ${Y(1.85)} L${X(12.25)} ${Y(1.3)} Z`, class: 'car-glass' }, car);
+    el('path', { d: `M${X(12.5)} ${Y(1.3)} L${X(12.5)} ${Y(1.85)} L${X(13.0)} ${Y(1.85)} Q${X(13.3)} ${Y(1.85)} ${X(13.45)} ${Y(1.55)} L${X(13.55)} ${Y(1.3)} Z`, class: 'car-glass' }, car);
+    el('circle', { cx: X(13.85), cy: Y(0.72), r: 0.09 * S, class: 'car-lamp' }, car);
+    [10.35, 12.95].forEach(cx => { el('circle', { cx: X(cx), cy: Y(0.36), r: 0.36 * S, class: 'car-wheel' }, car); el('circle', { cx: X(cx), cy: Y(0.36), r: 0.14 * S, class: 'car-hub' }, car); });
     const f1 = upper[0];
     if (D.shabak !== false) { line(south, 0, south, f1.elev, { class: 'shabak' }); text(south - 0.25, 1.2, tag('shabak'), { class: 'tag', 'text-anchor': 'end' }); }
     text(0.3, 0.55, tag('yard'), { class: 'tag' }); text(northGF + 0.25, -0.75, tag('street'), { class: 'tag' });

@@ -18,7 +18,7 @@ def load(name, default):
 
 brief = load('brief.json', []); story = load('story.json', []); attempts = load('attempts.json', [])
 questions = load('questions.json', []); concepts = load('concepts.json', []); sheets = load('sheets.json', [])
-proposal = load('proposal.json', None)
+proposal = load('proposal.json', None); voices = load('voices.json', [])
 
 FA_DIGITS = str.maketrans('0123456789', '۰۱۲۳۴۵۶۷۸۹')
 def fa_num(x): return str(x).translate(FA_DIGITS)
@@ -29,8 +29,8 @@ def strip_num(s): return re.sub(r'^[\d۰-۹]+[\.\-–—)]\s*', '', s or '')
 env.filters['paras'] = paras; env.filters['fa'] = fa_num; env.filters['strip_num'] = strip_num
 
 # ---------- registry of nodes: id -> {kind, title, url}
-KIND_FA = {'brief': 'شاخص', 'question': 'پرسش', 'concept': 'مفهوم', 'sheet': 'نقشه', 'attempt': 'طرح', 'event': 'رویداد', 'proposal': 'پیشنهاد'}
-KIND_GROUP_FA = {'brief': 'شاخص‌ها', 'question': 'پرسش‌های باز', 'concept': 'مفاهیم', 'sheet': 'نقشه‌ها', 'attempt': 'طرح‌ها', 'event': 'داستان', 'proposal': 'پیشنهاد'}
+KIND_FA = {'brief': 'شاخص', 'question': 'پرسش', 'concept': 'مفهوم', 'sheet': 'نقشه', 'attempt': 'طرح', 'event': 'رویداد', 'proposal': 'پیشنهاد', 'voice': 'میان‌پرده'}
+KIND_GROUP_FA = {'brief': 'شاخص‌ها', 'question': 'پرسش‌های باز', 'concept': 'مفاهیم', 'sheet': 'نقشه‌ها', 'attempt': 'طرح‌ها', 'event': 'داستان', 'proposal': 'پیشنهاد', 'voice': 'در میانهٔ داستان'}
 reg = {}
 def add(kind, node, title, url): reg[node['id']] = {'kind': kind, 'title': title, 'url': url, 'node': node}
 for b in brief: add('brief', b, f"شاخص {fa_num(b['n'])} — {b.get('short_fa') or b['text_fa'][:40] + '…'}", f"brief/{b['id']}/")
@@ -40,6 +40,7 @@ for s in sheets: add('sheet', s, s['title_fa'], f"sheets/{s['id']}/")
 for a in attempts: add('attempt', a, a['title_fa'], f"attempts/{a['id']}/")
 for e in story: add('event', e, e['title_fa'], f"story/#{e['id']}")
 if proposal: add('proposal', proposal, proposal['title_fa'], 'proposal/')
+for v in voices: add('voice', v, v['name_fa'], f"voices/{v['id']}/")
 
 # backlinks: id -> [ids that reference it]
 back = defaultdict(list)
@@ -52,7 +53,7 @@ for nid, r in reg.items():
 def related_groups(node, exclude_id=None):
     """[(group title, [registry entries])] in a fixed order, only for ids that exist."""
     rel = node.get('related') or {}
-    order = ['attempt', 'sheet', 'brief', 'question', 'concept', 'proposal']
+    order = ['attempt', 'sheet', 'brief', 'question', 'concept', 'proposal', 'voice']
     out = []
     for kind in order:
         ids = []
@@ -100,7 +101,9 @@ print('building…')
 # landing
 write('', 'landing.html', chapters=CHAPTERS, brief_count=len(brief), sheets_count=len(sheets), questions_count=len(questions))
 # story
-write('story/', 'story.html', events=[dict(e, groups=related_groups(e)) for e in story])
+write('story/', 'story.html', events=[dict(e, groups=related_groups(e)) for e in story], voices=voices)
+for v in voices:
+    write(f"voices/{v['id']}/", 'voice.html', v=v, groups=related_groups(v, v['id']), backs=backlink_entries(v['id']))
 # brief
 write('brief/', 'brief_index.html', items=brief)
 for i, b in enumerate(brief):

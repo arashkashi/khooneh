@@ -15,6 +15,18 @@
         {% if e.groups %}<p class="small muted">{% for title, items in e.groups %}{% for it in items %}<a href="{{ root }}{{ it.url }}">{{ it.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
       </div>
     </li>
+    {% if e.id == 'e-1403-reviews' and voices %}
+    {% for v in voices %}
+    <li class="interlude">
+      <time>میان‌پرده</time>
+      <div>
+        <h3>اگر کسی از {{ v.name_fa }} می‌پرسید</h3>
+        <p>{{ v.why_fa.split('\n\n')[0] }}</p>
+        <p><a href="{{ root }}voices/{{ v.id }}/">پرسش خانواده از او، و اشاره‌ای به کارش ›</a></p>
+      </div>
+    </li>
+    {% endfor %}
+    {% endif %}
     {% endfor %}
   </ol>
 </section>

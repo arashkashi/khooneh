@@ -1,0 +1,29 @@
+[
+ {
+  "id": "v-amanat",
+  "name_fa": "حسین امانت",
+  "name_en": "Hossein Amanat",
+  "kind_fa": "معماری که خانواده دوست دارد از او بپرسد",
+  "facts_fa": [
+   "زادهٔ ۱۳۲۱ در تهران؛ دانش‌آموختهٔ دانشکدهٔ هنرهای زیبای دانشگاه تهران.",
+   "در ۱۳۴۵، در بیست‌وچند سالگی، برندهٔ مسابقهٔ طراحی برج شهیاد شد — همان که امروز برج آزادی نام دارد.",
+   "ساختمان‌های اولیهٔ دانشگاه صنعتی شریف (آریامهر سابق)، سفارت ایران در پکن، بناهای مرکز جهانی بهائی در حیفا و مشرق‌الاذکار ساموآ از کارهای اوست.",
+   "از دههٔ ۱۳۶۰ در کانادا زندگی و کار می‌کند."
+  ],
+  "why_fa": "برج آزادی برای این خانواده یک درس ساده دارد: می‌شود ساختمانی ساخت که با نگاه اول ایرانی باشد، بی‌آنکه چیزی را تقلید کند. طاق ساسانی و طاق نوک‌تیز اسلامی در یک فرم مدرن به هم می‌رسند، و ساختمان با هندسه حرف می‌زند، نه با تزیین. همین است که در کوچهٔ ملاصدرا — میان نماهای سنگی و ستون‌های کلاسیک — جایش خالی است.\n\nنکتهٔ دیگر، مقیاس است. آن بنا یک یادبود ملی بود؛ این‌جا خانه‌ای دویست‌متری است با بودجه‌ای محدود. پرسش خانواده دقیقاً همین است: آیا همان دقت، همان هندسه و همان احترام به گذشته در مقیاس یک خانهٔ کوچک و ارزان هم ممکن است؟\n\nو نکتهٔ سوم، دوری. معماری که سال‌هاست دور از ایران کار می‌کند و هنوز هندسهٔ ایران را ادامه می‌دهد، برای خانواده‌ای که خودش میان دو کشور زندگی می‌کند، آشناست.",
+  "question_fa": "اگر فرصتی پیش بیاید، خانواده دوست دارد از او سه چیز بپرسد: کدام تصمیم در برج آزادی از همه ساده‌تر و از همه مهم‌تر بود؟ نمای ساده‌ای که در یک کوچهٔ شلوغ پیر شود و خجالت نکشد، از کجا شروع می‌شود؟ و خانه‌ای که قرار است بیش از یک نقش اجتماعی داشته باشد — خانه و اتاق محله — چه چیزی را نباید از دست بدهد؟",
+  "wish_fa": "این صفحه ادعای هیچ آشنایی و همکاری‌ای ندارد. فقط اشاره‌ای است به کاری که خانواده آن را دوست دارد، و دعوتی است باز: اگر او یا کسانی که با کارش زندگی کرده‌اند بخواهند چیزی بگویند، این خانواده مشتاق شنیدن است.",
+  "facts_en": [
+   "Born 1942 in Tehran; a graduate of the University of Tehran's Faculty of Fine Arts.",
+   "In 1966, in his mid-twenties, he won the competition for the Shahyad Tower — today's Azadi Tower.",
+   "His work includes the early buildings of Sharif University of Technology, the Iranian embassy in Beijing, the Bahá'í World Centre buildings in Haifa and the House of Worship in Samoa.",
+   "He has lived and worked in Canada since the 1980s."
+  ],
+  "why_en": "For this family the Azadi Tower holds one plain lesson: a building can be Iranian at first sight without imitating anything. A Sassanid arch and a pointed Islamic arch meet in one modern form, and the building speaks through geometry rather than ornament. That is exactly what is missing in the Mollasadra alley, between the stone claddings and the classical columns.\n\nThe second point is scale. That was a national monument; this is a two-hundred-square-metre house on a limited budget. The family's question is precisely this: is the same care, the same geometry and the same respect for the past possible at the scale of a small, inexpensive house?\n\nThe third point is distance. An architect who has worked far from Iran for decades and still carries its geometry forward is a familiar figure to a family that itself lives between two countries.",
+  "question_en": "Given the chance, the family would ask him three things. Which decision in the Azadi Tower was the simplest and the most important? Where does a plain façade begin — one that can grow old in a busy alley without embarrassment? And a house meant to carry more than one social role, home and neighbourhood room at once — what must it never lose?",
+  "wish_en": "This page claims no acquaintance and no collaboration. It is only a pointer to work the family admires, and an open invitation: if he, or people who have lived with his buildings, would like to say something, the family would be glad to listen.",
+  "source_fa": "واقعیت‌ها از مدخل ویکی‌پدیای فارسی «حسین امانت»؛ هیچ نقل‌قولی از او در این صفحه نیست.",
+  "source_url": "https://fa.wikipedia.org/wiki/حسین_امانت",
+  "related": { "brief": ["b12", "b15"], "questions": ["q-facade", "q-convertible", "q-both-sides"], "concepts": ["c-iwan", "c-godal-baghcheh"], "attempts": ["a1", "a3"], "events": ["e-1403-reviews"] }
+ }
+]

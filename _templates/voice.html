@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}{{ v.name_fa }} — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [('story/', 'داستان'), (None, v.name_fa)]) }}{% endblock %}
+{% block content %}
+<article class="node">
+  <div>
+    <header class="node-head"><p class="kind">در میانهٔ داستان · {{ v.kind_fa }}</p><h1>{{ v.name_fa }}</h1><p class="deck" lang="en" dir="ltr">{{ v.name_en }}</p></header>
+    <div class="node-body">
+      <ul class="features">{% for f in v.facts_fa %}<li>{{ f }}</li>{% endfor %}</ul>
+      <h2>چرا این‌جا</h2>
+      {% for p in v.why_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      <h2>پرسش خانواده</h2>
+      {% for p in v.question_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      <div class="notice">{% for p in v.wish_fa|paras %}<p>{{ p }}</p>{% endfor %}</div>
+      <p class="small muted">{{ v.source_fa }} <a href="{{ v.source_url }}" rel="noopener">ویکی‌پدیا</a></p>
+    </div>
+  </div>
+  {{ m.related(groups, root) }}
+</article>
+{% endblock %}
+{% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
