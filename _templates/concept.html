@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}{{ c.term_fa }} — مفاهیم — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [('concepts/', 'مفاهیم'), (None, c.term_fa)]) }}{% endblock %}
+{% block content %}
+<article class="node">
+  <div>
+    <header class="node-head"><p class="kind">مفهوم · <span lang="en" dir="ltr">{{ c.term_en }}</span></p><h1>{{ c.term_fa }}</h1></header>
+    <div class="node-body">
+      {% for p in c.definition_fa|paras %}<p class="lead">{{ p }}</p>{% endfor %}
+      <h2>در این خانه</h2>
+      {% for p in c.in_this_project_fa|paras %}<p>{{ p }}</p>{% endfor %}
+    </div>
+  </div>
+  {{ m.related(groups, root) }}
+</article>
+{% endblock %}
+{% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}

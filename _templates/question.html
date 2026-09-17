@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}{{ q.title_fa }} — پرسش‌های باز — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [('questions/', 'پرسش‌های باز'), (None, q.title_fa)]) }}{% endblock %}
+{% block content %}
+<article class="node">
+  <div>
+    <header class="node-head"><p class="kind">پرسش باز</p><h1>{{ q.title_fa }}</h1><p class="deck">{{ q.lead_fa }}</p></header>
+    <div class="node-body">
+      {% for p in q.body_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      <div class="two-col">
+        <div><h3>خواستهٔ صاحب زمین</h3>{% for p in (q.owner_view_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
+        <div><h3>موضع معمار</h3>{% for p in (q.architect_view_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
+      </div>
+      {% if q.evidence_fa %}<h2>شواهد</h2><ul class="features">{% for e in q.evidence_fa %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      {{ m.prevnext(prev, nxt, root, 'questions/') }}
+    </div>
+  </div>
+  {{ m.related(groups, root) }}
+</article>
+{% endblock %}
+{% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}

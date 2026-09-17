@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}پرسش‌های باز — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [(None, 'پرسش‌های باز')]) }}{% endblock %}
+{% block content %}
+<section class="prose">
+  <h2>آنچه باز مانده</h2>
+  <p class="deck">ده پرسشی که هیچ‌کدام از دو طرح جواب نداد. دلیل وجود این صفحه همین‌هاست.</p>
+  <ol class="index-list">
+    {% for q in items %}<li class="no-n"><a href="{{ root }}questions/{{ q.id }}/">{{ q.title_fa }}</a><span></span><p class="lead">{{ q.lead_fa }}</p></li>{% endfor %}
+  </ol>
+</section>
+{% endblock %}

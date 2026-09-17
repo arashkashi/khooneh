@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}شاخص‌ها، به زبان خانواده — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [(None, 'شاخص‌ها')]) }}{% endblock %}
+{% block content %}
+<section class="prose">
+  <h2>شاخص‌ها، به زبان خانواده</h2>
+  <p class="deck">نوزده چیزی که یک خانواده در سال ۱۳۹۸ از خانه‌اش خواست — پیش از آنکه پای معماری در میان باشد.</p>
+  <p>متن همان است که آن روز نوشته شد، به زبان خودمانی و نه زبان طراح. هر شاخص صفحه‌ای دارد: چه می‌خواهد، طرح ۱۳۹۹ چه پاسخی به آن داد، طرح ۱۴۰۳ چه پاسخی، و کدام پرسش هنوز باز است.</p>
+  <ol class="index-list">
+    {% for b in items %}
+    <li><span class="n">{{ b.n|fa }}</span><a href="{{ root }}brief/{{ b.id }}/">{{ b.text_fa[:110] }}{% if b.text_fa|length > 110 %}…{% endif %}</a><span class="status" data-s="{{ b.status }}">{{ {'answered':'پاسخ داده شد','partly':'تا حدی','open':'باز','contradicted':'دو خوانش'}[b.status] }}</span></li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}

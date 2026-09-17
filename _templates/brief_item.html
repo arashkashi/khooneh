@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}شاخص {{ b.n|fa }} — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [('brief/', 'شاخص‌ها'), (None, 'شاخص ' ~ (b.n|fa))]) }}{% endblock %}
+{% block content %}
+<article class="node">
+  <div>
+    <header class="node-head">
+      <p class="kind">شاخص {{ b.n|fa }} از ۱۹ · <span class="status" data-s="{{ b.status }}">{{ {'answered':'پاسخ داده شد','partly':'تا حدی','open':'باز','contradicted':'دو خوانش'}[b.status] }}</span></p>
+      <blockquote class="verbatim"><p>{{ b.text_fa }}</p></blockquote>
+      {% if b.text_en %}<p class="small muted" lang="en" dir="ltr">{{ b.text_en }}</p>{% endif %}
+    </header>
+    <div class="node-body">
+      {% if b.gloss_fa %}<h2>یعنی چه</h2>{% for p in b.gloss_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
+      <div class="two-col">
+        <div><h3>در طرح ۱۳۹۹</h3>{% for p in (b.in_attempt1_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
+        <div><h3>در طرح ۱۴۰۳</h3>{% for p in (b.in_attempt3_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
+      </div>
+      {{ m.prevnext(prev, nxt, root, 'brief/') }}
+    </div>
+  </div>
+  {{ m.related(groups, root) }}
+</article>
+{% endblock %}
+{% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}

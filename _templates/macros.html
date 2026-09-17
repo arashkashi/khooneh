@@ -1,0 +1,32 @@
+{% macro related(groups, root) %}
+{% if groups %}
+<aside class="side" aria-label="در همین رابطه">
+  {% for title, items in groups %}
+  <h2>{{ title }}</h2>
+  <ul>
+    {% for it in items %}<li><a href="{{ root }}{{ it.url }}">{{ it.title }}</a></li>{% endfor %}
+  </ul>
+  {% endfor %}
+</aside>
+{% endif %}
+{% endmacro %}
+{% macro paths(backs, root, kind_fa) %}
+{% if backs %}
+<section class="paths" aria-label="مسیرهای دیگر به این‌جا">
+  <h2>از این‌جاها هم می‌شود به همین صفحه رسید</h2>
+  <ul>{% for it in backs %}<li><a href="{{ root }}{{ it.url }}"><span class="tag">{{ kind_fa[it.kind] }}</span>{{ it.title }}</a></li>{% endfor %}</ul>
+</section>
+{% endif %}
+{% endmacro %}
+{% macro crumbs(root, items) %}
+<nav class="crumbs" aria-label="مسیر"><a href="{{ root }}">خانه</a>{% for href, t in items %}<span></span>{% if href %}<a href="{{ root }}{{ href }}">{{ t }}</a>{% else %}{{ t }}{% endif %}{% endfor %}</nav>
+{% endmacro %}
+{% macro sheetcard(s, root) %}
+<a class="sheet" href="{{ root }}sheets/{{ s.id }}/"><img src="{{ root }}{{ s.thumb }}" alt="{{ s.title_fa }}" loading="lazy" width="{{ 438 if s.h > s.w else 640 }}" height="{{ 640 if s.h > s.w else 438 }}"><span><strong>{{ s.title_fa }}</strong>{{ s.level_fa }}</span></a>
+{% endmacro %}
+{% macro prevnext(prev, nxt, root, base) %}
+<nav class="sheet-nav" aria-label="قبلی و بعدی">
+  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {{ prev.title_fa or prev.term_fa }}</a>{% endif %}</span>
+  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{{ nxt.title_fa or nxt.term_fa }} ›</a>{% endif %}</span>
+</nav>
+{% endmacro %}

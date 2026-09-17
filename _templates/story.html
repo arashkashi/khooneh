@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}داستان تا اینجا — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [(None, 'داستان')]) }}{% endblock %}
+{% block content %}
+<section class="prose">
+  <h2>داستان تا اینجا</h2>
+  <p class="deck">هفت سال، دو طرح، و خانه‌ای که ساخته نشد.</p>
+  <ol class="timeline">
+    {% for e in events %}
+    <li id="{{ e.id }}">
+      <time>{{ e.date_fa }}</time>
+      <div>
+        <h3>{{ e.title_fa }}</h3>
+        {% for p in e.body_fa|paras %}<p>{{ p }}</p>{% endfor %}
+        {% if e.groups %}<p class="small muted">{% for title, items in e.groups %}{% for it in items %}<a href="{{ root }}{{ it.url }}">{{ it.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}

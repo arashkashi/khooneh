@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}نقشه‌ها — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [(None, 'نقشه‌ها')]) }}{% endblock %}
+{% block content %}
+<section class="prose">
+  <h2>نقشه‌ها</h2>
+  <p class="deck">دوازده شیت، یکی‌یکی — با یادداشت اینکه روی هر کدام به چه چیزی باید نگاه کرد.</p>
+  <h3>طرح ۱۳۹۹</h3>
+  <div class="sheet-grid breakout">{% for s in a1 %}{{ m.sheetcard(s, root) }}{% endfor %}</div>
+  <h3>طرح ۱۴۰۳</h3>
+  <div class="sheet-grid breakout">{% for s in a3 %}{{ m.sheetcard(s, root) }}{% endfor %}</div>
+</section>
+{% endblock %}

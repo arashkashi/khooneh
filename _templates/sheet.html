@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}{{ s.title_fa }} — نقشه‌ها — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [('sheets/', 'نقشه‌ها'), (None, s.title_fa)]) }}{% endblock %}
+{% block content %}
+<article class="node">
+  <div>
+    <header class="node-head">
+      <p class="kind">نقشه · {{ 'طرح ۱۳۹۹' if s.attempt == 'a1' else 'طرح ۱۴۰۳' }}</p>
+      <h1>{{ s.title_fa }}</h1>
+      {% if s.level_fa %}<p class="deck">{{ s.level_fa }}</p>{% endif %}
+    </header>
+    <figure class="sheet-view">
+      <a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>
+      <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a></figcaption>
+    </figure>
+    <div class="node-body">
+      <h2>به چه نگاه کنیم</h2>
+      <ul class="features">{% for x in s.what_to_look_for_fa %}<li>{{ x }}</li>{% endfor %}</ul>
+      {% if s.rooms_fa %}<h2>فضاها</h2><p>{{ s.rooms_fa|join('، ') }}</p>{% endif %}
+      {% if s.notes_fa %}<h2>یادداشت</h2>{% for p in s.notes_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
+      {{ m.prevnext(prev, nxt, root, 'sheets/') }}
+    </div>
+  </div>
+  {{ m.related(groups, root) }}
+</article>
+{% endblock %}
+{% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}

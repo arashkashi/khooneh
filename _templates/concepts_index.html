@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}مفاهیم — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [(None, 'مفاهیم')]) }}{% endblock %}
+{% block content %}
+<section class="prose">
+  <h2>مفاهیم</h2>
+  <p class="deck">واژه‌هایی که این خانه با آن‌ها فکر شده است — از سنت معماری ایران و از میان همین دو طرح.</p>
+  <ol class="index-list">
+    {% for c in items %}<li class="no-n"><a href="{{ root }}concepts/{{ c.id }}/">{{ c.term_fa }}</a><span class="muted" lang="en" dir="ltr">{{ c.term_en }}</span><p class="lead">{{ c.definition_fa[:140] }}{% if c.definition_fa|length > 140 %}…{% endif %}</p></li>{% endfor %}
+  </ol>
+</section>
+{% endblock %}

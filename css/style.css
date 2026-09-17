@@ -330,3 +330,10 @@ html[lang="en"] .readings td:first-child { font-style: italic; }
 
 /* breakout: wider than the text measure, still centred. Declared last so it wins over section margins. */
 .prose .breakout { --bw: min(1120px, 100vw - 2 * var(--gutter) - 20px); width: var(--bw); margin-inline-start: calc(50% - var(--bw) / 2); margin-inline-end: 0; }
+
+/* next chapter */
+.next-chapter { max-width: var(--wide); margin: 1rem auto 0; padding: 0 var(--gutter); }
+.next-chapter a { display: grid; gap: .1rem; text-decoration: none; border-top: 3px solid var(--turq); padding: 1.2rem 0 1.6rem; }
+.next-chapter a strong { font-size: 1.4rem; font-weight: 600; }
+.next-chapter a span { color: var(--ink-2); }
+.next-chapter a:hover strong { color: var(--turq); }

@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block title %}{{ a.title_fa }} — خونه{% endblock %}
+{% block crumbs %}{{ m.crumbs(root, [(None, a.title_fa)]) }}{% endblock %}
+{% block content %}
+<article class="node">
+  <div>
+    <header class="node-head">
+      <p class="kind">{{ a.years_fa }}</p>
+      <h1>{{ a.title_fa }}</h1>
+      <p class="deck">{{ a.deck_fa }}</p>
+    </header>
+    <div class="node-body">
+      {% for p in a.intro_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      {% if a.id == 'a1' %}
+      <figure class="hero-figure"><div data-section="attempt1" data-caption="sec-cap"></div><figcaption><p class="fig-title">برش B-B، با مقیاس از روی شیت. روی هر طبقه بروید.</p><p id="sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
+      {% else %}
+      <figure class="units-figure"><div class="units-host" data-units="attempt3" data-legend="u-leg" data-caption="u-cap"></div><ul id="u-leg" class="legend"></ul><figcaption id="u-cap" class="fig-note" aria-live="polite"></figcaption></figure>
+      {% endif %}
+      <h2>چه کرد</h2>
+      <ul class="features">{% for f in a.what_it_did_fa %}<li>{{ f }}</li>{% endfor %}</ul>
+      {% if a.units_fa %}
+      <h2>واحدها</h2>
+      {% if a.units_note_fa %}<p class="muted small">{{ a.units_note_fa }}</p>{% endif %}
+      <table class="units-table"><thead><tr><th>واحد</th><th>کجا</th><th>متراژ</th><th>خصلت</th></tr></thead><tbody>
+      {% for u in a.units_fa %}<tr><td>{{ u.name_fa }}</td><td>{{ u.where_fa }}</td><td>{% if u.area %}{{ u.area|fa }} متر{% else %}—{% endif %}</td><td>{{ u.character_fa }}</td></tr>{% endfor %}
+      </tbody></table>
+      {% endif %}
+      <h2>چه شد</h2>
+      {% for p in a.what_happened_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      {% if sheets %}
+      <h2>شیت‌ها</h2>
+      <div class="sheet-grid">{% for s in sheets %}{{ m.sheetcard(s, root) }}{% endfor %}</div>
+      {% endif %}
+    </div>
+  </div>
+  {{ m.related(groups, root) }}
+</article>
+{% endblock %}
+{% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
+{% block scripts %}<script src="{{ root }}js/section.js"></script><script src="{{ root }}js/units.js"></script>{% endblock %}
