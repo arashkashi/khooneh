@@ -27,8 +27,8 @@ window.KHOONEH = {
         note: 'Library, bedroom, bath and a “smoking-free room” with its own exhaust, hung over the south rooms of the first floor; the living room at the street side stays double-height.',
         note_fa: 'کتابخانه، خواب، حمام و «اتاق سیگار» با اگزاست مستقل، آویخته روی اتاق‌های جنوبی طبقهٔ اول؛ نشیمن سمت کوچه دوارتفاعه می‌ماند.' },
       { id: 'f2', name: 'Second floor', name_fa: 'طبقهٔ دوم', elev: 8.88, clear: 3.3,
-        note: 'Family room, library, laundry, two bedrooms, a north balcony — and its own loft above.',
-        note_fa: 'اتاق خانواده، کتابخانه، لباسشویی، دو خواب، بالکن شمالی — و نیم‌طبقه‌ای از آنِ خودش در بالا.' },
+        note: 'Family room, library, laundry, two bedrooms, a north balcony. The sheet also shows a loft for this floor that the 3.30 m section cannot hold — an open inconsistency in the 2020 set.',
+        note_fa: 'اتاق خانواده، کتابخانه، لباسشویی، دو خواب، بالکن شمالی. شیت یک نیم‌طبقه هم برای این طبقه نشان می‌دهد که در برش ۳٫۳۰ متری جا نمی‌گیرد — ناسازگاری باز مجموعهٔ ۱۳۹۹.' },
       { id: 'f3', name: 'Third floor', name_fa: 'طبقهٔ سوم', elev: 12.58, clear: 3.3,
         note: 'A two-bedroom flat with an open living room, a master bedroom and a study: the parents’ unit.',
         note_fa: 'واحدی دوخوابه با نشیمن باز، خواب اصلی و اتاق کار: واحد پدر و مادر.' },
@@ -55,8 +55,8 @@ window.KHOONEH = {
     floors: [
       { name: 'Roof', name_fa: 'بام', segs: [['b', 1, 'roof garden, private to the main duplex', 'بام سبز، اختصاصی دوبلکس اصلی']] },
       { name: 'Fourth floor', name_fa: 'طبقهٔ چهارم', segs: [['b', 1, 'master suite, living, kitchen, terrace', 'مستر، نشیمن، آشپزخانه، تراس']] },
-      { name: 'Third floor', name_fa: 'طبقهٔ سوم', segs: [['b', 0.72, 'two bedrooms + private living', 'دو خواب و نشیمن خصوصی'], ['s', 0.28, 'student bedroom', 'خواب واحد دانشجویی']] },
-      { name: 'Second floor', name_fa: 'طبقهٔ دوم', segs: [['a', 0.52, 'three bedrooms', 'سه خواب'], ['s', 0.48, 'student living, spiral stair', 'نشیمن دانشجویی، پلهٔ گرد']] },
+      { name: 'Third floor', name_fa: 'طبقهٔ سوم', segs: [['b', 0.72, 'two bedrooms + private living', 'دو خواب و نشیمن خصوصی'], ['s', 0.28, 'student living + kitchen (38.82 m²)', 'نشیمن و آشپزخانهٔ دانشجویی (۳۸٫۸۲ متر)']] },
+      { name: 'Second floor', name_fa: 'طبقهٔ دوم', segs: [['a', 0.52, 'bedrooms (two on the sheet, three after the last review)', 'خواب‌ها (دو روی شیت، سه پس از بازنگری آخر)'], ['s', 0.48, 'student bedrooms, spiral stair (66.16 m²)', 'خواب‌های دانشجویی، پلهٔ گرد (۶۶٫۱۶ متر)']] },
       { name: 'First floor', name_fa: 'طبقهٔ اول', segs: [['o', 0.48, '62 m² flat', 'واحد ۶۲ متری'], ['a', 0.52, 'living, iwan, kitchen', 'نشیمن، ایوان، آشپزخانه']] },
       { name: 'Ground', name_fa: 'همکف', segs: [['p', 0.82, '5 cars standard, 8 at most', '۵ ماشین استاندارد، حداکثر ۸'], ['c', 0.18, 'sunken garden void', 'حفرهٔ گودال‌باغچه']] },
       { name: 'Basement', name_fa: 'زیرزمین', segs: [['j', 0.5, '52 m² caretaker unit', 'واحد سرایدار ۵۲ متری'], ['c', 0.5, 'pool → hoz, stores, plant', 'استخر ← حوض، انباری، موتورخانه']] }

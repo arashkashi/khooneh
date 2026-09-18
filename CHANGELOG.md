@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.5 — 2026-09-18, live on GitHub Pages; option B; the site as seen by an office
+- Published at https://arashkashi.github.io/khooneh/ (repo `arashkashi/khooneh`, Pages from `main`); the original sheets go public as they are, by the owner's decision.
+- Option B «برش ۱۳۹۹ + یک طبقه» on the proposal page next to option A, with a comparison table, what must be settled first, and a ghost fourth floor drawn on the 1399 section (`attempt1plus` in `js/data.js`); the console now drawn toward the yard.
+- Two new open questions: the fourth floor (allowed, not needed; height, soft storey, parking, who lives where) and pipes and risers (`js/stacks.js`: wet rooms of four floors on one frame, the one continuous duct, distances to the nearest duct).
+- Unit-mix question: the duplex as a means — the target area decides flat / loft / duplex.
+- Six read-only reviews from an architecture office's point of view (ideology, engagement, technical, brief, editorial, drawings; kept in `../private/reviews/2026-09-18/`) folded in: the invite page now states what is fixed and open, a phase-one scope, an eight-field two-day response format, the family's commitments, the ideas position and a data package (JSON plans, brief, SVG sheets); the 19 criteria classified (measurable / value / design idea / ambiguous) with a testable restatement each; technical honesty edits (roof +16.28 with the stair house above it, three floors in a four-floor height, the second-floor loft as an unlevelled inset the section cannot hold, sewer invert and pumps for −2, the tree pit vs −2 collision, parking as independent + shuffled, the 2024 student duplex as the sheets draw it); one name per design; neutral decks; the dispute told once; the neighbours sentence neutral; polygon room areas by the shoelace formula; provenance under every redraw; landing mail link and a line for offices; phone chrome (two-row nav, scrollable tables, pan-y zoomer); series navigation without dead ends; widget hints in the third person.
+- Known, not yet fixed: `content/plans-a3.json` tells the student duplex the other way round from the sheets (and has a kitchenette the sheet does not); a small 2.05 × 2.15 "bedroom" in Duplex A; the a3-first NE/NW corner note.
+
 ## v0.4 — 2026-09-18 (night), accurate plans, vector sheets, dollhouse 3D
 - All twelve plans redrawn from the sheets' own vector lines by two verifying agents (polygons, walls, doors, windows, stairs, lift); side-by-side verification renderer in `../tools/render_plan_png.py`.
 - Original sheets as cropped vector SVGs with a pan/zoom viewer (`js/sheet-zoom.js`) on every sheet page.
