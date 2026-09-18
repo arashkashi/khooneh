@@ -15,7 +15,8 @@
     columns: [[0.25, 0.3], [0.25, 4.9], [0.25, 9.4], [0.25, 14.0], [7.35, 0.3], [7.35, 4.9], [7.35, 9.4], [7.35, 14.0], [10.25, 0.3], [10.25, 4.9], [10.25, 9.4], [10.25, 14.0]],
     spine: [7.35, 0.3, 8.0, 14.0],
     core: [8.0, 0.3, 10.25, 7.3], coreWall: 0.3,
-    shearWest: [[0.25, 0.3, 0.5, 4.9], [0.25, 9.4, 0.5, 14.0]],
+    shearWest: [[0.25, 0.3, 0.5, 4.9], [0.25, 11.0, 0.5, 14.0]],
+    riser2: [0.25, 9.4, 0.9, 11.0],
     voidRect: [0.25, 6.0, 2.75, 9.0],
     living: [0.25, 9.4, 7.35, 15.2],
     garden: [2.25, 14.6, 8.25, 18.6], gardenWall: 0.3,
@@ -80,6 +81,7 @@
     dim(G.spine[2], G.grid.x[2], 12.0, fd('2.25'));
     // the riser spine (B–C), the void, the fourth-floor opening
     rect(G.spine, { fill: TURQ, opacity: .22 });
+    if (G.riser2) rect(G.riser2, { fill: TURQ, opacity: .45 });
     vtext((G.spine[0] + G.spine[2]) / 2, 11.7, L.riser, { fill: TURQ, 'font-size': '8.5px' });
     rect(G.voidRect, { fill: '#DDEFED', 'fill-opacity': .6, stroke: TURQ, 'stroke-width': 1.1, 'stroke-dasharray': '5 3' });
     text((G.voidRect[0] + G.voidRect[2]) / 2, (G.voidRect[1] + G.voidRect[3]) / 2 + 0.15, L.voidL, { 'text-anchor': 'middle', fill: TURQ, 'font-size': '10.5px' });
