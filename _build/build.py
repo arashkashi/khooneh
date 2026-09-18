@@ -28,7 +28,14 @@ def paras(s):
     if not s: return []
     return [p.strip() for p in re.split(r'\n\s*\n', s.strip()) if p.strip()]
 def strip_num(s): return re.sub(r'^[\d۰-۹]+[\.\-–—)]\s*', '', s or '')
-env.filters['paras'] = paras; env.filters['fa'] = fa_num; env.filters['strip_num'] = strip_num
+_NUMERIC = re.compile(r'^(حدود\s*)?[\d۰-۹٫\.,]+$')
+def area_fa(v):
+    """Unit area for tables: a number (or «حدود ۱۹۰») gets « متر»; empty or «—» prints nothing; any other phrase is printed as is."""
+    if v is None: return ''
+    t = str(v).strip()
+    if not t or t in ('—', '-', '–'): return ''
+    return fa_num(t) + ' متر' if _NUMERIC.match(t) else t
+env.filters['paras'] = paras; env.filters['fa'] = fa_num; env.filters['strip_num'] = strip_num; env.filters['area_fa'] = area_fa
 
 # ---------- registry of nodes: id -> {kind, title, url}
 KIND_FA = {'brief': 'شاخص', 'question': 'پرسش', 'concept': 'مفهوم', 'sheet': 'نقشه', 'attempt': 'طرح', 'event': 'رویداد', 'proposal': 'پیشنهاد', 'voice': 'میان‌پرده'}
@@ -51,6 +58,11 @@ for nid, r in reg.items():
     for kind, ids in rel.items():
         for t in ids or []:
             if t in reg and t != nid and nid not in back[t]: back[t].append(nid)
+
+def node_title(nid):
+    """Display title of a node id for link text; the raw id only if it is unknown (so a typo is visible, not invisible)."""
+    return reg[nid]['title'] if nid in reg else nid
+env.globals['node_title'] = node_title
 
 def related_groups(node, exclude_id=None):
     """[(group title, [registry entries])] in a fixed order, only for ids that exist."""
@@ -77,7 +89,7 @@ CHAPTERS = [
     ('attempts/a1/', 'طرح ۱۳۹۹', 'طرحی که تأیید شد و ساخته نشد'),
     ('attempts/a3/', 'طرح ۱۴۰۳', 'طرحی که می‌شد ساخت'),
     ('sheets/', 'نقشه‌ها', 'دوازده شیت، یکی‌یکی'),
-    ('questions/', 'پرسش‌های باز', 'ده چیزی که هیچ طرحی جواب نداد'),
+    ('questions/', 'پرسش‌های باز', 'دوازده چیزی که هیچ طرحی جواب نداد'),
     ('proposal/', 'پیشنهاد', 'جمع‌بندی همهٔ این‌ها در یک برش'),
     ('invite/', 'دعوت', 'برای کسی که بخواهد ادامه بدهد'),
 ]

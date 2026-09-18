@@ -8,13 +8,35 @@
     <div class="node-body">
       <div class="notice">{% for x in p.stance_fa|paras %}<p>{{ x }}</p>{% endfor %}</div>
       {% for x in p.premise_fa|paras %}<p>{{ x }}</p>{% endfor %}
+      {% if p.options %}
+      <h2 id="options">دو گزینه</h2>
+      {% for x in p.options_intro_fa|paras %}<p>{{ x }}</p>{% endfor %}
+      <div class="options">
+      {% for o in p.options %}
+        <section class="option" id="option-{{ o.id }}">
+          <h3>{{ o.title_fa }}</h3>
+          {% for x in o.summary_fa|paras %}<p>{{ x }}</p>{% endfor %}
+          {% if o.section %}<figure class="hero-figure"><div data-section="{{ o.section }}" data-caption="opt-{{ o.id }}-cap"></div><figcaption><p class="fig-title">برش ۱۳۹۹ با یک طبقهٔ افزوده. ترازهای ۱۳۹۹ از روی شیت؛ طبقهٔ چهارم ایدهٔ خانواده است و ترسیم نشده.</p><p id="opt-{{ o.id }}-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>{% endif %}
+          <div class="two-col">
+            <div><h4>نگه می‌دارد</h4><ul class="features">{% for k in o.keeps_fa %}<li>{{ k }}</li>{% endfor %}</ul></div>
+            <div><h4>بهایش</h4><ul class="features">{% for k in o.costs_fa %}<li>{{ k }}</li>{% endfor %}</ul></div>
+          </div>
+        </section>
+      {% endfor %}
+      </div>
+      {% if p.options_table_fa %}<div class="table-wrap"><table class="units-table options-table"><caption>دو گزینه کنار هم</caption><thead><tr>{% for h in p.options_table_fa[0] %}<th>{{ h }}</th>{% endfor %}</tr></thead><tbody>{% for r in p.options_table_fa[1:] %}<tr>{% for c in r %}{% if loop.first %}<th scope="row">{{ c }}</th>{% else %}<td>{{ c }}</td>{% endif %}{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endif %}
+      {% if p.options_first_fa %}<h3>چه چیزی پیش از هر دو باید روشن شود</h3><ol class="features">{% for k in p.options_first_fa %}<li>{{ k }}</li>{% endfor %}</ol>{% endif %}
+      <p class="small muted">پرسش‌های مرتبط: <a href="{{ root }}questions/q-fourth-floor/">طبقهٔ چهارم</a> · <a href="{{ root }}questions/q-stacks/">لوله‌ها و رایزرها</a> · <a href="{{ root }}questions/q-mix/">ترکیب واحدها</a></p>
+      <h2>گزینهٔ الف به تفصیل — یک برش</h2>
+      {% else %}
       <h2>یک برش</h2>
+      {% endif %}
       <figure class="hero-figure"><div data-section="proposal" data-caption="p-sec-cap"></div><figcaption><p class="fig-title">برش پیشنهادی روی زمین ملاصدرا. ترازها فرضی‌اند؛ هر طبقه توضیح خودش را دارد.</p><p id="p-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
       {% if p.levels_note_fa %}{% for x in p.levels_note_fa|paras %}<p class="small muted">{{ x }}</p>{% endfor %}{% endif %}
       <h2>واحدها روی طبقات</h2>
       <figure class="units-figure"><div class="units-host" data-units="proposalUnits" data-legend="p-leg" data-caption="p-cap"></div><ul id="p-leg" class="legend"></ul><figcaption id="p-cap" class="fig-note" aria-live="polite"></figcaption></figure>
       <table class="units-table"><caption>واحدها و متراژ فرضی</caption><thead><tr><th>واحد</th><th>کجا</th><th>متراژ</th><th>برای که</th></tr></thead><tbody>
-      {% for u in p.units_fa %}<tr><td>{{ u.name_fa }}</td><td>{{ u.where_fa }}</td><td>{% if u.area %}{{ u.area|fa }} متر{% else %}—{% endif %}</td><td>{{ u.for_whom_fa }}</td></tr>{% endfor %}
+      {% for u in p.units_fa %}<tr><td>{{ u.name_fa }}</td><td>{{ u.where_fa }}</td><td>{{ u.area|area_fa }}</td><td>{{ u.for_whom_fa }}</td></tr>{% endfor %}
       </tbody></table>
       {% if p.arithmetic_fa %}<p class="small muted">{{ p.arithmetic_fa }}</p>{% endif %}
       <h2>حرکت‌ها</h2>
@@ -24,7 +46,7 @@
           <h3>{{ mv.title_fa|strip_num }}</h3>
           <p class="keeps">{{ {'a1':'از طرح ۱۳۹۹','a3':'از طرح ۱۴۰۳','both':'از هر دو طرح','new':'تازه'}[mv.keeps_from] }}</p>
           {% for x in mv.body_fa|paras %}<p>{{ x }}</p>{% endfor %}
-          {% if mv.answers %}<p class="answers">{% for b in mv.answers.brief or [] %}<a href="{{ root }}brief/{{ b }}/">شاخص {{ b[1:]|int|fa }}</a>{% endfor %}{% for q in mv.answers.questions or [] %}<a href="{{ root }}questions/{{ q }}/">{{ q }}</a>{% endfor %}</p>{% endif %}
+          {% if mv.answers %}<p class="answers">{% for b in mv.answers.brief or [] %}<a href="{{ root }}brief/{{ b }}/">شاخص {{ b[1:]|int|fa }}</a>{% endfor %}{% for q in mv.answers.questions or [] %}<a href="{{ root }}questions/{{ q }}/">{{ node_title(q) }}</a>{% endfor %}</p>{% endif %}
         </div></li>
         {% endfor %}
       </ol>

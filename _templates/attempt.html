@@ -24,7 +24,7 @@
       <h2>واحدها</h2>
       {% if a.units_note_fa %}<p class="muted small">{{ a.units_note_fa }}</p>{% endif %}
       <table class="units-table"><thead><tr><th>واحد</th><th>کجا</th><th>متراژ</th><th>خصلت</th></tr></thead><tbody>
-      {% for u in a.units_fa %}<tr><td>{{ u.name_fa }}</td><td>{{ u.where_fa }}</td><td>{% if u.area %}{{ u.area|fa }} متر{% else %}—{% endif %}</td><td>{{ u.character_fa }}</td></tr>{% endfor %}
+      {% for u in a.units_fa %}<tr><td>{{ u.name_fa }}</td><td>{{ u.where_fa }}</td><td>{{ u.area|area_fa }}</td><td>{{ u.character_fa }}</td></tr>{% endfor %}
       </tbody></table>
       {% endif %}
       <h2>چه شد</h2>
