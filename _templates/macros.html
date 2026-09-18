@@ -24,11 +24,19 @@
 {% macro sheetcard(s, root) %}
 <a class="sheet" href="{{ root }}sheets/{{ s.id }}/"><img src="{{ root }}{{ s.thumb }}" alt="{{ s.title_fa }}" loading="lazy" width="{{ 438 if s.h > s.w else 640 }}" height="{{ 640 if s.h > s.w else 438 }}"><span><strong>{{ s.title_fa }}</strong>{{ s.level_fa }}</span></a>
 {% endmacro %}
-{% macro prevnext(prev, nxt, root, base) %}
+{% macro prevnext(prev, nxt, root, base, head=None, tail=None, jump=None) %}
+{# prev/nxt: neighbours in the series. head: (href, label) shown instead of a missing prev (the series index). tail: (href, label) instead of a missing nxt (the next chapter).
+   jump: {'prev': name, 'next': name} when the neighbour belongs to another design, so the change of design is visible. #}
 <nav class="sheet-nav" aria-label="قبلی و بعدی">
-  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {{ prev.title_fa or prev.term_fa or ('شاخص ' ~ (prev.n|fa)) }}</a>{% endif %}</span>
-  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{{ nxt.title_fa or nxt.term_fa or ('شاخص ' ~ (nxt.n|fa)) }} ›</a>{% endif %}</span>
+  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {% if jump and jump.prev %}<span class="jump">{{ jump.prev }} ·</span> {% endif %}{{ prev.title_fa or prev.term_fa or ('شاخص ' ~ (prev.n|fa)) }}</a>{% elif head %}<a href="{{ root }}{{ head[0] }}">‹ {{ head[1] }}</a>{% endif %}</span>
+  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{% if jump and jump.next %}<span class="jump">{{ jump.next }} ·</span> {% endif %}{{ nxt.title_fa or nxt.term_fa or ('شاخص ' ~ (nxt.n|fa)) }} ›</a>{% elif tail %}<a href="{{ root }}{{ tail[0] }}">{{ tail[1] }} ›</a>{% endif %}</span>
 </nav>
+{% endmacro %}
+{% macro provenance(attempt) %}
+<p class="provenance">بازترسیم شماتیک از روی شیت، تقریبی{% if attempt == 'a3' %}؛ ترازها فرضی‌اند{% endif %}.</p>
+{% endmacro %}
+{% macro noscript(text) %}
+<noscript><p class="noscript-note">{{ text }}</p></noscript>
 {% endmacro %}
 {% macro views(items, root) %}
 {% for v in items %}
@@ -47,12 +55,13 @@
 {% macro focusplans(plans, nid, root) %}
 {% for p in plans %}
 <figure class="planfig">
-  <div class="plan-host" data-plan="{{ p.id }}" data-focus="{{ nid }}" data-caption="pf-cap-{{ loop.index }}" data-toggle="pf-tg-{{ loop.index }}"></div>
+  <div class="plan-host" data-plan="{{ p.id }}" data-focus="{{ nid }}" data-caption="pf-cap-{{ loop.index }}" data-toggle="pf-tg-{{ loop.index }}">{{ noscript('این نقشهٔ شماتیک با جاوااسکریپت رسم می‌شود؛ شیت اصلی از پیوند زیر در دسترس است.') }}</div>
   <figcaption>
     <button type="button" class="btn btn-small" id="pf-tg-{{ loop.index }}" hidden></button>
     <span id="pf-cap-{{ loop.index }}" class="fig-note" aria-live="polite"></span>
     <a href="{{ root }}sheets/{{ p.sheet }}/">{{ p.name_fa }} — شیت اصلی ›</a>
   </figcaption>
+  {{ provenance(p.attempt) }}
 </figure>
 {% endfor %}
 {% endmacro %}

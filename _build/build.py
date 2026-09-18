@@ -50,7 +50,8 @@ for b in brief: add('brief', b, brief_label(b), f"brief/{b['id']}/")
 for q in questions: add('question', q, q['title_fa'], f"questions/{q['id']}/")
 for c in concepts: add('concept', c, c['term_fa'], f"concepts/{c['id']}/")
 for s in sheets: add('sheet', s, s['title_fa'], f"sheets/{s['id']}/")
-for a in attempts: add('attempt', a, a['title_fa'], f"attempts/{a['id']}/")
+ATTEMPT_NAME = {'a1': 'طرح ۱۳۹۹', 'a3': 'طرح ۱۴۰۳'}   # one name per design in all chrome (nav, crumbs, link text, prev/next)
+for a in attempts: add('attempt', a, ATTEMPT_NAME.get(a['id'], a['title_fa']), f"attempts/{a['id']}/")
 for e in story: add('event', e, e['title_fa'], f"story/#{e['id']}")
 if proposal: add('proposal', proposal, proposal['title_fa'], 'proposal/')
 for v in voices: add('voice', v, v['name_fa'], f"voices/{v['id']}/")
@@ -68,21 +69,32 @@ def node_title(nid):
     return reg[nid]['title'] if nid in reg else nid
 env.globals['node_title'] = node_title
 
-def related_groups(node, exclude_id=None):
-    """[(group title, [registry entries])] in a fixed order, only for ids that exist."""
+def related_ids(node, exclude_id=None):
     rel = node.get('related') or {}
+    return [t for v in rel.values() for t in (v or []) if t in reg and t != exclude_id]
+
+def related_groups(node, exclude_id=None, drop_kinds=()):
+    """[(group title, [registry entries])] in a fixed order, only for ids that exist. drop_kinds: kinds the page already shows another way."""
     order = ['attempt', 'sheet', 'brief', 'question', 'concept', 'proposal', 'voice']
     out = []
     for kind in order:
+        if kind in drop_kinds: continue
         ids = []
-        for k, v in rel.items():
-            for t in v or []:
-                if t in reg and reg[t]['kind'] == kind and t != exclude_id and t not in ids: ids.append(t)
+        for t in related_ids(node, exclude_id):
+            if reg[t]['kind'] == kind and t not in ids: ids.append(t)
         if ids: out.append((KIND_GROUP_FA[kind], [dict(reg[t], id=t) for t in ids]))
     return out
 
-def backlink_entries(nid):
-    return [dict(reg[t], id=t) for t in back.get(nid, [])]
+KIND_TOTAL = defaultdict(int)
+for r in reg.values(): KIND_TOTAL[r['kind']] += 1
+def backlink_entries(nid, node=None):
+    """Other paths to this page: nodes that point here and are not already in the page's own related list.
+    A kind most of whose nodes point here (e.g. every question and nearly every concept → an attempt) says nothing and is dropped."""
+    listed = set(related_ids(node, nid)) if node else set()
+    cand = [t for t in back.get(nid, []) if t not in listed]
+    by_kind = defaultdict(int)
+    for t in back.get(nid, []): by_kind[reg[t]['kind']] += 1
+    return [dict(reg[t], id=t) for t in cand if by_kind[reg[t]['kind']] < 0.75 * KIND_TOTAL[reg[t]['kind']]]
 
 # ---------- navigation and chapters
 NAV = [('', 'خانه'), ('brief/', 'شاخص‌ها'), ('story/', 'داستان'), ('attempts/a1/', 'طرح ۱۳۹۹'), ('attempts/a3/', 'طرح ۱۴۰۳'), ('sheets/', 'نقشه‌ها'),
@@ -101,6 +113,23 @@ def next_chapter(url):
     for i, (u, t, s) in enumerate(CHAPTERS):
         if u == url and i + 1 < len(CHAPTERS): return CHAPTERS[i + 1]
     return None
+# pages outside the chapter order still get a «فصل بعد»: concepts lead into the open questions, an interlude back into the story
+NEXT_EXTRA = {'concepts/': ('questions/', 'پرسش‌های باز', 'ده چیزی که هیچ طرحی جواب نداد'),
+              'voices/': ('story/#e-1404-paused', 'داستان', 'ادامهٔ داستان')}
+def next_for(url):
+    n = next_chapter(url)
+    if n: return n
+    for prefix, target in NEXT_EXTRA.items():
+        if url.startswith(prefix): return target
+    return None
+def series_nav(items, i, base, label):
+    """(prev, nxt, head, tail): neighbours in the series; at the head a link to the series index, at the tail the next chapter."""
+    prev = items[i - 1] if i > 0 else None
+    nxt = items[i + 1] if i + 1 < len(items) else None
+    head = None if prev else (base, label)
+    nc = next_for(base)
+    tail = None if nxt else ((nc[0], 'فصل بعد: ' + nc[1]) if nc else None)
+    return dict(prev=prev, nxt=nxt, head=head, tail=tail)
 
 # ---------- writing
 def depth_root(url): return '../' * url.count('/')
@@ -119,7 +148,7 @@ def write(url, template, **ctx):
     out = os.path.join(ROOT, url, 'index.html') if url else os.path.join(ROOT, 'index.html')
     os.makedirs(os.path.dirname(out), exist_ok=True)
     tpl = env.get_template(template)
-    html = tpl.render(root=depth_root(url), url=url, nav=NAV, lang='fa', dir='rtl', next_chapter=next_chapter(url), kind_fa=KIND_FA, **ctx)
+    html = tpl.render(root=depth_root(url), url=url, nav=NAV, lang='fa', dir='rtl', next_chapter=next_for(url), kind_fa=KIND_FA, attempt_name=ATTEMPT_NAME, **ctx)
     open(out, 'w', encoding='utf-8').write(fix_links(html))
     print('  wrote', url or 'index.html')
 
@@ -154,14 +183,14 @@ write('', 'landing.html', chapters=CHAPTERS, brief_count=len(brief), sheets_coun
 # story
 write('story/', 'story.html', events=[dict(e, groups=related_groups(e)) for e in story], voices=voices)
 for v in voices:
-    write(f"voices/{v['id']}/", 'voice.html', v=v, groups=related_groups(v, v['id']), backs=backlink_entries(v['id']))
+    write(f"voices/{v['id']}/", 'voice.html', v=v, groups=related_groups(v, v['id']), backs=backlink_entries(v['id'], v))
 # brief
 write('brief/', 'brief_index.html', items=brief)
 for i, b in enumerate(brief):
     unanswered = all((b.get(k) or '').strip() in ('', '—', '-', '–') for k in ('in_attempt1_fa', 'in_attempt3_fa'))
-    write(f"brief/{b['id']}/", 'brief_item.html', b=b, groups=related_groups(b, b['id']), backs=backlink_entries(b['id']), views=views_by_node.get(b['id'], []), plans=[plans_by_id[i] for i in focus_plans(b['id'])],
+    write(f"brief/{b['id']}/", 'brief_item.html', b=b, groups=related_groups(b, b['id']), backs=backlink_entries(b['id'], b), views=views_by_node.get(b['id'], []), plans=[plans_by_id[i] for i in focus_plans(b['id'])],
           unanswered=unanswered, open_questions=[dict(reg[q], id=q) for q in (b.get('related') or {}).get('questions') or [] if q in reg],
-          prev=brief[i - 1] if i > 0 else None, nxt=brief[i + 1] if i + 1 < len(brief) else None)
+          **series_nav(brief, i, 'brief/', 'همهٔ شاخص‌ها'))
 # 3D model specs per attempt (elevations from the sheets where drawn; 1403 floor-to-floor assumed 3.20 m)
 MODEL = {
  'a1': dict(plans=['a1-basement', 'a1-ground', 'a1-first', 'a1-loft1', 'a1-second', 'a1-third'],
@@ -173,22 +202,25 @@ MODEL = {
 }
 # attempts
 for a in attempts:
-    write(f"attempts/{a['id']}/", 'attempt.html', a=a, sheets=[s for s in sheets if s['attempt'] == a['id']], groups=related_groups(a, a['id']), backs=backlink_entries(a['id']), plan_ids=[p['id'] for p in plans if p['attempt'] == a['id']], model_json=json.dumps(MODEL.get(a['id'], {}), ensure_ascii=False) if plans else '')
+    write(f"attempts/{a['id']}/", 'attempt.html', a=a, title=ATTEMPT_NAME.get(a['id'], a['title_fa']), sheets=[s for s in sheets if s['attempt'] == a['id']], groups=related_groups(a, a['id'], drop_kinds=('sheet',)), backs=backlink_entries(a['id'], a), plan_ids=[p['id'] for p in plans if p['attempt'] == a['id']], model_json=json.dumps(MODEL.get(a['id'], {}), ensure_ascii=False) if plans else '')
 # sheets
 write('sheets/', 'sheets_index.html', a1=a1_sheets, a3=a3_sheets)
 for i, s in enumerate(sheets):
-    write(f"sheets/{s['id']}/", 'sheet.html', s=s, groups=related_groups(s, s['id']), backs=backlink_entries(s['id']), plan_ids=plans_by_sheet.get(s['id'], []),
+    write(f"sheets/{s['id']}/", 'sheet.html', s=s, groups=related_groups(s, s['id']), backs=backlink_entries(s['id'], s), plan_ids=plans_by_sheet.get(s['id'], []),
           svg=svg_index.get(s['id']), floor_models=[json.dumps(dict(mode='floor', plans=[pid], clear={pid: (MODEL['a1']['clear'].get(pid) or MODEL['a3']['clear'].get(pid) or 3.0)}), ensure_ascii=False) for pid in plans_by_sheet.get(s['id'], [])],
-          prev=sheets[i - 1] if i > 0 else None, nxt=sheets[i + 1] if i + 1 < len(sheets) else None)
+          jump={'prev': ATTEMPT_NAME[sheets[i - 1]['attempt']] if i > 0 and sheets[i - 1]['attempt'] != s['attempt'] else None,
+                'next': ATTEMPT_NAME[sheets[i + 1]['attempt']] if i + 1 < len(sheets) and sheets[i + 1]['attempt'] != s['attempt'] else None},
+          **series_nav(sheets, i, 'sheets/', 'همهٔ نقشه‌ها'))
 # questions
 write('questions/', 'questions_index.html', items=questions)
 for i, q in enumerate(questions):
-    write(f"questions/{q['id']}/", 'question.html', q=q, groups=related_groups(q, q['id']), backs=backlink_entries(q['id']), views=views_by_node.get(q['id'], []), plans=[plans_by_id[i] for i in focus_plans(q['id'])],
-          prev=questions[i - 1] if i > 0 else None, nxt=questions[i + 1] if i + 1 < len(questions) else None)
+    write(f"questions/{q['id']}/", 'question.html', q=q, groups=related_groups(q, q['id']), backs=backlink_entries(q['id'], q), views=views_by_node.get(q['id'], []), plans=[plans_by_id[i] for i in focus_plans(q['id'])],
+          **series_nav(questions, i, 'questions/', 'همهٔ پرسش‌ها'))
 # concepts
 write('concepts/', 'concepts_index.html', items=concepts)
-for c in concepts:
-    write(f"concepts/{c['id']}/", 'concept.html', c=c, groups=related_groups(c, c['id']), backs=backlink_entries(c['id']), views=views_by_node.get(c['id'], []), plans=[plans_by_id[i] for i in focus_plans(c['id'])])
+for i, c in enumerate(concepts):
+    write(f"concepts/{c['id']}/", 'concept.html', c=c, groups=related_groups(c, c['id']), backs=backlink_entries(c['id'], c), views=views_by_node.get(c['id'], []), plans=[plans_by_id[j] for j in focus_plans(c['id'])],
+          **series_nav(concepts, i, 'concepts/', 'همهٔ مفاهیم'))
 # proposal
 if proposal:
     # dataset for the diagrams
@@ -208,7 +240,7 @@ if proposal:
                     floors=[dict(name_fa=f['name_fa'], name=f['name_fa'], segs=[[s[0], s[1], s[2], s[2]] for s in f['segs']]) for f in proposal['floors']],
                     axis={'north_fa': 'کوچه (شمال)', 'south_fa': 'حیاط (جنوب)', 'north': 'street (north)', 'south': 'yard (south)'},
                     caption_fa='هر صفحه توضیح خودش را دارد؛ رنگ‌ها واحدها را دنبال می‌کنند.')
-    write('proposal/', 'proposal.html', p=proposal, groups=related_groups(proposal, 'p1'), backs=backlink_entries('p1'),
+    write('proposal/', 'proposal.html', p=proposal, groups=related_groups(proposal, 'p1'), backs=backlink_entries('p1', proposal),
           section_json=json.dumps(section_ds, ensure_ascii=False), units_json=json.dumps(units_ds, ensure_ascii=False))
 # invite
 write('invite/', 'invite.html', sheets=sheets, proposal=proposal)

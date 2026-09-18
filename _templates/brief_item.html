@@ -21,7 +21,7 @@
         <div><h3>در طرح ۱۴۰۳</h3>{% for p in (b.in_attempt3_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
       </div>
       {% endif %}
-      {{ m.prevnext(prev, nxt, root, 'brief/') }}
+      {{ m.prevnext(prev, nxt, root, 'brief/', head=head, tail=tail) }}
     </div>
   </div>
   {{ m.related(groups, root) }}

@@ -31,10 +31,10 @@
       {% else %}
       <h2>یک برش</h2>
       {% endif %}
-      <figure class="hero-figure"><div data-section="proposal" data-caption="p-sec-cap"></div><figcaption><p class="fig-title">برش پیشنهادی روی زمین ملاصدرا. ترازها فرضی‌اند؛ هر طبقه توضیح خودش را دارد.</p><p id="p-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
+      <figure class="hero-figure"><div data-section="proposal" data-caption="p-sec-cap">{{ m.noscript('برش پیشنهادی با جاوااسکریپت رسم می‌شود.') }}</div><figcaption><p class="fig-title">برش پیشنهادی روی زمین ملاصدرا. ترازها فرضی‌اند؛ هر طبقه توضیح خودش را دارد.</p><p id="p-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
       {% if p.levels_note_fa %}{% for x in p.levels_note_fa|paras %}<p class="small muted">{{ x }}</p>{% endfor %}{% endif %}
       <h2>واحدها روی طبقات</h2>
-      <figure class="units-figure"><div class="units-host" data-units="proposalUnits" data-legend="p-leg" data-caption="p-cap"></div><ul id="p-leg" class="legend"></ul><figcaption id="p-cap" class="fig-note" aria-live="polite"></figcaption></figure>
+      <figure class="units-figure"><div class="units-host" data-units="proposalUnits" data-legend="p-leg" data-caption="p-cap">{{ m.noscript('نمودار واحدها با جاوااسکریپت رسم می‌شود؛ جدول زیر همین اطلاعات را دارد.') }}</div><ul id="p-leg" class="legend"></ul><figcaption id="p-cap" class="fig-note" aria-live="polite"></figcaption></figure>
       <table class="units-table"><caption>واحدها و متراژ فرضی</caption><thead><tr><th>واحد</th><th>کجا</th><th>متراژ</th><th>برای که</th></tr></thead><tbody>
       {% for u in p.units_fa %}<tr><td>{{ u.name_fa }}</td><td>{{ u.where_fa }}</td><td>{{ u.area|area_fa }}</td><td>{{ u.for_whom_fa }}</td></tr>{% endfor %}
       </tbody></table>

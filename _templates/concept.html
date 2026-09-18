@@ -11,6 +11,7 @@
       {% if views %}{{ m.views(views, root) }}{% endif %}
       <h2>در این خانه</h2>
       {% for p in c.in_this_project_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      {{ m.prevnext(prev, nxt, root, 'concepts/', head=head, tail=tail) }}
     </div>
   </div>
   {{ m.related(groups, root) }}

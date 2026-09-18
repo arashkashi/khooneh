@@ -5,15 +5,15 @@
 <article class="node">
   <div>
     <header class="node-head">
-      <p class="kind">نقشه · {{ 'طرح ۱۳۹۹' if s.attempt == 'a1' else 'طرح ۱۴۰۳' }}</p>
+      <p class="kind">نقشه · {{ attempt_name[s.attempt] }}</p>
       <h1>{{ s.title_fa }}</h1>
       {% if s.level_fa %}<p class="deck">{{ s.level_fa }}</p>{% endif %}
     </header>
-    {% if plan_ids %}<figure class="planfig planfig-sheet">{% for pid in plan_ids %}<div class="plan-host" data-plan="{{ pid }}" data-caption="sp-cap-{{ loop.index }}" data-legend="sp-leg-{{ loop.index }}"></div><ul id="sp-leg-{{ loop.index }}" class="legend plan-legend"></ul><figcaption id="sp-cap-{{ loop.index }}" class="fig-note" aria-live="polite"></figcaption>{% endfor %}</figure>{% endif %}
-    {% for fm in floor_models %}<figure class="planfig planfig-3d"><div class="model3d" data-model3d='{{ fm }}'></div><figcaption><span class="fig-note">طبقه بی‌سقف: از بالا به درون فضاها نگاه کنید. مدل از همان نقشهٔ شماتیک ساخته شده است.</span></figcaption></figure>{% endfor %}
+    {% if plan_ids %}<figure class="planfig planfig-sheet">{% for pid in plan_ids %}<div class="plan-host" data-plan="{{ pid }}" data-caption="sp-cap-{{ loop.index }}" data-legend="sp-leg-{{ loop.index }}">{{ m.noscript('این نقشهٔ شماتیک با جاوااسکریپت رسم می‌شود؛ شیت اصلی پایین‌تر در همین صفحه است.') }}</div><ul id="sp-leg-{{ loop.index }}" class="legend plan-legend"></ul><figcaption id="sp-cap-{{ loop.index }}" class="fig-note" aria-live="polite"></figcaption>{% endfor %}{{ m.provenance(s.attempt) }}</figure>{% endif %}
+    {% for fm in floor_models %}<figure class="planfig planfig-3d"><div class="model3d" data-model3d='{{ fm }}'>{{ m.noscript('مدل سه‌بعدی با جاوااسکریپت ساخته می‌شود؛ شیت اصلی پایین‌تر در همین صفحه است.') }}</div><figcaption><span class="fig-note">طبقه بی‌سقف، دیده از بالا؛ مدل از همان نقشهٔ شماتیک ساخته شده است.</span></figcaption>{{ m.provenance(s.attempt) }}</figure>{% endfor %}
     <figure class="sheet-view">
       {% if svg %}<div class="zoomer" data-pdf="{{ root }}{{ s.pdf }}" data-fallback="{{ root }}{{ s.src }}"><img src="{{ root }}{{ svg.svg }}" alt="{{ s.title_fa }}" width="{{ svg.w }}" height="{{ svg.h }}"></div>{% else %}<a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>{% endif %}
-      <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a></figcaption>
+      <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a>{% if s.attempt == 'a3' %}<span class="orient">در شیت اصلی شمال به سمت راست است؛ در بازترسیم بالا.</span>{% endif %}</figcaption>
     </figure>
     <div class="node-body">
       {% if s.impression_fa %}
@@ -28,12 +28,12 @@
       {% if s.improve_fa %}<h3>چطور می‌شد بهتر باشد</h3><ul class="features">{% for x in s.improve_fa %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
       <details class="fold"><summary>جزئیات روی شیت</summary><ul class="features">{% for x in s.what_to_look_for_fa %}<li>{{ x }}</li>{% endfor %}</ul></details>
       {% else %}
-      <h2>به چه نگاه کنیم</h2>
+      <h2>آنچه روی شیت دیده می‌شود</h2>
       <ul class="features">{% for x in s.what_to_look_for_fa %}<li>{{ x }}</li>{% endfor %}</ul>
       {% endif %}
       {% if s.rooms_fa %}<h2>فضاها</h2><p>{{ s.rooms_fa|join('، ') }}</p>{% endif %}
       {% if s.notes_fa %}<h2>یادداشت</h2>{% for p in s.notes_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
-      {{ m.prevnext(prev, nxt, root, 'sheets/') }}
+      {{ m.prevnext(prev, nxt, root, 'sheets/', head=head, tail=tail, jump=jump) }}
     </div>
   </div>
   {{ m.related(groups, root) }}
