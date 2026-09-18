@@ -13,7 +13,7 @@
     {% for fm in floor_models %}<figure class="planfig planfig-3d"><div class="model3d" data-model3d='{{ fm }}'>{{ m.noscript('مدل سه‌بعدی با جاوااسکریپت ساخته می‌شود؛ شیت اصلی پایین‌تر در همین صفحه است.') }}</div><figcaption><span class="fig-note">طبقه بی‌سقف، دیده از بالا؛ مدل از همان نقشهٔ شماتیک ساخته شده است.</span></figcaption>{{ m.provenance(s.attempt) }}</figure>{% endfor %}
     <figure class="sheet-view">
       {% if svg %}<div class="zoomer" data-pdf="{{ root }}{{ s.pdf }}" data-fallback="{{ root }}{{ s.src }}"><img src="{{ root }}{{ svg.svg }}" alt="{{ s.title_fa }}" width="{{ svg.w }}" height="{{ svg.h }}"></div>{% else %}<a href="{{ root }}{{ s.src }}"><img src="{{ root }}{{ s.src }}" alt="{{ s.title_fa }}" width="{{ s.w }}" height="{{ s.h }}"></a>{% endif %}
-      <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a>{% if s.attempt == 'a3' %}<span class="orient">در شیت اصلی شمال به سمت راست است؛ در بازترسیم بالا.</span>{% endif %}</figcaption>
+      <figcaption><span>شیت {{ s.sheet_no }}</span><span>{{ s.date_jalali }}</span><span>مقیاس {{ s.scale }}</span><a href="{{ root }}{{ s.pdf }}" target="_blank" rel="noopener" type="application/pdf">PDF</a><a href="{{ root }}{{ s.src }}">تصویر بزرگ</a>{% if s.attempt == 'a3' %}<span class="orient">در شیت اصلی شمال به سمت راست است؛ در بازترسیم بالا.</span>{% endif %}</figcaption>
     </figure>
     <div class="node-body">
       {% if s.impression_fa %}

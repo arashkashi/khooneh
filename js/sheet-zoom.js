@@ -10,7 +10,7 @@
   document.querySelectorAll('.zoomer').forEach(host => {
     const img = host.querySelector('img'); if (!img) return;
     const bar = document.createElement('div'); bar.className = 'pv-bar';
-    bar.innerHTML = `<button type="button" data-a="out" aria-label="${t.zout}">−</button><span class="pv-zoom">100%</span><button type="button" data-a="in" aria-label="${t.zin}">+</button><button type="button" data-a="fit">${t.fit}</button><button type="button" data-a="full">${t.full}</button>${host.dataset.pdf ? `<a href="${host.dataset.pdf}" download>PDF</a>` : ''}<span class="pv-hint">${t.hint}</span>`;
+    bar.innerHTML = `<button type="button" data-a="out" aria-label="${t.zout}">−</button><span class="pv-zoom">100%</span><button type="button" data-a="in" aria-label="${t.zin}">+</button><button type="button" data-a="fit">${t.fit}</button><button type="button" data-a="full">${t.full}</button>${host.dataset.pdf ? `<a href="${host.dataset.pdf}" target="_blank" rel="noopener" type="application/pdf">PDF</a>` : ''}<span class="pv-hint">${t.hint}</span>`;
     const stage = document.createElement('div'); stage.className = 'pv-stage zoom-stage'; stage.tabIndex = 0;
     const layer = document.createElement('div'); layer.className = 'zoom-layer';
     img.parentNode.insertBefore(stage, img); layer.appendChild(img); stage.appendChild(layer); host.insertBefore(bar, stage);
