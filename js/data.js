@@ -81,3 +81,49 @@ window.KHOONEH.attempt1plus = (function (A) {
     note_fa: 'با طبقهٔ چهارم، بام سبز و باکس پله یک طبقه بالا می‌روند: بام در حدود ۱۹٫۹۸+، باکس پله تا حدود ۲۱٫۶+. بام ۱۳۹۹ در ۱۶٫۲۸+ کفِ طبقهٔ تازه می‌شود.' });
   return P;
 })(window.KHOONEH.attempt1);
+/* next: the family's idea for the next design (content/plans-next.json), NOT a measured drawing — every slab is hatched and
+   a watermark says so. Section x runs from the yard end (0) to the street (20.14): x = 20.14 − y of the plan files.
+   Plan y 0.3–14.0 → x 6.14–19.84 (GF/basement body); the console adds 1.20 toward the yard from the first floor (x 4.94). */
+window.KHOONEH.next = {
+  idea: true,
+  plot: { width: 10.5, depth: 20.14 },
+  yardDepth: 4.94,       // upper floors' yard face: plan y 15.2
+  bodyDepth: 14.0,       // GF/basement body from the street line
+  console: 1.2, consoleSide: 'yard',
+  basementFrom: 6.14,    // the basement stops at the body's yard face; nothing under the yard
+  courtyard: [1.54, 5.54],   // sunken garden, plan y 14.6–18.6, with its own retaining wall outside the mat
+  treeX: 3.0,
+  stairHouse: { span: [14.84, 19.84], height: 2.65 },   // over the stair, plan y 0.3–5.3 (the lift's overrun is not drawn)
+  shaft: { span: [11.14, 14.14], skylight: 1.0 },       // the void on the west wall, plan y 6–9, from the basement floor to a skylight
+  risers: [[9.14, 10.74]],                              // R2, plan y 9.4–11: where it pierces each slab
+  hozAt: 6.7, carX: 4.9,
+  levels: [
+    { id: 'm1', name: 'Basement', name_fa: 'زیرزمین', elev: -3.2, clear: 2.9,
+      note: 'Caretaker at the street end; hoz, sauna and a movement room facing the sunken garden; the foot of the void is a small garden.',
+      note_fa: 'سرایدار در شمال؛ حوض، سونا و اتاق حرکت رو به گودال‌باغچه؛ پای حفره باغچهٔ کوچکی است.' },
+    { id: 'gf', name: 'Ground', name_fa: 'همکف', elev: 0, clear: 2.7,
+      note: 'Five cars on the west and east strips; the void’s floor is opaque glass and passes light to the garden below.',
+      note_fa: 'پنج خودرو در نوار غربی و شرقی؛ کف حفره شیشهٔ مات است و نور را به باغچهٔ زیر می‌رساند.' },
+    { id: 'f1', name: 'First floor', name_fa: 'طبقهٔ اول', elev: 3.0, clear: 2.9,
+      note: 'The parents, on one level: living toward the yard under the console, two bedrooms toward the street.',
+      note_fa: 'پدر و مادر، با کف مسطح: نشیمن رو به حیاط زیر کنسول، دو خواب رو به کوچه.' },
+    { id: 'f2', name: 'Second floor', name_fa: 'طبقهٔ دوم', elev: 6.2, clear: 2.9,
+      note: 'The second household to the south and middle; the student unit to the north with its own entrance.',
+      note_fa: 'خانوار دوم در جنوب و میانه؛ واحد دانشجویی در شمال با ورودی خودش.' },
+    { id: 'f3', name: 'Third floor', name_fa: 'طبقهٔ سوم', elev: 9.4, clear: 2.9, double: true, voidClear: 6.1, voidSpan: [4.94, 10.74], default: true,
+      note: 'The large family, lower floor: the living room toward the tree, about six metres tall, because the fourth-floor slab is left out over it.',
+      note_fa: 'خانوادهٔ بزرگ، پایین: نشیمن رو به درخت، حدود شش متر بلند، چون سقف طبقهٔ چهارم روی آن برداشته شده.' },
+    { id: 'f4', name: 'Fourth floor', name_fa: 'طبقهٔ چهارم', elev: 12.6, clear: 2.9, loft: true, span: [10.74, 20.14],
+      note: 'The large family, upper floor: three bedrooms toward the street and a gallery over the living; no floor over the living.',
+      note_fa: 'خانوادهٔ بزرگ، بالا: سه خواب رو به کوچه و گالری مشرف به نشیمن؛ روی نشیمن کف ندارد.' },
+    { id: 'r', name: 'Roof', name_fa: 'بام', elev: 15.8, clear: 2.65,
+      note: 'A roof for everyone: beds, a pergola, the void’s skylight; the stair house rises 2.65 m.',
+      note_fa: 'بام برای همه: باغچه‌ها، پرگولا، نورگیر حفره؛ خرپشته ۲٫۶۵ متر بالا می‌رود.' }
+  ],
+  tags: { yard: 'yard', yard_fa: 'حیاط', street: 'street', street_fa: 'کوچه', shabak: 'shabak', shabak_fa: 'مشبک', hoz: 'hoz', hoz_fa: 'حوض',
+          plot: 'plot', plot_fa: 'زمین', clear: 'm clear', clear_fa: 'متر مفید',
+          shaft: 'void', shaft_fa: 'حفره', skylight: 'skylight', skylight_fa: 'نورگیر', glass: 'glass floor', glass_fa: 'کف شیشه‌ای',
+          riser: 'riser', riser_fa: 'رایزر', garden: 'sunken garden', garden_fa: 'گودال‌باغچه', stairHouse: 'stair house', stairHouse_fa: 'خرپشته',
+          idea: 'the family’s idea — not a drawing', idea_fa: 'ایدهٔ خانواده — نه نقشه' },
+  aria: 'The family’s idea in section: the void from the sunken garden to the roof skylight', aria_fa: 'برش ایدهٔ خانواده: حفره از گودال‌باغچه تا نورگیر بام'
+};
