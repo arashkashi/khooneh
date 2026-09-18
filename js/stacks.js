@@ -20,7 +20,7 @@
     far: d => fa ? `${d} متر تا نزدیک‌ترین داکت` : `${d} m to the nearest duct`,
     under: f => fa ? `زیرش (${f})` : `below it (${f})`, nothing: fa ? 'فضایی زیرش نیست' : 'nothing below it',
     on: fa ? 'روی' : 'on', onlyOn: fa ? 'فقط روی' : 'only on', notOn: fa ? 'نه در' : 'not on', m: fa ? 'م' : 'm',
-    hint: fa ? 'روی هر فضای تر بروید یا لمسش کنید: فاصله‌اش تا داکت و فضای زیرش دیده می‌شود. طبقه‌ها را می‌توان خاموش کرد تا فضاهای زیرین دیده شوند.'
+    hint: fa ? 'با اشاره به هر فضای تر، فاصله‌اش تا داکت و فضای زیرش دیده می‌شود. طبقه‌ها را می‌توان خاموش کرد تا فضاهای زیرین دیده شوند.'
              : 'Hover or tap a wet room: its distance to a shaft and what lies under it appear here. Floors can be switched off to reach the rooms beneath.',
     summary: (n, m) => fa ? `از ${digits(n)} فضای تر روی این طبقات، ${digits(m)} تا بیش از ۱٫۵ متر از هر داکتی فاصله دارند.`
                           : `Of ${n} wet rooms on these floors, ${m} sit more than 1.5 m from any shaft.`
