@@ -14,7 +14,7 @@
 {% if backs %}
 <section class="paths" aria-label="مسیرهای دیگر به این‌جا">
   <h2>از این‌جاها هم می‌شود به همین صفحه رسید</h2>
-  <ul>{% for it in backs %}<li><a href="{{ root }}{{ it.url }}"><span class="tag">{{ kind_fa[it.kind] }}</span>{{ it.title }}</a></li>{% endfor %}</ul>
+  <ul>{% for it in backs %}<li><a href="{{ root }}{{ it.url }}">{% if not it.title.startswith(kind_fa[it.kind]) %}<span class="tag">{{ kind_fa[it.kind] }}</span>{% endif %}{{ it.title }}</a></li>{% endfor %}</ul>
 </section>
 {% endif %}
 {% endmacro %}

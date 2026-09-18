@@ -1,5 +1,8 @@
 /* Pan/zoom viewer for the vector sheets (SVG in an <img>): drag to pan, wheel (Ctrl/⌘) or buttons to zoom, double-click to zoom in,
-   pinch on touch, fit and full screen. No library; works from file:// too. */
+   pinch on touch, fit and full screen. No library; works from file:// too.
+   Touch: the stage has touch-action: pan-y (css), so a vertical swipe scrolls the page and a horizontal drag or a pinch reaches the viewer;
+   the browser cancels the pointer when it takes a vertical swipe, which the up/cancel handler below clears. Full screen sets touch-action: none,
+   and so does the viewer itself once the sheet is zoomed in past fit (then vertical panning of the sheet is what the finger means); «fit» restores it. */
 (function () {
   const fa = document.documentElement.lang === 'fa';
   const t = { zin: fa ? 'بزرگ‌نمایی' : 'Zoom in', zout: fa ? 'کوچک‌نمایی' : 'Zoom out', fit: fa ? 'اندازهٔ برگه' : 'Fit', full: fa ? 'تمام‌صفحه' : 'Full screen',
@@ -11,13 +14,16 @@
     const stage = document.createElement('div'); stage.className = 'pv-stage zoom-stage'; stage.tabIndex = 0;
     const layer = document.createElement('div'); layer.className = 'zoom-layer';
     img.parentNode.insertBefore(stage, img); layer.appendChild(img); stage.appendChild(layer); host.insertBefore(bar, stage);
-    let s = 1, tx = 0, ty = 0, natural = null;
-    const apply = () => { layer.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`; bar.querySelector('.pv-zoom').textContent = Math.round(s * 100) + '%'; };
+    let s = 1, tx = 0, ty = 0, natural = null, fitScale = 1;
+    const apply = () => {
+      layer.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`; bar.querySelector('.pv-zoom').textContent = Math.round(s * 100) + '%';
+      stage.style.touchAction = s > fitScale * 1.05 ? 'none' : '';   // '' = the stylesheet's pan-y (none in full screen)
+    };
     const fit = () => {
       const iw = img.naturalWidth || parseFloat(img.getAttribute('width')) || 800, ih = img.naturalHeight || parseFloat(img.getAttribute('height')) || 600;
       natural = [iw, ih];
       const sw = stage.clientWidth, sh = stage.clientHeight || Math.round(sw * 0.75);
-      s = Math.min(sw / iw, sh / ih); tx = (sw - iw * s) / 2; ty = (sh - ih * s) / 2; apply();
+      s = fitScale = Math.min(sw / iw, sh / ih); tx = (sw - iw * s) / 2; ty = (sh - ih * s) / 2; apply();
     };
     const zoomAt = (f, cx, cy) => { const ns = Math.max(0.2, Math.min(12, s * f)); tx = cx - (cx - tx) * ns / s; ty = cy - (cy - ty) * ns / s; s = ns; apply(); };
     const centre = () => [stage.clientWidth / 2, stage.clientHeight / 2];
