@@ -178,7 +178,7 @@
       const cell = v => v > 0.05 ? fmt(v) : '—';
       const wrap = document.createElement('div'); wrap.className = 'table-wrap';
       table = document.createElement('table'); table.className = 'stacks-table';
-      table.setAttribute('style', 'font-size:.92rem;margin:.8rem 0 .4rem');
+      table.setAttribute('style', 'font-size:.92rem;margin:.8rem 0 .4rem;min-width:24rem');   // five columns: on a narrow screen the wrapper scrolls sideways
       const cap = document.createElement('caption'); cap.setAttribute('style', 'text-align:start;color:' + INK2 + ';font-size:.88rem;padding:0 0 .35rem'); cap.textContent = W.areasIn;
       const thead = document.createElement('thead'), tbody = document.createElement('tbody'), tfoot = document.createElement('tfoot');
       const tr = (cells, parent, head) => {
@@ -392,7 +392,7 @@
         const fill = t => { const a = el('tspan', { 'font-size': '8.5px' }, t); a.textContent = s1 + ' — '; const c = el('tspan', {}, t); c.textContent = s2; return t; };
         if (tw > bw - 4 && bh > tw + 4) {
           const box = [X(b[0]), Y(b[1]), X(b[2]), Y(b[3])];
-          for (const pad of [3, 30]) for (const dy of [0, 14, -14, 28, -28, 42, -42]) for (const dx of [0, 11, -11, 22, -22]) {
+          for (const pad of [3, 30]) for (const dy of [0, 14, -14, 28, -28, 42, -42]) for (const dx of [0, 12, -12, 24, -24]) {
             const x0 = X(cx) + dx, y0 = Y(cy) + dy;
             const bb = [x0 - 5.5, y0 - tw / 2 - 2, x0 + 5.5, y0 + tw / 2 + 2];
             if (bb[0] < box[0] - pad || bb[2] > box[2] + pad || bb[1] < box[1] - pad || bb[3] > box[3] + pad) continue;
