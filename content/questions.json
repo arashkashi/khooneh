@@ -391,7 +391,8 @@
     "a3"
    ]
   },
-  "widget": "section-plus"
+  "widget": "section-plus",
+  "summary_en": "In 2020 three residential floors over parking were allowed and the design took them; by 2024 the street was moving to four. The family asks: why not keep the 2020 section — the 5.52 m living room with its loft, the sunken garden and the tree — and add one floor on top, four floors each with its own plan? Three difficulties are read off this site. The 2020 plot was lost, and the Mollasadra plot is 1.14 m deeper and 5 cm narrower: the 2020 idea can be kept, not its plan. The 2020 section already reaches +16.28 with three floors, the height of a four-floor building; one more floor puts the roof near +19.9, about four metres above the 2024 four-floor scheme — height, not floor count, is the first question, and whether a loft counts as a floor is still unknown. And a 5.52 m storey under three floors instead of two is the soft storey a structural engineer in a seismic city looks at first. The arithmetic is simpler: each Mollasadra floor gives about 125–130 m² net, and with the 2020 section the family's programme fits in three floors (the large family on the first floor and its loft, ≈165 m²; the second household and the student unit on the second, 75 + 55; the parents on the third). The fourth floor is allowed, not needed, so the real question is what it is for: a unit to sell or let; a real duplex for the large family with the parents on the first floor (the vertical-courtyard proposal, i.e. the 2020 section flipped); the shared room and roof garden instead of digging −2; or not built at all. One thing holds in every option: with a double-height first floor, the parents on the third floor live at fourth-floor height and the lift is no longer optional."
  },
  {
   "id": "q-stacks",
@@ -409,6 +410,7 @@
    "طرح ۱۴۰۳: در همهٔ طبقات داکت هست؛ یک داکت از طبقهٔ اول تا چهارم پیوسته است؛ هیچ داکتی به زیرزمین نمی‌رسد."
   ],
   "widget": "stacks",
+  "summary_en": "Every toilet, bath and kitchen connects to a vertical stack, and a soil pipe needs a fall: every metre it runs sideways costs centimetres from the ceiling below. The 2020 plans have one continuous riser, by the lift on the east side, from the ground to the third floor — not into the basement, which has seven wet rooms and no duct; a second duct on the first floor is one storey deep and ends under the loft bedroom. Of ten kitchens, baths and WCs above ground, three sit on the riser, one on the dead-end duct, and six are more than 1.5 m from any duct: the loft bath 6 m away, the second-floor west bath 6 m away and over the void of the double-height living room, the second-floor WC over the loft bedroom, the third-floor bath almost entirely over the second-floor living room. The first and third floors share one plan and their wet rooms align; the second floor is the different one, and that is where the chain breaks. The 2024 plans have many ducts, only one continuous from the first to the fourth floor, none reaching the basement. So \"each floor a different design\" is possible on one condition, written before any plan: the same columns and two or three risers on every floor, only the walls move; every wet room touches a riser; no pipe crosses another unit's ceiling; vents go to the roof, away from the roof garden; and before any level −2, the depth of the alley sewer is asked — the sunken garden at −3.12 may still drain by gravity, a room at −6.80 needs a pump.",
   "related": {
    "brief": [
     "b06",
