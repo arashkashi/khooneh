@@ -16,7 +16,7 @@
         <div><h3>موضع معمار</h3>{% for p in (q.architect_view_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
       </div>
       {% if q.evidence_fa %}<h2>شواهد</h2><ul class="features">{% for e in q.evidence_fa %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
-      {{ m.prevnext(prev, nxt, root, 'questions/') }}
+      {{ m.prevnext(prev, nxt, root, 'questions/', head=head, tail=tail) }}
     </div>
   </div>
   {{ m.related(groups, root) }}

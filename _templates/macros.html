@@ -28,8 +28,8 @@
 {# prev/nxt: neighbours in the series. head: (href, label) shown instead of a missing prev (the series index). tail: (href, label) instead of a missing nxt (the next chapter).
    jump: {'prev': name, 'next': name} when the neighbour belongs to another design, so the change of design is visible. #}
 <nav class="sheet-nav" aria-label="قبلی و بعدی">
-  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {% if jump and jump.prev %}<span class="jump">{{ jump.prev }} ·</span> {% endif %}{{ prev.title_fa or prev.term_fa or ('شاخص ' ~ (prev.n|fa)) }}</a>{% elif head %}<a href="{{ root }}{{ head[0] }}">‹ {{ head[1] }}</a>{% endif %}</span>
-  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{% if jump and jump.next %}<span class="jump">{{ jump.next }} ·</span> {% endif %}{{ nxt.title_fa or nxt.term_fa or ('شاخص ' ~ (nxt.n|fa)) }} ›</a>{% elif tail %}<a href="{{ root }}{{ tail[0] }}">{{ tail[1] }} ›</a>{% endif %}</span>
+  <span>{% if prev %}<a href="{{ root }}{{ base }}{{ prev.id }}/">‹ {% if jump and jump.prev %}<span class="jump">{{ jump.prev }} ·</span> {% endif %}{{ prev.title_fa or prev.term_fa or ('شاخص ' ~ (prev.n|fa) ~ (' — ' ~ prev.short_fa if prev.short_fa else '')) }}</a>{% elif head %}<a href="{{ root }}{{ head[0] }}">‹ {{ head[1] }}</a>{% endif %}</span>
+  <span>{% if nxt %}<a href="{{ root }}{{ base }}{{ nxt.id }}/">{% if jump and jump.next %}<span class="jump">{{ jump.next }} ·</span> {% endif %}{{ nxt.title_fa or nxt.term_fa or ('شاخص ' ~ (nxt.n|fa) ~ (' — ' ~ nxt.short_fa if nxt.short_fa else '')) }} ›</a>{% elif tail %}<a href="{{ root }}{{ tail[0] }}">{{ tail[1] }} ›</a>{% endif %}</span>
 </nav>
 {% endmacro %}
 {% macro provenance(attempt) %}
