@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6 — 2026-09-18 (evening), the next design in boxes
+- New chapter `next/` — the family's imaginative next design, coarse on purpose: the 1399 grid re-fitted to Mollasadra (columns on A / 7.35 / east wall × four depth lines; 7.1 m free span; 0.65 m riser spine; 2.25 m core bay), a mat foundation with the sunken garden outside it, a concrete core tube and two west shear walls, no tall storey (the six-metre living is an omitted slab), two fixed risers, a 2.5 × 3 m light-and-air void with an east skylight, one core stair and a single private stair; parents on the first floor, second household + student on the second, the large family on the third and fourth, caretaker and commons at −1, the roof for all. Every plan carries a watermark and a dashed frame; the 3D uses hatched slabs and a floating «ایدهٔ خانواده — نه نقشه».
+- `js/three-model.js` exploded mode: floor spacing slider with a damped ease and a play loop; stairs drawn as connectors that stretch across the gaps (core stair through all floors, private stairs from their floor to the next); columns as continuous rods, risers as turquoise prisms; used on the next page and on the 1403 attempt page.
+- `js/stacks.js` stairs kind: core stair, lift and private stairs of all floors on one frame with an area table (1403: 44.2 m² of private stairs, the spiral alone 21.3; 1399: none).
+- Concepts: «پلهٔ قیچی و متراژ پله‌ها» (the scissor stair saves width, not area; what actually saves area) and «خنک‌سازی: بعد از کولر آبی» (what is on the market, studied, or not found in Iran as of Sept 2026, with the uncertainty stated; consequences for the design).
+- `js/shade.js`: sun-and-console section for 36.3° N (summer noon 77°, equinox 54°, winter 30°; the 1.20 m console fully shades a south window above ≈67°).
+- Plan drawings gained grid lines, columns and risers for idea plans; idea plans never stand in for measured plans on other pages.
+
 ## v0.5 — 2026-09-18, live on GitHub Pages; option B; the site as seen by an office
 - Published at https://arashkashi.github.io/khooneh/ (repo `arashkashi/khooneh`, Pages from `main`); the original sheets go public as they are, by the owner's decision.
 - Option B «برش ۱۳۹۹ + یک طبقه» on the proposal page next to option A, with a comparison table, what must be settled first, and a ghost fourth floor drawn on the 1399 section (`attempt1plus` in `js/data.js`); the console now drawn toward the yard.
