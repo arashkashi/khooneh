@@ -13,10 +13,14 @@
       {% if b.gloss_fa %}<h2>یعنی چه</h2>{% for p in b.gloss_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
       {% if plans %}<h2>روی نقشه</h2>{{ m.focusplans(plans, b.id, root) }}{% endif %}
       {% if views %}{{ m.views(views, root) }}{% endif %}
+      {% if unanswered %}
+      <p class="muted">هیچ‌کدام از دو طرح به این شاخص نپرداخت.{% if open_questions %} پرسش بازِ مربوط به آن: {% for q in open_questions %}<a href="{{ root }}{{ q.url }}">{{ q.title }}</a>{% if not loop.last %}، {% endif %}{% endfor %}.{% endif %}</p>
+      {% else %}
       <div class="two-col">
         <div><h3>در طرح ۱۳۹۹</h3>{% for p in (b.in_attempt1_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
         <div><h3>در طرح ۱۴۰۳</h3>{% for p in (b.in_attempt3_fa or '—')|paras %}<p>{{ p }}</p>{% endfor %}</div>
       </div>
+      {% endif %}
       {{ m.prevnext(prev, nxt, root, 'brief/') }}
     </div>
   </div>

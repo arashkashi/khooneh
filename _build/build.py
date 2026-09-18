@@ -42,7 +42,11 @@ KIND_FA = {'brief': 'شاخص', 'question': 'پرسش', 'concept': 'مفهوم',
 KIND_GROUP_FA = {'brief': 'شاخص‌ها', 'question': 'پرسش‌های باز', 'concept': 'مفاهیم', 'sheet': 'نقشه‌ها', 'attempt': 'طرح‌ها', 'event': 'داستان', 'proposal': 'پیشنهاد', 'voice': 'در میانهٔ داستان'}
 reg = {}
 def add(kind, node, title, url): reg[node['id']] = {'kind': kind, 'title': title, 'url': url, 'node': node}
-for b in brief: add('brief', b, f"شاخص {fa_num(b['n'])} — {b.get('short_fa') or b['text_fa'][:40] + '…'}", f"brief/{b['id']}/")
+def brief_label(b):
+    """«شاخص N — <short_fa>»; without a short_fa, the first 40 chars of the family's line, with an ellipsis only when something was cut."""
+    t = b.get('short_fa') or (b['text_fa'] if len(b['text_fa']) <= 40 else b['text_fa'][:40].rstrip() + '…')
+    return f"شاخص {fa_num(b['n'])} — {t}"
+for b in brief: add('brief', b, brief_label(b), f"brief/{b['id']}/")
 for q in questions: add('question', q, q['title_fa'], f"questions/{q['id']}/")
 for c in concepts: add('concept', c, c['term_fa'], f"concepts/{c['id']}/")
 for s in sheets: add('sheet', s, s['title_fa'], f"sheets/{s['id']}/")
@@ -154,7 +158,9 @@ for v in voices:
 # brief
 write('brief/', 'brief_index.html', items=brief)
 for i, b in enumerate(brief):
+    unanswered = all((b.get(k) or '').strip() in ('', '—', '-', '–') for k in ('in_attempt1_fa', 'in_attempt3_fa'))
     write(f"brief/{b['id']}/", 'brief_item.html', b=b, groups=related_groups(b, b['id']), backs=backlink_entries(b['id']), views=views_by_node.get(b['id'], []), plans=[plans_by_id[i] for i in focus_plans(b['id'])],
+          unanswered=unanswered, open_questions=[dict(reg[q], id=q) for q in (b.get('related') or {}).get('questions') or [] if q in reg],
           prev=brief[i - 1] if i > 0 else None, nxt=brief[i + 1] if i + 1 < len(brief) else None)
 # 3D model specs per attempt (elevations from the sheets where drawn; 1403 floor-to-floor assumed 3.20 m)
 MODEL = {

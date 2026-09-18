@@ -1,6 +1,8 @@
 [
  {
   "id": "b01",
+
+  "short_fa": "آشپزخانه کنار نشیمن",
   "n": 1,
   "text_fa": "اهمیت آشپزخانه به عنوان فضایی که خیلی زمان زیادی در اون صرف میشه، و دسترسی آسان به اتاق نشیمن، راحتی حرکت و چیدمان وسایل و نور طبیعی. شاید تلفیق نشیمن و آشپزخانه؟؟",
   "text_en": "The kitchen as the centre of time. Easy reach to the living room, ease of movement and layout, natural light. Perhaps merge living and kitchen?",
@@ -27,6 +29,8 @@
  },
  {
   "id": "b02",
+
+  "short_fa": "میز شام برای هشت نفر",
   "n": 2,
   "text_fa": "اهمیت و راحتی ضیافت شام در منزل و دور همی های دوستانه و خانوادگی باظرفیت ۸ نفر البته با -۸ شامل شدن ساکنین خانه، دسترسی سریع و آسان به اشپزخانه برای پذیرایی و نظافت. در صورت امکان فراهم کردن گوشه دنج برای صحبتهای ۲ نفره.",
   "text_en": "Dinner for eight. Hosting friends and family (8 incl. residents) comfortably; quick access to the kitchen for serving and cleaning; if possible a snug corner for a two-person conversation.",
@@ -49,6 +53,8 @@
  },
  {
   "id": "b03",
+
+  "short_fa": "اتاق کار / اتاق مهمان",
   "n": 3,
   "text_fa": "اتاق کار با میز کار با کاربری دوگانه اتاق مهمان همراه با دسترسی به نور طبیعی و فضا برای آرشیو کردن مدارک کاری و زندگی. اتاق کار نیاز به فضای بزرگی ندارد.",
   "text_en": "A small study that doubles as a guest room, with daylight and room to archive work and life documents. It need not be large.",
@@ -71,6 +77,8 @@
  },
  {
   "id": "b04",
+
+  "short_fa": "حمام بزرگ‌تر با وان و پنجره",
   "n": 4,
   "text_fa": "سرویس بهداشتی بزرگتر از اندازه های رایج (به نظر در طرحهایی که من دیدم از لحاظ مقدار تخصیص فضا به سرویس بهداشتی کم فروشی شده) همراه با وان و دوش ایستاده مجزا. در مورد سرویس بهداشتی دوم با توجه به کمبود فضا اولویت شاید بالا نباشد. من شخصا از وجود نور طبیعی در‌ سرویس بهداشتی لذت می برم در صورت امکان و صلاحدید وجود پنجره در سرویس بهداشتی",
   "text_en": "A bathroom larger than the norm — bath and separate standing shower. (Most plans I've seen short-change the bathroom.) A second bathroom is low priority given space. A window in the bathroom if at all possible — I enjoy daylight there.",
@@ -91,6 +99,8 @@
  },
  {
   "id": "b05",
+
+  "short_fa": "سه اتاق در هر واحد",
   "n": 5,
   "text_fa": "جمعا سه اتاق همراه اتاق کار/مهمان. دو اتاق دیگر به عنوان خواب برای پدر و مادر و یک اتاق خواب فرزند. اگر‌امکان تغییر طراحی در طبقات مختلف باشه برای خانواده بازنشسته (پدر و‌مادر بنده) جمعا دو خواب کافی میباشد، و برای دو خانوار دیگر دو خواب یکی برای اولیا و یک خواب برای فرزند.",
   "text_en": "Three rooms in total incl. the study/guest room: two bedrooms for the parents and one for a child. If floors can differ: the retired household (my parents) needs two bedrooms; the two other households need two each (parents + child).",
@@ -117,6 +127,8 @@
  },
  {
   "id": "b06",
+
+  "short_fa": "واحد سرایدار ساکن",
   "n": 6,
   "text_fa": "واحد سرایدار ساکن در ساختمان شامل اشپزخانه یک حال و یک خواب.",
   "text_en": "A resident caretaker's unit: kitchen, a living room, one bedroom.",
@@ -141,6 +153,8 @@
  },
  {
   "id": "b07",
+
+  "short_fa": "ورزش، حوضچه و سونا",
   "n": 7,
   "text_fa": "ایجاد فضای کوچکی برای عنوان محیط ورزش برای ۳-۴ نفر صرفا برای حرکتهای کششی و ورزشهای طبی بدون نیاز فضا به ابزار مخصوص و مکانیکی همچنین یک حوضچه کوچک برای نشستن ۲-۳ نفر مجهز به جت برای اب گرم/سرد برای تقویت عروق و در‌صورت امکان فضا سونای خشک چوبی یک‌نفره، این فضا‌عمومی برای تمامی اهالی ساختمان می باشد.",
   "text_en": "A small shared wellness space for 3–4 people — stretching and therapeutic movement, no machines; a small sitting pool for 2–3 with hot/cold jets for circulation; if space allows, a one-person dry wooden sauna. Shared by all residents.",
@@ -165,6 +179,8 @@
  },
  {
   "id": "b08",
+
+  "short_fa": "فضای سبز در حیاط کوچک",
   "n": 8,
   "text_fa": "ایجاد فضای سبز موثر و خلاق در فضای محدود حیاط.",
   "text_en": "Effective, creative greenery in the tight courtyard.",
@@ -191,6 +207,8 @@
  },
  {
   "id": "b09",
+
+  "short_fa": "بام سبز برای همهٔ طبقات",
   "n": 9,
   "text_fa": "روف گاردن دارای قابلیت کشت سبزیجات و فضای سبز قابلیت دسترسی تمام طبقات.",
   "text_en": "A roof garden that can grow vegetables, accessible from all floors.",
@@ -214,6 +232,8 @@
  },
  {
   "id": "b10",
+
+  "short_fa": "انباری برای هر واحد",
   "n": 10,
   "text_fa": "انباری متناسب برای واحدها.",
   "text_en": "Adequate storage per unit.",
@@ -234,6 +254,8 @@
  },
  {
   "id": "b11",
+
+  "short_fa": "تناقض پنجرهٔ بزرگ و پرده",
   "n": 11,
   "text_fa": "از طرفی تمایل زیاد به پنجره بزرگ. و دریافت نور زیاد و از طرفی به علت فرم کوچه و خ. عملا پنجره اکثرا پشت پرده می ماند، همچنان امیدوار به راه حل این تناقض؟",
   "text_en": "The window paradox. A strong wish for big windows and lots of light — yet, because of the street and alley, windows mostly end up behind curtains. Still hoping for a solution to this contradiction.",
@@ -261,6 +283,8 @@
  },
  {
   "id": "b12",
+
+  "short_fa": "نمای ساده و ماندگار",
   "n": 12,
   "text_fa": "نما ساده و مقاوم به گذر زمان یک نمونه در عکسها براتون ارسال می کنم.",
   "text_en": "A simple façade that ages well. (Reference photo to follow.)",
@@ -283,6 +307,8 @@
  },
  {
   "id": "b13",
+
+  "short_fa": "طبقهٔ ۱−، و شاید ۲−",
   "n": 13,
   "text_fa": "با توجه به صحبتهای انجام شده امکان ایجاد فضا در طبقه ۱- در صورت نیاز ممکن است. وحتی مهنای ۲.",
   "text_en": "Space at level −1 is possible if needed — and even level −2.",
@@ -309,6 +335,8 @@
  },
  {
   "id": "b14",
+
+  "short_fa": "تنفس طبیعی بدون سروصدا",
   "n": 14,
   "text_fa": "امکان تنفس طبیعی ساختمان بدون ورود سر و صدای بیرون از خانه.",
   "text_en": "The building should breathe naturally without letting street noise in.",
@@ -333,6 +361,8 @@
  },
  {
   "id": "b15",
+
+  "short_fa": "سادگی و هزینهٔ کم اجرا",
   "n": 15,
   "text_fa": "سادگی و هزینه کم اجرا",
   "text_en": "Simplicity and low construction cost.",
@@ -354,6 +384,8 @@
  },
  {
   "id": "b16",
+
+  "short_fa": "تهویهٔ طبیعی شمال به جنوب",
   "n": 16,
   "text_fa": "راه کار تهویه و چرخش طبیعی هوا از طریق معابر و پنجره های باز همزمان در فضای شمالی و جنوبی",
   "text_en": "Natural ventilation and air circulation through passages and simultaneously open windows on the north and south sides.",
@@ -379,6 +411,8 @@
  },
  {
   "id": "b17",
+
+  "short_fa": "مصالح به مقدار، نه به ریال",
   "n": 17,
   "text_fa": "قابلیت ارزیابی مقدار مصالح مورد نیاز نه به ریال بلکه به مقدار",
   "text_en": "Ability to estimate the material quantities needed — in quantities, not in rials.",
@@ -397,6 +431,8 @@
  },
  {
   "id": "b18",
+
+  "short_fa": "راه‌پله با پنجره و جای نشستن",
   "n": 18,
   "text_fa": "راه پله دارای پنجره فضای مورد استفاده برای بازی و نشستن صعود و نزول از تپه کوچک راه پله بزرگ ولی فضا کم بگیره :) پله های تو در تو",
   "text_en": "A staircase with a window; a place to play and sit; climbing a small hill. A generous stair that takes little space :) — nested stairs.",
@@ -422,6 +458,8 @@
  },
  {
   "id": "b19",
+
+  "short_fa": "آسانسور بزرگ‌تر و باربر",
   "n": 19,
   "text_fa": "اسانسور بزرگتر از حدود استاندارد اسان برای حمل بار و مقاوم در مقابل overload",
   "text_en": "A lift larger than standard, easy for moving loads, robust against overload.",
