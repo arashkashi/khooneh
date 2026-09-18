@@ -39,7 +39,8 @@
       if (r.poly) el('polygon', { points: r.poly.map(([x, y]) => `${X(x)},${Y(y)}`).join(' '), class: 'room-fill', fill: FILL[r.kind] || '#EDEDE8', stroke: '#5A6664', 'stroke-width': .8 }, g);
       else rect(r.m, { class: 'room-fill', fill: FILL[r.kind] || '#EDEDE8', stroke: '#5A6664', 'stroke-width': .8 }, g);
       const rw = (r.m[2] - r.m[0]), rh = (r.m[3] - r.m[1]);
-      const area = (rw * rh).toFixed(1);
+      const shoelace = pts => Math.abs(pts.reduce((a, [x, y], i) => { const [x2, y2] = pts[(i + 1) % pts.length]; return a + x * y2 - x2 * y; }, 0)) / 2;
+      const area = (r.poly ? shoelace(r.poly) : rw * rh).toFixed(1); // polygon rooms: true area, not the bounding box
       const name = T(r, 'name') || KIND_FA[r.kind];
       const est = str => str.length * 6.6 + 8;   // rough text width at 10.5px (Persian glyphs are wide)
       const short = r.short_fa || (name.includes(' — ') ? name.split(' — ').pop() : name);
@@ -49,7 +50,7 @@
         if (rw * S > 70 && rh * S > 34) text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.7, faDigits(area) + ' m²', { class: 'room-area', 'text-anchor': 'middle', fill: '#5A6664', 'font-size': '9px' }, g);
       }
       g.setAttribute('aria-label', `${name}, ${area} m²`);
-      const on = () => { if (opts.caption) opts.caption.innerHTML = `<strong>${name}</strong> <span>${faDigits(area)} m² · ${faDigits(rw.toFixed(1))} × ${faDigits(rh.toFixed(1))}</span>${r.note ? '<br>' + (T(r, 'note') || '') : ''}`; };
+      const on = () => { if (opts.caption) opts.caption.innerHTML = `<strong>${name}</strong> <span>${faDigits(area)} m²${r.poly ? '' : ' · ' + faDigits(rw.toFixed(1)) + ' × ' + faDigits(rh.toFixed(1))}</span>${r.note ? '<br>' + (T(r, 'note') || '') : ''}`; };
       g.addEventListener('mouseenter', on); g.addEventListener('focus', on); g.addEventListener('click', on);
       if (matches(r)) focusBoxes.push(r.m);
     });
