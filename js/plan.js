@@ -125,7 +125,7 @@
       opts.toggle.onclick = () => { zoomed = !zoomed; svg.setAttribute('viewBox', (zoomed ? vb : full).join(' ')); opts.toggle.textContent = zoomed ? (fa ? 'کل طبقه' : 'Whole floor') : (fa ? 'بخش انتخاب‌شده' : 'Selected part'); };
     }
     if (opts.caption && !opts.caption.innerHTML) {
-      opts.caption.innerHTML = `<strong>${T(plan, 'name') || ''}</strong>${plan.elev != null ? ` <span>${(plan.elev > 0 ? '+' : plan.elev === 0 ? '±' : '−') + Math.abs(plan.elev).toFixed(2)}</span>` : ''}<br>${fa ? 'روی هر فضا بروید تا نام و متراژش دیده شود.' : 'Hover a room for its name and area.'}`;
+      opts.caption.innerHTML = `<strong>${T(plan, 'name') || ''}</strong>${plan.elev != null ? ` <span>${(plan.elev > 0 ? '+' : plan.elev === 0 ? '±' : '−') + Math.abs(plan.elev).toFixed(2)}</span>` : ''}<br>${fa ? 'نام و متراژ هر فضا با اشاره به آن دیده می‌شود.' : 'Hover a room for its name and area.'}`;
     }
     if (opts.legend) {
       const kinds = [...new Set((plan.rooms || []).map(r => r.kind))];

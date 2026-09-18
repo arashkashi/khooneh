@@ -371,7 +371,7 @@ K.render3D = async function (host, spec) {
   host.innerHTML = '';
   const bar = document.createElement('div'); bar.className = 'm3-bar';
   bar.innerHTML = floorMode
-    ? `<button type="button" data-a="top">${fa ? 'از بالا' : 'Top view'}</button><button type="button" data-a="reset">${fa ? 'نمای مایل' : 'Oblique'}</button><button type="button" data-a="rotate" aria-pressed="true">${fa ? 'چرخش' : 'Rotate'}</button><span class="m3-hint">${fa ? 'طبقه بی‌سقف: از بالا به درون فضاها نگاه کنید · کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'The floor without its roof · drag to orbit · wheel to zoom'}</span>`
+    ? `<button type="button" data-a="top">${fa ? 'از بالا' : 'Top view'}</button><button type="button" data-a="reset">${fa ? 'نمای مایل' : 'Oblique'}</button><button type="button" data-a="rotate" aria-pressed="true">${fa ? 'چرخش' : 'Rotate'}</button><span class="m3-hint">${fa ? 'طبقهٔ بی‌سقف، دیده از بالا · کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'The floor without its roof · drag to orbit · wheel to zoom'}</span>`
     : `<button type="button" data-a="explode">${fa ? 'باز کردن طبقات' : 'Explode floors'}</button><button type="button" data-a="rotate" aria-pressed="true">${fa ? 'چرخش' : 'Rotate'}</button><button type="button" data-a="reset">${fa ? 'نمای اول' : 'Reset view'}</button><span class="m3-hint">${fa ? 'کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'Drag to orbit · wheel to zoom'}</span>`;
   const stage = document.createElement('div'); stage.className = 'm3-stage';
   host.append(bar, stage);
