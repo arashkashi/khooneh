@@ -7,6 +7,8 @@
     <header class="node-head"><p class="kind">پرسش باز</p><h1>{{ q.title_fa }}</h1><p class="deck">{{ q.lead_fa }}</p></header>
     <div class="node-body">
       {% for p in q.body_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      {% if q.widget == 'stacks' %}<figure class="hero-figure"><div class="stacks-host" data-stacks="a1-first,a1-loft1,a1-second,a1-third" data-caption="stacks-cap"></div><figcaption><p class="fig-title">فضاهای تر چهار تراز طرح ۱۳۹۹ روی یک قاب، با داکت‌ها. بازترسیم از روی شیت‌ها، تقریبی؛ فاصله‌ها لبه تا لبه.</p><p id="stacks-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>{% endif %}
+      {% if q.widget == 'section-plus' %}<figure class="hero-figure"><div data-section="attempt1plus" data-caption="plus-cap"></div><figcaption><p class="fig-title">برش ۱۳۹۹ با یک طبقهٔ افزوده. ترازهای ۱۳۹۹ از روی شیت؛ طبقهٔ چهارم ایدهٔ خانواده است و ترسیم نشده.</p><p id="plus-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>{% endif %}
       {% if plans %}<h2>روی نقشه</h2>{{ m.focusplans(plans, q.id, root) }}{% endif %}
       {% if views %}{{ m.views(views, root) }}{% endif %}
       <div class="two-col">
@@ -21,4 +23,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
-{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script>{% if q.widget == 'stacks' %}<script src="{{ root }}js/stacks.js?v=3"></script>{% endif %}{% if q.widget == 'section-plus' %}<script src="{{ root }}js/section.js?v=3"></script>{% endif %}{% endblock %}
