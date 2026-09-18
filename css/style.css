@@ -479,3 +479,9 @@ svg.plan .tag { fill: #5A6664; font-size: 10px; } svg.plan .north-arrow { fill: 
 .hero-note a { color: var(--ink); text-decoration-color: var(--rule); }
 .hero-note a:hover { color: var(--turq); }
 .planfig-3d .model3d { margin: 0; }
+
+/* next design: every floor separately, and the small idea drawings */
+.plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem 1.2rem; margin: 1rem 0 2rem; }
+.plan-grid figure { margin: 0; }
+.plan-grid figure > div { background: #fff; border: 1px solid var(--rule); border-radius: 4px; padding: .4rem; }
+.plan-grid .fig-note { min-height: 2.4em; font-size: .85rem; }

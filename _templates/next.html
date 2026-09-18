@@ -25,6 +25,9 @@
       {% if s.id == 'spine' and model_json %}
       <p class="muted small">جعبه‌ها روی هم، با فاصله‌ای که می‌شود باز و بسته کرد تا پله‌ها و رایزرها و ستون‌ها از میان طبقات دیده شوند. ارتفاع‌ها فرضی.</p>
       <div class="model3d breakout" data-model3d='{{ model_json }}'>{{ m.noscript('مدل سه‌بعدی با جاوااسکریپت رسم می‌شود.') }}</div>
+      <h3>هر طبقه، جدا</h3>
+      <p class="muted small">همان طبقات، هر کدام به‌تنهایی؛ با اشاره به هر فضا نام و متراژش دیده می‌شود.</p>
+      <div class="plan-grid breakout">{% for pid in plan_ids %}<figure><div data-plan="{{ pid }}" data-caption="pg-{{ loop.index }}"></div><figcaption id="pg-{{ loop.index }}" class="fig-note"></figcaption></figure>{% endfor %}</div>
       {% endif %}
       {% if s.id == 'units' %}
       <div class="table-wrap"><table class="units-table"><caption>واحدها روی جعبه‌ها — متراژ فرضی</caption><thead><tr><th>واحد</th><th>کجا</th><th>متراژ</th><th>یک خط</th></tr></thead><tbody>
@@ -41,7 +44,7 @@
 
       {% if n.iterations %}
       <h2 id="iterations">تکرارها — مجسمه، تراش به تراش</h2>
-      {% for it in n.iterations %}<h3 id="it-{{ it.n }}">{{ it.title_fa }}</h3>{% for x in it.body_fa|paras %}<p>{{ x }}</p>{% endfor %}{% if it.figure %}<figure class="hero-figure"><div data-{{ it.figure }}="1"></div></figure>{% endif %}{% endfor %}
+      {% for it in n.iterations %}<h3 id="it-{{ it.n }}">{{ it.title_fa }}</h3>{% for x in it.body_fa|paras %}<p>{{ x }}</p>{% endfor %}{% if it.figure == 'structure' %}<figure class="hero-figure"><div data-structure="next"></div><figcaption><p class="fig-title">استخوان‌بندی ایده: ستون‌ها، تیرها، دیوارهای برشی، رادیه، دیوار حائل گودال، سوراخ‌های سقف. ترسیم معماری نیست.</p></figcaption></figure><figure class="hero-figure"><div data-section="next" data-caption="next-sec-cap"></div><figcaption><p class="fig-title">برش ایده در امتداد عمق زمین: هیچ طبقه‌ای بلندتر از بقیه نیست؛ اتاق بلند از حذف یک سقف است.</p><p id="next-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>{% elif it.figure == 'facade' %}<figure class="hero-figure"><div data-facade="1"></div><figcaption><p class="fig-title">برش از نمای شمالی سه‌لایه: مشبک آجری در خط پیشروی، فاصلهٔ هوا، پنجرهٔ عمیق. کوچه در چپ.</p></figcaption></figure>{% endif %}{% endfor %}
       {% endif %}
       {% if n.summary_en %}<h2 lang="en" dir="ltr">In English</h2><p lang="en" dir="ltr">{{ n.summary_en }}</p>{% endif %}
     </div>
@@ -50,4 +53,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
-{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script><script src="{{ root }}js/shade.js?v=3"></script><script type="module" src="{{ root }}js/three-model.js?v=3"></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script><script src="{{ root }}js/section.js?v=3"></script><script src="{{ root }}js/shade.js?v=3"></script><script src="{{ root }}js/structure.js?v=3"></script><script src="{{ root }}js/facade.js?v=3"></script><script type="module" src="{{ root }}js/three-model.js?v=3"></script>{% endblock %}
