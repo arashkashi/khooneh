@@ -8,6 +8,13 @@
       <p class="kind">شاخص {{ b.n|fa }} از ۱۹ · <span class="status" data-s="{{ b.status }}">{{ {'answered':'پاسخ داده شد','partly':'تا حدی','open':'باز','contradicted':'دو خوانش'}[b.status] }}</span></p>
       <blockquote class="verbatim"><p>{{ b.text_fa }}</p></blockquote>
       {% if b.text_en %}<p class="small muted" lang="en" dir="ltr">{{ b.text_en }}</p>{% endif %}
+      {% if b.kind_fa or b.testable_fa or b.priority_fa %}
+      <dl class="facts brief-facts">
+        {% if b.kind_fa %}<div><dt>نوع</dt><dd>{{ b.kind_fa }}</dd></div>{% endif %}
+        {% if b.testable_fa %}<div><dt>صورت سنجش‌پذیر</dt><dd>{{ b.testable_fa }}</dd></div>{% endif %}
+        {% if b.priority_fa %}<div><dt>اولویت</dt><dd>{{ b.priority_fa }}</dd></div>{% endif %}
+      </dl>
+      {% endif %}
     </header>
     <div class="node-body">
       {% if b.gloss_fa %}<h2>یعنی چه</h2>{% for p in b.gloss_fa|paras %}<p>{{ p }}</p>{% endfor %}{% endif %}
