@@ -11,6 +11,12 @@
       {% if views %}{{ m.views(views, root) }}{% endif %}
       <h2>در این خانه</h2>
       {% for p in c.in_this_project_fa|paras %}<p>{{ p }}</p>{% endfor %}
+      {% if c.widget == 'stairs' %}
+      <h2>پله‌ها روی نقشه</h2>
+      <p class="muted small">پله‌های هر طبقه روی یک قاب: پلهٔ ساختمان، آسانسور و پله‌های خصوصی، با متراژ. بازترسیم از روی شیت‌ها، تقریبی.</p>
+      <figure class="hero-figure"><div class="stacks-host" data-stacks="a3-basement,a3-ground,a3-first,a3-second,a3-third,a3-fourth" data-stacks-kind="stairs" data-attempt="a3" data-caption="st-a3-cap"></div><figcaption><p class="fig-title">طرح ۱۴۰۳ — سه پلهٔ خصوصی، دو تا در یک شکاف شرقی و پلهٔ گرد در میانه.</p><p id="st-a3-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
+      <figure class="hero-figure"><div class="stacks-host" data-stacks="a1-basement,a1-ground,a1-first,a1-second,a1-third" data-stacks-kind="stairs" data-attempt="a1" data-caption="st-a1-cap"></div><figcaption><p class="fig-title">طرح ۱۳۹۹ — یک رشتهٔ مستقیم بلند، بی‌پلهٔ خصوصی.</p><p id="st-a1-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
+      {% endif %}
       {{ m.prevnext(prev, nxt, root, 'concepts/', head=head, tail=tail) }}
     </div>
   </div>
@@ -18,4 +24,4 @@
 </article>
 {% endblock %}
 {% block paths %}{{ m.paths(backs, root, kind_fa) }}{% endblock %}
-{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}js/plans-data.js?v=3"></script><script src="{{ root }}js/plan.js?v=3"></script>{% if c.widget == 'stairs' %}<script src="{{ root }}js/stacks.js?v=3"></script>{% endif %}{% endblock %}

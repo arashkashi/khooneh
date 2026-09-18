@@ -15,7 +15,7 @@ Fixed ids
 - sheets: a1-section, a1-basement, a1-ground, a1-first-loft, a1-second-loft, a1-third, a3-basement, a3-ground, a3-first, a3-second, a3-third, a3-fourth-alt  (files: drawings/2020/{section-b-b,basement,ground,first-loft,second-loft,third}.webp, drawings/2024/{basement,ground,first,second,third,fourth-alt}.webp; thumbs `-thumb.webp`; pdfs drawings/pdf/2020_*.pdf, drawings/pdf/2024_*.pdf as in the current index.html)
 - brief: b01…b19
 - questions: q-level-minus-2, q-window-paradox, q-breathing, q-both-sides, q-convertible, q-cost-in-quantities, q-tree, q-roof, q-mix, q-fourth-floor, q-stacks, q-facade
-- concepts: c-iwan, c-godal-baghcheh, c-shabak, c-hoz, c-nested-floors, c-bahamestan, c-double-skin, c-double-height-loft, c-student-unit, c-caretaker, c-roof-garden, c-tree, c-cross-ventilation, c-parking
+- concepts: c-iwan, c-godal-baghcheh, c-shabak, c-hoz, c-nested-floors, c-bahamestan, c-double-skin, c-double-height-loft, c-student-unit, c-caretaker, c-roof-garden, c-tree, c-cross-ventilation, c-parking, c-scissor-stair, c-cooling
 - story events: e-1398-list, e-1399-first-design, e-1399-plot-lost, e-1400-second-plot, e-1403-third-attempt, e-1403-reviews, e-1404-paused, e-1405-page
 
 Sources of truth: private/knowledge/*.md, private/geometry.json, private/renders/ (view them), the 19-point brief verbatim in private/knowledge/01-brief.md. Owner-observation PDFs have a broken text layer — paraphrase only.

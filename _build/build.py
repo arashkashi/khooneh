@@ -52,6 +52,7 @@ for c in concepts: add('concept', c, c['term_fa'], f"concepts/{c['id']}/")
 for s in sheets: add('sheet', s, s['title_fa'], f"sheets/{s['id']}/")
 ATTEMPT_NAME = {'a1': 'طرح ۱۳۹۹', 'a3': 'طرح ۱۴۰۳'}   # one name per design in all chrome (nav, crumbs, link text, prev/next)
 for a in attempts: add('attempt', a, ATTEMPT_NAME.get(a['id'], a['title_fa']), f"attempts/{a['id']}/")
+if nxt: add('next', nxt, nxt['title_fa'], 'next/')
 for e in story: add('event', e, e['title_fa'], f"story/#{e['id']}")
 if proposal: add('proposal', proposal, proposal['title_fa'], 'proposal/')
 for v in voices: add('voice', v, v['name_fa'], f"voices/{v['id']}/")
@@ -75,7 +76,7 @@ def related_ids(node, exclude_id=None):
 
 def related_groups(node, exclude_id=None, drop_kinds=()):
     """[(group title, [registry entries])] in a fixed order, only for ids that exist. drop_kinds: kinds the page already shows another way."""
-    order = ['attempt', 'sheet', 'brief', 'question', 'concept', 'proposal', 'voice']
+    order = ['attempt', 'sheet', 'brief', 'question', 'concept', 'proposal', 'next', 'voice']
     out = []
     for kind in order:
         if kind in drop_kinds: continue
@@ -252,7 +253,6 @@ if proposal:
 write('invite/', 'invite.html', sheets=sheets, proposal=proposal)
 # next design (the family's imagination, coarse boxes)
 if nxt:
-    add('next', nxt, nxt['title_fa'], 'next/')
     write('next/', 'next.html', n=nxt, plan_ids=MODEL['next']['plans'], model_json=json.dumps(dict(MODEL['next'], mode='exploded', idea=True), ensure_ascii=False), groups=related_groups(nxt, nxt['id']), backs=backlink_entries(nxt['id'], nxt))
 
 # all-in-one pages: post-process the hand-written single pages
