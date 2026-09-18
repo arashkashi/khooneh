@@ -8,6 +8,8 @@ window.KHOONEH = {
     yardDepth: 6.4,      // south yard, ground level
     bodyDepth: 11.4,     // GF/basement body
     console: 1.2,        // upper floors project 1.20 toward the yard (south); a 0.50 flower box sits on the street edge
+    consoleSide: 'yard', // section: GF/basement body is set back 1.20 from the yard; street face flush (default 'street' = body flush to the yard, console over the street)
+    flowerBox: 0.5,      // section: planter strip cantilevered over the street edge at the first floor
     levels: [
       { id: 'm2', name: 'Level −2', name_fa: 'طبقهٔ ۲−', elev: -6.2, clear: 2.8, ghost: true,
         note: 'Never drawn. The brief asks for a second basement as a shared recreational and cultural room. This is where the story is open.',
@@ -63,3 +65,19 @@ window.KHOONEH = {
     caption_fa: 'با رفتن روی هر صفحه یا لمس آن، توضیحش دیده می‌شود. سه واحد از چهار واحد دو طبقه را می‌گیرند؛ طبقهٔ دوم به آسانسور نیاز ندارد، پس همین نقشه‌ها در تراکم سه‌طبقه و چهارطبقه هر دو کار می‌کند.'
   }
 };
+/* attempt1plus: the 2020 section with the family's idea of a fourth floor on top (allowed since 2024 if four floors are granted).
+   A deep copy of attempt1 — the original is not touched. The idea floor and the moved roof are ghost levels (dashed, hatched). */
+window.KHOONEH.attempt1plus = (function (A) {
+  const P = JSON.parse(JSON.stringify(A));
+  const r = P.levels.find(l => l.id === 'r');
+  P.levels.splice(P.levels.indexOf(r), 0, {
+    id: 'f4', name: 'Fourth floor (idea)', name_fa: 'طبقهٔ چهارم (ایده)', elev: 16.28, clear: 3.30, ghost: true, upper: true, default: true,
+    label: 'fourth floor — the family’s idea, not drawn', label_fa: 'طبقهٔ چهارم — ایدهٔ خانواده، ترسیم‌نشده',
+    base: 'roof 2020', base_fa: 'بام ۱۳۹۹',
+    note: 'The family’s idea, not drawn: one more floor on the 2020 section, allowed since 2024 if four floors are granted. Roof would rise to about +19.9.',
+    note_fa: 'ایدهٔ خانواده، ترسیم‌نشده: یک طبقه روی برش ۱۳۹۹، اگر تراکم چهار طبقه داده شود. بام به حدود ۱۹٫۹+ می‌رسد.' });
+  Object.assign(r, { name: 'Roof (idea)', name_fa: 'بام (ایده)', elev: 19.98, ghost: true, upper: true, roof: true,
+    note: 'With a fourth floor the roof garden and the stair box move up one storey: roof at about +19.98, stair box to about +21.6. The 2020 roof at +16.28 becomes the floor of the new storey.',
+    note_fa: 'با طبقهٔ چهارم، بام سبز و باکس پله یک طبقه بالا می‌روند: بام در حدود ۱۹٫۹۸+، باکس پله تا حدود ۲۱٫۶+. بام ۱۳۹۹ در ۱۶٫۲۸+ کفِ طبقهٔ تازه می‌شود.' });
+  return P;
+})(window.KHOONEH.attempt1);

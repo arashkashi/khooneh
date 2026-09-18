@@ -24,20 +24,28 @@
     const tag = k => T(tags, k) || '';
     const lab = e => (e > 0 ? '+' : e === 0 ? '±' : '−') + Math.abs(e).toFixed(2);
 
-    const yard = D.yardDepth, south = yard, northGF = yard + D.bodyDepth, north = D.plot.depth, slab = 0.3;
+    // x runs from the yard end of the plot (0) to the street (plot depth). The upper floors always span south..north;
+    // the GF/basement body sits either flush with the yard (console over the street, the default) or set back by the console (consoleSide 'yard').
+    const yard = D.yardDepth, south = yard, north = D.plot.depth, slab = 0.3;
+    const consoleYard = D.consoleSide === 'yard';
+    const southGF = consoleYard ? north - D.bodyDepth : south, northGF = consoleYard ? north : yard + D.bodyDepth;
     const basement = D.levels.filter(l => !l.ghost && l.elev < 0).sort((a, b) => a.elev - b.elev)[0];
     const bElev = basement ? basement.elev : -3.0;
     const ghosts = D.levels.filter(l => l.ghost);
     const upper = D.levels.filter(l => !l.ghost && l.elev > 0 && !l.loft);
     const lofts = D.levels.filter(l => l.loft);
-    const roof = upper[upper.length - 1];
+    // ghost levels with upper:true are ideas stacked on the drawn building (dashed, hatched); one of them may be the moved roof (roof:true)
+    const ideaFloors = ghosts.filter(l => l.upper && !l.roof).sort((a, b) => a.elev - b.elev);
+    const ideaRoof = ghosts.find(l => l.upper && l.roof);
+    const roof = ideaRoof ? null : upper[upper.length - 1];                      // the drawn roof; none when an idea sits on top
+    const wallTop = roof ? roof.elev : ideaFloors.length ? ideaFloors[0].elev : null;   // top of the solid walls
 
     // earth + excavation
     const earth = el('g', { class: 'earth' });
     rect(0, 0, north, bot, {}, earth);
     rect(0.3, 0, northGF, bElev - slab, { class: 'cut' }, earth);
-    // ghost levels (never drawn)
-    ghosts.forEach(g => {
+    // ghost levels (never drawn): below ground they fill the basement extents; ideas above the roof come after the solid floors
+    ghosts.filter(g => !g.upper).forEach(g => {
       const gg = el('g', { class: 'ghost' });
       rect(0.3, g.elev + g.clear + slab, northGF, g.elev - slab, {}, gg);
       text((0.3 + northGF) / 2, g.elev + g.clear / 2 - 0.2, T(g, 'label') || tag('ghost'), { class: 'ghost-label', 'text-anchor': 'middle' }, gg);
@@ -45,7 +53,7 @@
     // courtyard opening + tree
     if (D.courtyard !== false) {
       const c0 = 1.2, c1 = 5.4;
-      rect(0, 0, c0, -0.25, { class: 'slab' }); rect(c1, 0, south, -0.25, { class: 'slab' });
+      rect(0, 0, c0, -0.25, { class: 'slab' }); rect(c1, 0, southGF, -0.25, { class: 'slab' });
       line(c0, 0, c0, bElev, { class: 'green' }); line(c1, 0, c1, bElev, { class: 'green' });
       const tree = el('g', { class: 'tree' });
       // a slightly leaning trunk with two branches, roots, and a soft three-lobed canopy
@@ -55,13 +63,13 @@
       line(2.5, bElev, 3.3, bElev + 0.6, { class: 'root' }, tree); line(4.1, bElev, 3.3, bElev + 0.6, { class: 'root' }, tree);
       [[3.3, 3.9, 1.9], [2.2, 3.0, 1.25], [4.45, 3.15, 1.35], [3.1, 2.75, 1.2]].forEach(([cx, cy, r]) => el('circle', { cx: X(cx), cy: Y(cy), r: r * S, class: 'canopy' }, tree));
       el('circle', { cx: X(2.9), cy: Y(4.3), r: 0.7 * S, class: 'canopy-light' }, tree);
-    } else { rect(0, 0, south, -0.25, { class: 'slab' }); }
+    } else { rect(0, 0, southGF, -0.25, { class: 'slab' }); }
     // basement floor, hoz, walls
     rect(0.3, bElev, northGF, bElev - slab, { class: 'slab' });
-    if (D.hoz !== false) { rect(7.0, bElev, 8.75, bElev + 0.52, { class: 'water' }); text(7.9, bElev + 1.07, tag('hoz'), { class: 'tag', 'text-anchor': 'middle' }); }
+    if (D.hoz !== false) { const hz = 7.0 + (southGF - south); rect(hz, bElev, hz + 1.75, bElev + 0.52, { class: 'water' }); text(hz + 0.9, bElev + 1.07, tag('hoz'), { class: 'tag', 'text-anchor': 'middle' }); }
     line(0.3, 0, 0.3, bElev - slab, { class: 'wall' });
     // ground: slab, car, shabak, tags
-    rect(south, 0, northGF, -slab, { class: 'slab' });
+    rect(southGF, 0, northGF, -slab, { class: 'slab' });
     const car = el('g', { class: 'car' });
     // a small round hatchback: body, cabin, two windows, wheels with hubs, a headlight
     el('path', { d: `M${X(9.3)} ${Y(0.42)} L${X(9.3)} ${Y(0.95)} Q${X(9.3)} ${Y(1.15)} ${X(9.55)} ${Y(1.15)} L${X(10.35)} ${Y(1.15)} Q${X(10.6)} ${Y(1.15)} ${X(10.85)} ${Y(1.45)} L${X(11.35)} ${Y(1.95)} Q${X(11.6)} ${Y(2.15)} ${X(11.9)} ${Y(2.15)} L${X(12.9)} ${Y(2.15)} Q${X(13.35)} ${Y(2.15)} ${X(13.55)} ${Y(1.85)} L${X(13.85)} ${Y(1.2)} Q${X(13.95)} ${Y(0.95)} ${X(13.95)} ${Y(0.7)} L${X(13.95)} ${Y(0.42)} Z`, class: 'car-body' }, car);
@@ -70,8 +78,11 @@
     el('circle', { cx: X(13.85), cy: Y(0.72), r: 0.09 * S, class: 'car-lamp' }, car);
     [10.35, 12.95].forEach(cx => { el('circle', { cx: X(cx), cy: Y(0.36), r: 0.36 * S, class: 'car-wheel' }, car); el('circle', { cx: X(cx), cy: Y(0.36), r: 0.14 * S, class: 'car-hub' }, car); });
     const f1 = upper[0];
-    if (D.shabak !== false) { line(south, 0, south, f1.elev, { class: 'shabak' }); text(south - 0.25, 1.2, tag('shabak'), { class: 'tag', 'text-anchor': 'end' }); }
-    text(0.3, 0.55, tag('yard'), { class: 'tag' }); text(northGF + 0.25, -0.75, tag('street'), { class: 'tag' });
+    if (D.shabak !== false) { line(southGF, 0, southGF, f1.elev, { class: 'shabak' }); text(southGF - 0.25, 1.2, tag('shabak'), { class: 'tag', 'text-anchor': 'end' }); }
+    text(0.3, 0.55, tag('yard'), { class: 'tag' });
+    if (northGF < north - 0.05) text(northGF + 0.25, -0.75, tag('street'), { class: 'tag' });   // on the strip under the street
+    else text(north + 0.2, 0.9, tag('street'), { class: 'tag' });                               // street face flush: label the air beyond the wall
+    if (D.flowerBox) { rect(north, f1.elev, north + D.flowerBox, f1.elev - slab, { class: 'slab' }); el('path', { d: `M${X(north + 0.1)} ${Y(f1.elev)} q4 -9 8 0`, class: 'green' }); }
     // upper slabs and walls
     upper.forEach(L => rect(south, L.elev, north, L.elev - slab, { class: 'slab' }));
     lofts.forEach(L => { const sp = L.span || [11.5, north]; rect(sp[0], L.elev, sp[1], L.elev - slab, { class: 'slab' }); });
@@ -80,9 +91,33 @@
       line(15.8, roof.elev, 15.8, roof.elev + 1.6, { class: 'wall' }); line(18.4, roof.elev, 18.4, roof.elev + 1.6, { class: 'wall' });
       for (let x = south + 0.4; x < 15.4; x += 0.9) el('path', { d: `M${X(x)} ${Y(roof.elev)} q4 -9 8 0`, class: 'green' });
     }
-    line(south, bElev, south, roof ? roof.elev : f1.elev, { class: 'wall' });
+    if (southGF === south) line(south, bElev, south, wallTop || f1.elev, { class: 'wall' });
+    else { line(southGF, bElev, southGF, f1.elev, { class: 'wall' }); line(south, f1.elev - slab, south, wallTop || f1.elev, { class: 'wall' }); }
     line(northGF, bElev - slab, northGF, f1.elev, { class: 'wall' });
-    line(north, f1.elev - slab, north, roof ? roof.elev : f1.elev, { class: 'wall' });
+    line(north, f1.elev - slab, north, wallTop || f1.elev, { class: 'wall' });
+    // idea floors: the existing roof slab becomes their floor (solid); the box above is dashed with a light hatch, and the label sits inside
+    if (ideaFloors.length) {
+      const pid = 'hatch-' + Math.random().toString(36).slice(2, 8);
+      const defs = el('defs'); const pat = el('pattern', { id: pid, patternUnits: 'userSpaceOnUse', width: 8, height: 8 }, defs);
+      el('path', { d: 'M-2 2 L2 -2 M0 8 L8 0 M6 10 L10 6', style: 'stroke:var(--ink-2, #5A6664);stroke-width:.6;opacity:.55;fill:none' }, pat);
+      ideaFloors.forEach((g, i) => {
+        rect(south, g.elev, north, g.elev - slab, { class: 'slab' });
+        const above = ideaFloors[i + 1] || ideaRoof;
+        const topE = above ? above.elev - slab : g.elev + g.clear;
+        const gg = el('g', { class: 'ghost ghost-idea' });
+        rect(south, topE, north, g.elev, { style: `fill:url(#${pid})` }, gg);
+        text((south + north) / 2, g.elev + (topE - g.elev) / 2 - 0.2, T(g, 'label') || T(g, 'name'), { class: 'ghost-label', 'text-anchor': 'middle' }, gg);
+        if (g.base || g.base_fa) text(south - 0.25, g.elev + 0.15, T(g, 'base'), { class: 'tag', 'text-anchor': 'end' });
+      });
+      if (ideaRoof) {
+        const gg = el('g', { class: 'ghost ghost-idea' });
+        rect(south, ideaRoof.elev, north, ideaRoof.elev - slab, {}, gg);
+        rect(15.8, ideaRoof.elev + 1.6, 18.4, ideaRoof.elev + 1.6 - slab, {}, gg);
+        const dash = { style: 'stroke:var(--ink-2, #5A6664);stroke-width:1;stroke-dasharray:5 5' };
+        line(15.8, ideaRoof.elev, 15.8, ideaRoof.elev + 1.6, dash, gg); line(18.4, ideaRoof.elev, 18.4, ideaRoof.elev + 1.6, dash, gg);
+        for (let x = south + 0.4; x < 15.4; x += 0.9) el('path', { d: `M${X(x)} ${Y(ideaRoof.elev)} q4 -9 8 0`, class: 'green', style: 'stroke-dasharray:2 2;opacity:.7' }, gg);
+      }
+    }
     // double-height voids
     D.levels.filter(l => l.double).forEach(L => {
       const next = upper.find(u => u.elev > L.elev);
@@ -95,17 +130,17 @@
     // level ladder
     const ladder = el('g', { class: 'ladder' });
     D.levels.forEach(L => {
-      line(L.ghost || L.elev < 0 ? 0.3 : south, L.elev, north + 0.6, L.elev, { class: 'lead' }, ladder);
-      text(north + 0.8, L.elev + 0.12, L.ghost ? (T(L, 'short') || '?') : lab(L.elev), { class: 'lvl' }, ladder);
+      line((L.ghost && !L.upper) || L.elev < 0 ? 0.3 : south, L.elev, north + 0.6, L.elev, { class: 'lead' }, ladder);
+      text(north + 0.8, L.elev + 0.12, L.ghost && !L.upper ? (T(L, 'short') || '?') : lab(L.elev), { class: 'lvl' }, ladder);
       text(north + 0.8, L.elev - 0.5, T(L, 'name'), { class: 'lvl-name' }, ladder);
     });
     line(0, bot + 0.3, north, bot + 0.3, { class: 'dim' });
     text(north / 2, bot - 0.15, `${D.plot.depth.toFixed(2)} m · ${tag('plot')} ${D.plot.width} × ${D.plot.depth}`, { class: 'dim-label', 'text-anchor': 'middle' });
     // hover / focus bands
     const bands = el('g', { class: 'bands' });
-    const setCaption = L => { if (caption) caption.innerHTML = `<strong>${T(L, 'name')}</strong> <span>${L.ghost ? '' : lab(L.elev)}${L.clear && !L.ghost ? ` · ${L.clear.toFixed(2)} ${tag('clear')}` : ''}</span><br>${T(L, 'note') || ''}`; };
+    const setCaption = L => { const unk = L.ghost && !L.upper; if (caption) caption.innerHTML = `<strong>${T(L, 'name')}</strong> <span>${unk ? '' : lab(L.elev)}${L.clear && !unk ? ` · ${L.clear.toFixed(2)} ${tag('clear')}` : ''}</span><br>${T(L, 'note') || ''}`; };
     D.levels.forEach((L, i) => {
-      const x0 = L.ghost || L.elev < 0 ? 0.3 : south, x1 = L.elev < f1.elev ? northGF : north;
+      const x0 = (L.ghost && !L.upper) || L.elev < 0 ? 0.3 : L.elev < f1.elev ? southGF : south, x1 = L.elev < f1.elev ? northGF : north;
       const g = el('g', { class: 'band', tabindex: 0, role: 'button', 'aria-label': `${T(L, 'name')}: ${T(L, 'note') || ''}` }, bands);
       rect(x0, L.elev, x1, L.elev + (L.clear || 2.8), {}, g);
       const on = () => { bands.querySelectorAll('.band').forEach(b => b.classList.remove('is-active')); g.classList.add('is-active'); setCaption(L); };
