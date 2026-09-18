@@ -232,7 +232,7 @@
       const st = el('text', { x: 5 * S + 6, y: 3.5, fill: INK2, 'font-size': '9.5px' }, sb); st.textContent = digits(5) + ' m';
 
       svg.appendChild(gLabels);
-      setCaption(`${W.summary(wetAll.length, offCount)}<br><span>${W.hint}</span>`);
+      setCaption(`${sel.length ? W.summary(wetAll.length, offCount) : (fa ? 'هیچ طبقه‌ای انتخاب نشده.' : 'No floor selected.')}<br><span>${W.hint}</span>`);
     }
     draw();
     return { redraw: draw, svg };
