@@ -205,7 +205,8 @@ MODEL = {
             clear={'next-basement': 2.9, 'next-ground': 2.7, 'next-first': 2.9, 'next-second': 2.9, 'next-third': 2.9, 'next-fourth': 2.9, 'next-roof': 0.0}),
  'a3': dict(plans=['a3-basement', 'a3-ground', 'a3-first', 'a3-second', 'a3-third', 'a3-fourth'],
             elev={'a3-basement': -3.5, 'a3-ground': 0.0, 'a3-first': 3.0, 'a3-second': 6.2, 'a3-third': 9.4, 'a3-fourth': 12.6},
-            clear={'a3-basement': 3.0, 'a3-ground': 2.7, 'a3-first': 2.9, 'a3-second': 2.9, 'a3-third': 2.9, 'a3-fourth': 2.9}),
+            clear={'a3-basement': 3.0, 'a3-ground': 2.7, 'a3-first': 2.9, 'a3-second': 2.9, 'a3-third': 2.9, 'a3-fourth': 2.9},
+            mode='exploded'),   # floor-spacing slider with stairs/lift as connectors (1399 keeps the plain stacked massing)
 }
 # attempts
 for a in attempts:
