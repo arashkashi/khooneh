@@ -94,6 +94,20 @@
       const ends = { n: [cx0 + r0, cy0, cx0, cy0 - r0], s: [cx0 + r0, cy0, cx0, cy0 + r0], e: [cx0, cy0 + r0, cx0 + r0, cy0], w: [cx0, cy0 + r0, cx0 - r0, cy0] }[dir || 'n'];
       el('path', { d: `M${ends[0]} ${ends[1]} A${r0} ${r0} 0 0 ${dir === 's' || dir === 'w' ? 1 : 0} ${ends[2]} ${ends[3]}`, fill: 'none', stroke: '#5A6664', 'stroke-width': .8, class: 'door-arc' });
       el('line', { x1: cx0, y1: cy0, x2: ends[2], y2: ends[3], stroke: '#5A6664', 'stroke-width': 1.2, class: 'door-leaf' }); });
+    // idea plans (the family's coarse boxes): grid lines, columns, risers, dashed frame and a watermark — never mistaken for a measured drawing
+    if (plan.grid || plan.columns || plan.risers) {
+      const gi = el('g', { class: 'idea-structure' });
+      (plan.grid && plan.grid.x || []).forEach(gx => el('line', { x1: X(gx), y1: Y(-0.6), x2: X(gx), y2: Y(d + 0.2), stroke: '#9C6B3C', 'stroke-width': .6, 'stroke-dasharray': '6 4', opacity: .7 }, gi));
+      (plan.grid && plan.grid.y || []).forEach(gy => el('line', { x1: X(-0.4), y1: Y(gy), x2: X(w + 0.4), y2: Y(gy), stroke: '#9C6B3C', 'stroke-width': .6, 'stroke-dasharray': '6 4', opacity: .7 }, gi));
+      (plan.risers || []).forEach(r => { el('rect', { x: X(r[0]), y: Y(r[1]), width: (r[2] - r[0]) * S, height: (r[3] - r[1]) * S, fill: '#1D8F8A', opacity: .22 }, gi); text((r[0] + r[2]) / 2, (r[1] + r[3]) / 2 + 0.15, fa ? 'رایزر' : 'riser', { class: 'tag', 'text-anchor': 'middle', fill: '#1D8F8A', 'font-size': '8px', transform: `rotate(-90 ${X((r[0] + r[2]) / 2)} ${Y((r[1] + r[3]) / 2)})` }, gi); });
+      (plan.columns || []).forEach(([cx, cy]) => el('rect', { x: X(cx) - 0.22 * S, y: Y(cy) - 0.22 * S, width: 0.44 * S, height: 0.44 * S, fill: '#161C1B' }, gi));
+    }
+    if (plan.idea) {
+      const fp0 = (plan.footprint || [])[0];
+      if (fp0) el('rect', { x: X(fp0[0]) - 3, y: Y(fp0[1]) - 3, width: (fp0[2] - fp0[0]) * S + 6, height: (fp0[3] - fp0[1]) * S + 6, fill: 'none', stroke: '#9C6B3C', 'stroke-width': 1.2, 'stroke-dasharray': '10 6' });
+      const wm = el('text', { x: X(w / 2), y: Y(d * 0.42), class: 'idea-mark', 'text-anchor': 'middle', fill: '#9C6B3C', opacity: .28, 'font-size': '22px', 'font-weight': '700', transform: `rotate(-18 ${X(w / 2)} ${Y(d * 0.42)})` });
+      wm.textContent = T(plan, 'idea_note') || (fa ? 'ایدهٔ خانواده — ترسیم معماری نیست' : 'the family’s idea — not an architectural drawing');
+    }
     // north arrow, street / yard tags, scale bar
     const na = el('g', { class: 'north', transform: `translate(${X(w) + 14} ${Y(0) + 10})` });
     el('path', { d: 'M0 -9 L5 6 L0 3 L-5 6 Z', class: 'north-arrow', fill: '#161C1B' }, na);

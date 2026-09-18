@@ -20,7 +20,7 @@ def load(name, default):
 
 brief = load('brief.json', []); story = load('story.json', []); attempts = load('attempts.json', [])
 questions = load('questions.json', []); concepts = load('concepts.json', []); sheets = load('sheets.json', [])
-proposal = load('proposal.json', None); voices = load('voices.json', []); views_src = load('views.json', []); plans = load('plans-a1.json', []) + load('plans-a3.json', [])
+proposal = load('proposal.json', None); voices = load('voices.json', []); views_src = load('views.json', []); plans = load('plans-a1.json', []) + load('plans-a3.json', []) + load('plans-next.json', []); nxt = load('next.json', None)
 
 FA_DIGITS = str.maketrans('0123456789', '۰۱۲۳۴۵۶۷۸۹')
 def fa_num(x): return str(x).translate(FA_DIGITS)
@@ -38,8 +38,8 @@ def area_fa(v):
 env.filters['paras'] = paras; env.filters['fa'] = fa_num; env.filters['strip_num'] = strip_num; env.filters['area_fa'] = area_fa
 
 # ---------- registry of nodes: id -> {kind, title, url}
-KIND_FA = {'brief': 'شاخص', 'question': 'پرسش', 'concept': 'مفهوم', 'sheet': 'نقشه', 'attempt': 'طرح', 'event': 'رویداد', 'proposal': 'پیشنهاد', 'voice': 'میان‌پرده'}
-KIND_GROUP_FA = {'brief': 'شاخص‌ها', 'question': 'پرسش‌های باز', 'concept': 'مفاهیم', 'sheet': 'نقشه‌ها', 'attempt': 'طرح‌ها', 'event': 'داستان', 'proposal': 'پیشنهاد', 'voice': 'در میانهٔ داستان'}
+KIND_FA = {'brief': 'شاخص', 'question': 'پرسش', 'concept': 'مفهوم', 'sheet': 'نقشه', 'attempt': 'طرح', 'event': 'رویداد', 'proposal': 'پیشنهاد', 'voice': 'میان‌پرده', 'next': 'طرح بعدی'}
+KIND_GROUP_FA = {'brief': 'شاخص‌ها', 'question': 'پرسش‌های باز', 'concept': 'مفاهیم', 'sheet': 'نقشه‌ها', 'attempt': 'طرح‌ها', 'event': 'داستان', 'proposal': 'پیشنهاد', 'voice': 'در میانهٔ داستان', 'next': 'طرح بعدی، خیالی'}
 reg = {}
 def add(kind, node, title, url): reg[node['id']] = {'kind': kind, 'title': title, 'url': url, 'node': node}
 def brief_label(b):
@@ -98,7 +98,7 @@ def backlink_entries(nid, node=None):
 
 # ---------- navigation and chapters
 NAV = [('', 'خانه'), ('brief/', 'شاخص‌ها'), ('story/', 'داستان'), ('attempts/a1/', 'طرح ۱۳۹۹'), ('attempts/a3/', 'طرح ۱۴۰۳'), ('sheets/', 'نقشه‌ها'),
-       ('questions/', 'پرسش‌ها'), ('concepts/', 'مفاهیم'), ('proposal/', 'پیشنهاد'), ('invite/', 'دعوت'), ('all/', 'همه در یک صفحه')]
+       ('questions/', 'پرسش‌ها'), ('concepts/', 'مفاهیم'), ('proposal/', 'پیشنهاد'), ('next/', 'طرح بعدی'), ('invite/', 'دعوت'), ('all/', 'همه در یک صفحه')]
 CHAPTERS = [
     ('brief/', 'شاخص‌ها', 'نوزده چیزی که یک خانواده از خانه‌اش خواست'),
     ('story/', 'داستان تا اینجا', 'هفت سال، دو طرح، و خانه‌ای که ساخته نشد'),
@@ -107,6 +107,7 @@ CHAPTERS = [
     ('sheets/', 'نقشه‌ها', 'دوازده شیت، یکی‌یکی'),
     ('questions/', 'پرسش‌های باز', 'دوازده چیزی که هیچ طرحی جواب نداد'),
     ('proposal/', 'پیشنهاد', 'جمع‌بندی همهٔ این‌ها در یک برش'),
+    ('next/', 'طرح بعدی، خیالی', 'از جعبه‌ها تا مجسمه: ستون‌ها، رایزرها، پله‌ها، واحدها'),
     ('invite/', 'دعوت', 'برای کسی که بخواهد ادامه بدهد'),
 ]
 def next_chapter(url):
@@ -162,9 +163,11 @@ for v in views:
 # schematic plans → js/plans-data.js, and which plans illustrate which node (by room/element tags)
 plans_by_id = {p['id']: p for p in plans}
 plans_by_sheet = defaultdict(list)
-for p in plans: plans_by_sheet[p['sheet']].append(p['id'])
+for p in plans:
+    if p.get('sheet'): plans_by_sheet[p['sheet']].append(p['id'])
 plan_focus = defaultdict(lambda: defaultdict(int))
 for p in plans:
+    if p.get('idea'): continue   # the family's idea boxes never stand in for measured plans on other pages
     for r in p.get('rooms', []) + p.get('elements', []):
         for t in r.get('tags', []): plan_focus[t][p['id']] += 1
 def focus_plans(nid, limit=3):
@@ -196,6 +199,9 @@ MODEL = {
  'a1': dict(plans=['a1-basement', 'a1-ground', 'a1-first', 'a1-loft1', 'a1-second', 'a1-third'],
             elev={'a1-basement': -3.12, 'a1-ground': 0.0, 'a1-first': 2.96, 'a1-loft1': 6.08, 'a1-second': 8.88, 'a1-third': 12.58},
             clear={'a1-basement': 2.72, 'a1-ground': 2.56, 'a1-first': 2.8, 'a1-loft1': 2.5, 'a1-second': 3.3, 'a1-third': 3.3}),
+ 'next': dict(plans=['next-basement', 'next-ground', 'next-first', 'next-second', 'next-third', 'next-fourth', 'next-roof'],
+            elev={'next-basement': -3.2, 'next-ground': 0.0, 'next-first': 3.0, 'next-second': 6.2, 'next-third': 9.4, 'next-fourth': 12.6, 'next-roof': 15.8},
+            clear={'next-basement': 2.9, 'next-ground': 2.7, 'next-first': 2.9, 'next-second': 2.9, 'next-third': 2.9, 'next-fourth': 2.9, 'next-roof': 0.0}),
  'a3': dict(plans=['a3-basement', 'a3-ground', 'a3-first', 'a3-second', 'a3-third', 'a3-fourth'],
             elev={'a3-basement': -3.5, 'a3-ground': 0.0, 'a3-first': 3.0, 'a3-second': 6.2, 'a3-third': 9.4, 'a3-fourth': 12.6},
             clear={'a3-basement': 3.0, 'a3-ground': 2.7, 'a3-first': 2.9, 'a3-second': 2.9, 'a3-third': 2.9, 'a3-fourth': 2.9}),
@@ -244,6 +250,10 @@ if proposal:
           section_json=json.dumps(section_ds, ensure_ascii=False), units_json=json.dumps(units_ds, ensure_ascii=False))
 # invite
 write('invite/', 'invite.html', sheets=sheets, proposal=proposal)
+# next design (the family's imagination, coarse boxes)
+if nxt:
+    add('next', nxt, nxt['title_fa'], 'next/')
+    write('next/', 'next.html', n=nxt, plan_ids=MODEL['next']['plans'], model_json=json.dumps(dict(MODEL['next'], mode='exploded', idea=True), ensure_ascii=False), groups=related_groups(nxt, nxt['id']), backs=backlink_entries(nxt['id'], nxt))
 
 # all-in-one pages: post-process the hand-written single pages
 def nav_html(root, lang):

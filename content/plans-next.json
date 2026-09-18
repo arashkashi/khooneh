@@ -1,0 +1,1768 @@
+[
+ {
+  "id": "next-basement",
+  "attempt": "next",
+  "name_fa": "زیرزمین — ایده",
+  "name_en": "Basement — idea",
+  "elev": -3.2,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "caretaker",
+    "name_fa": "واحد سرایدار",
+    "name_en": "caretaker unit",
+    "kind": "caretaker",
+    "m": [
+     0.25,
+     0.3,
+     7.35,
+     7.0
+    ],
+    "tags": [
+     "b06",
+     "c-caretaker"
+    ],
+    "note_fa": "حدود ۴۷ متر: خواب، نشیمن، آشپزخانه و حمام چسبیده به رایزر غربی",
+    "short_fa": "سرایدار"
+   },
+   {
+    "id": "commons",
+    "name_fa": "فضای مشترک: حوض، سونای خشک، رختکن، اتاق حرکت",
+    "name_en": "commons: hoz, dry sauna, changing, movement room",
+    "kind": "water",
+    "m": [
+     0.25,
+     7.0,
+     7.35,
+     14.0
+    ],
+    "tags": [
+     "b07",
+     "c-hoz",
+     "c-bahamestan"
+    ],
+    "note_fa": "حدود ۴۷ متر، رو به گودال‌باغچه؛ آب و سونا کنار رایزر",
+    "short_fa": "حوض و سونا"
+   },
+   {
+    "id": "plant",
+    "name_fa": "موتورخانه و انباری‌ها",
+    "name_en": "plant and stores",
+    "kind": "service",
+    "m": [
+     8.0,
+     7.3,
+     10.25,
+     14.0
+    ],
+    "tags": [
+     "b10"
+    ],
+    "short_fa": "موتورخانه"
+   },
+   {
+    "id": "stair",
+    "name_fa": "پلهٔ ساختمان",
+    "name_en": "core stair",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     5.3
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "پلهٔ دوطرفه ۲٫۲۵ × ۵٫۰ در جای پلهٔ ۱۳۹۹، ورودی از کوچه",
+    "short_fa": "پله"
+   },
+   {
+    "id": "lift",
+    "name_fa": "آسانسور",
+    "name_en": "lift",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     5.3,
+     10.25,
+     7.3
+    ],
+    "tags": [
+     "b19"
+    ],
+    "note_fa": "۱٫۶ × ۲٫۰، تا بام",
+    "short_fa": "آسانسور"
+   },
+   {
+    "id": "spine",
+    "name_fa": "ستون فقرات تأسیسات",
+    "name_en": "riser spine",
+    "kind": "service",
+    "m": [
+     7.35,
+     0.3,
+     8.0,
+     14.0
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "نوار ۰٫۶۵ متری B–C: رایزر فاضلاب، هواکش، لوله‌ها — در همهٔ طبقات یک‌جا",
+    "short_fa": "رایزر"
+   },
+   {
+    "id": "sunken-garden",
+    "name_fa": "گودال‌باغچه با درخت",
+    "name_en": "sunken garden with the tree",
+    "kind": "green",
+    "m": [
+     2.25,
+     14.6,
+     8.25,
+     18.6
+    ],
+    "tags": [
+     "b08",
+     "b13",
+     "c-godal-baghcheh",
+     "c-tree",
+     "q-tree"
+    ],
+    "note_fa": "۶٫۰ × ۴٫۰ در حیاط، رو به آسمان، با دیوار حائل خودش بیرون از پی ساختمان",
+    "short_fa": "گودال‌باغچه"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ },
+ {
+  "id": "next-ground",
+  "attempt": "next",
+  "name_fa": "همکف — ایده",
+  "name_en": "Ground — idea",
+  "elev": 0.0,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "parking",
+    "name_fa": "پارکینگ: پنج خودرو (سه مستقل + دو پشت‌سرهم، فرض)",
+    "name_en": "parking: five cars (three independent + two tandem, assumed)",
+    "kind": "parking",
+    "m": [
+     0.25,
+     0.3,
+     7.35,
+     14.0
+    ],
+    "tags": [
+     "b17",
+     "c-parking"
+    ],
+    "note_fa": "۷٫۱ × ۱۳٫۷؛ دوچرخه‌ها کنار ورودی",
+    "short_fa": "پارکینگ"
+   },
+   {
+    "id": "bikes",
+    "name_fa": "دوچرخه و موتور",
+    "name_en": "bikes",
+    "kind": "storage",
+    "m": [
+     8.0,
+     7.3,
+     10.25,
+     9.4
+    ],
+    "tags": [
+     "c-parking"
+    ],
+    "short_fa": "دوچرخه"
+   },
+   {
+    "id": "void-gf",
+    "name_fa": "پای حیاط عمودی",
+    "name_en": "foot of the vertical courtyard",
+    "kind": "void",
+    "m": [
+     3.6,
+     6.0,
+     6.1,
+     9.0
+    ],
+    "tags": [
+     "q-breathing",
+     "q-both-sides"
+    ],
+    "note_fa": "حفرهٔ ۲٫۵ × ۳٫۰ که از این‌جا تا نورگیر بام بالا می‌رود",
+    "short_fa": "حفره"
+   },
+   {
+    "id": "shabak",
+    "name_fa": "مشبک و فیلتر سبز رو به حیاط",
+    "name_en": "shabak screen and green filter to the yard",
+    "kind": "green",
+    "m": [
+     0.25,
+     13.4,
+     7.35,
+     14.0
+    ],
+    "tags": [
+     "c-shabak",
+     "b08"
+    ],
+    "short_fa": "مشبک"
+   },
+   {
+    "id": "stores-gf",
+    "name_fa": "انباری",
+    "name_en": "stores",
+    "kind": "storage",
+    "m": [
+     8.0,
+     9.4,
+     10.25,
+     14.0
+    ],
+    "tags": [
+     "b10"
+    ],
+    "short_fa": "انباری"
+   },
+   {
+    "id": "stair",
+    "name_fa": "پلهٔ ساختمان",
+    "name_en": "core stair",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     5.3
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "پلهٔ دوطرفه ۲٫۲۵ × ۵٫۰ در جای پلهٔ ۱۳۹۹، ورودی از کوچه",
+    "short_fa": "پله"
+   },
+   {
+    "id": "lift",
+    "name_fa": "آسانسور",
+    "name_en": "lift",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     5.3,
+     10.25,
+     7.3
+    ],
+    "tags": [
+     "b19"
+    ],
+    "note_fa": "۱٫۶ × ۲٫۰، تا بام",
+    "short_fa": "آسانسور"
+   },
+   {
+    "id": "spine",
+    "name_fa": "ستون فقرات تأسیسات",
+    "name_en": "riser spine",
+    "kind": "service",
+    "m": [
+     7.35,
+     0.3,
+     8.0,
+     14.0
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "نوار ۰٫۶۵ متری B–C: رایزر فاضلاب، هواکش، لوله‌ها — در همهٔ طبقات یک‌جا",
+    "short_fa": "رایزر"
+   },
+   {
+    "id": "yard",
+    "name_fa": "حیاط با کف شیشه‌ای مات روی لبهٔ گودال",
+    "name_en": "yard with an opaque glass floor over the garden's edge",
+    "kind": "outdoor",
+    "m": [
+     0.25,
+     14.0,
+     10.25,
+     19.84
+    ],
+    "tags": [
+     "b08",
+     "c-godal-baghcheh"
+    ],
+    "short_fa": "حیاط"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ },
+ {
+  "id": "next-first",
+  "attempt": "next",
+  "name_fa": "طبقهٔ اول — پدر و مادر — ایده",
+  "name_en": "First floor — parents — idea",
+  "elev": 3.0,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ],
+   [
+    0.25,
+    14.0,
+    10.25,
+    15.2
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "p-living",
+    "name_fa": "پدر و مادر — نشیمن و ناهارخوری رو به حیاط",
+    "name_en": "parents — living and dining to the yard",
+    "kind": "living",
+    "m": [
+     0.25,
+     9.4,
+     7.35,
+     15.2
+    ],
+    "tags": [
+     "b05",
+     "b11",
+     "q-mix"
+    ],
+    "note_fa": "۷٫۱ × ۵٫۸ با کنسول؛ پنجرهٔ بزرگ جنوبی زیر سایهٔ کنسول طبقهٔ بالا",
+    "short_fa": "نشیمن"
+   },
+   {
+    "id": "p-kitchen",
+    "name_fa": "آشپزخانه کنار حیاط عمودی",
+    "name_en": "kitchen by the vertical courtyard",
+    "kind": "kitchen",
+    "m": [
+     0.25,
+     4.9,
+     3.6,
+     9.4
+    ],
+    "tags": [
+     "b01",
+     "q-stacks"
+    ],
+    "note_fa": "روی رایزر غربی؛ نور از حفره",
+    "short_fa": "آشپزخانه"
+   },
+   {
+    "id": "void-1",
+    "name_fa": "حیاط عمودی",
+    "name_en": "vertical courtyard",
+    "kind": "void",
+    "m": [
+     3.6,
+     6.0,
+     6.1,
+     9.0
+    ],
+    "tags": [
+     "q-breathing"
+    ],
+    "short_fa": "حفره"
+   },
+   {
+    "id": "p-bath",
+    "name_fa": "حمام و سرویس",
+    "name_en": "bath and WC",
+    "kind": "bath",
+    "m": [
+     6.1,
+     4.9,
+     7.35,
+     9.4
+    ],
+    "tags": [
+     "b04",
+     "q-stacks"
+    ],
+    "note_fa": "چسبیده به ستون فقرات",
+    "short_fa": "حمام"
+   },
+   {
+    "id": "p-beds",
+    "name_fa": "دو خواب رو به کوچه، پشت نمای لایه‌لایه",
+    "name_en": "two bedrooms to the street behind the layered façade",
+    "kind": "bedroom",
+    "m": [
+     0.25,
+     0.3,
+     7.35,
+     4.9
+    ],
+    "tags": [
+     "b05",
+     "q-facade",
+     "q-window-paradox"
+    ],
+    "short_fa": "خواب‌ها"
+   },
+   {
+    "id": "stair",
+    "name_fa": "پلهٔ ساختمان",
+    "name_en": "core stair",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     5.3
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "پلهٔ دوطرفه ۲٫۲۵ × ۵٫۰ در جای پلهٔ ۱۳۹۹، ورودی از کوچه",
+    "short_fa": "پله"
+   },
+   {
+    "id": "lift",
+    "name_fa": "آسانسور",
+    "name_en": "lift",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     5.3,
+     10.25,
+     7.3
+    ],
+    "tags": [
+     "b19"
+    ],
+    "note_fa": "۱٫۶ × ۲٫۰، تا بام",
+    "short_fa": "آسانسور"
+   },
+   {
+    "id": "spine",
+    "name_fa": "ستون فقرات تأسیسات",
+    "name_en": "riser spine",
+    "kind": "service",
+    "m": [
+     7.35,
+     0.3,
+     8.0,
+     14.0
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "نوار ۰٫۶۵ متری B–C: رایزر فاضلاب، هواکش، لوله‌ها — در همهٔ طبقات یک‌جا",
+    "short_fa": "رایزر"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ },
+ {
+  "id": "next-second",
+  "attempt": "next",
+  "name_fa": "طبقهٔ دوم — خانوار دوم و دانشجو — ایده",
+  "name_en": "Second floor — second household and student — idea",
+  "elev": 6.2,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ],
+   [
+    0.25,
+    14.0,
+    10.25,
+    15.2
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "h-living",
+    "name_fa": "خانوار دوم — نشیمن رو به حیاط",
+    "name_en": "second household — living to the yard",
+    "kind": "living",
+    "m": [
+     0.25,
+     9.4,
+     7.35,
+     15.2
+    ],
+    "tags": [
+     "b05",
+     "q-mix"
+    ],
+    "short_fa": "نشیمن"
+   },
+   {
+    "id": "h-kitchen",
+    "name_fa": "خانوار دوم — آشپزخانه",
+    "name_en": "second household — kitchen",
+    "kind": "kitchen",
+    "m": [
+     0.25,
+     4.9,
+     3.6,
+     9.4
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "روی رایزر غربی",
+    "short_fa": "آشپزخانه"
+   },
+   {
+    "id": "void-2",
+    "name_fa": "حیاط عمودی",
+    "name_en": "vertical courtyard",
+    "kind": "void",
+    "m": [
+     3.6,
+     6.0,
+     6.1,
+     9.0
+    ],
+    "tags": [
+     "q-breathing"
+    ],
+    "short_fa": "حفره"
+   },
+   {
+    "id": "h-bath",
+    "name_fa": "خانوار دوم — حمام",
+    "name_en": "second household — bath",
+    "kind": "bath",
+    "m": [
+     6.1,
+     7.2,
+     7.35,
+     9.4
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "short_fa": "حمام"
+   },
+   {
+    "id": "h-bed",
+    "name_fa": "خانوار دوم — دو خواب",
+    "name_en": "second household — two bedrooms",
+    "kind": "bedroom",
+    "m": [
+     0.25,
+     0.3,
+     4.4,
+     4.9
+    ],
+    "tags": [
+     "b05"
+    ],
+    "short_fa": "خواب‌ها"
+   },
+   {
+    "id": "s-unit",
+    "name_fa": "واحد دانشجویی — اتاق باز با آشپزخانهٔ کوچک و حمام روی ستون فقرات",
+    "name_en": "student unit — open room with kitchenette and bath on the spine",
+    "kind": "study",
+    "m": [
+     4.4,
+     0.3,
+     7.35,
+     7.2
+    ],
+    "tags": [
+     "b05",
+     "c-student-unit",
+     "q-mix"
+    ],
+    "note_fa": "حدود ۴۵ متر، بی‌دیوار، ورودی جدا از پاگرد",
+    "short_fa": "دانشجویی"
+   },
+   {
+    "id": "stair",
+    "name_fa": "پلهٔ ساختمان",
+    "name_en": "core stair",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     5.3
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "پلهٔ دوطرفه ۲٫۲۵ × ۵٫۰ در جای پلهٔ ۱۳۹۹، ورودی از کوچه",
+    "short_fa": "پله"
+   },
+   {
+    "id": "lift",
+    "name_fa": "آسانسور",
+    "name_en": "lift",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     5.3,
+     10.25,
+     7.3
+    ],
+    "tags": [
+     "b19"
+    ],
+    "note_fa": "۱٫۶ × ۲٫۰، تا بام",
+    "short_fa": "آسانسور"
+   },
+   {
+    "id": "spine",
+    "name_fa": "ستون فقرات تأسیسات",
+    "name_en": "riser spine",
+    "kind": "service",
+    "m": [
+     7.35,
+     0.3,
+     8.0,
+     14.0
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "نوار ۰٫۶۵ متری B–C: رایزر فاضلاب، هواکش، لوله‌ها — در همهٔ طبقات یک‌جا",
+    "short_fa": "رایزر"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ },
+ {
+  "id": "next-third",
+  "attempt": "next",
+  "name_fa": "طبقهٔ سوم — خانوادهٔ بزرگ، پایین — ایده",
+  "name_en": "Third floor — large family, lower — idea",
+  "elev": 9.4,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ],
+   [
+    0.25,
+    14.0,
+    10.25,
+    15.2
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "f-living",
+    "name_fa": "خانوادهٔ بزرگ — نشیمن دوارتفاعه رو به حیاط و درخت",
+    "name_en": "large family — double-height living to the yard and the tree",
+    "kind": "living",
+    "m": [
+     0.25,
+     9.4,
+     7.35,
+     15.2
+    ],
+    "tags": [
+     "b02",
+     "b11",
+     "c-double-height-loft",
+     "q-fourth-floor"
+    ],
+    "note_fa": "۷٫۱ × ۵٫۸، حدود ۶ متر ارتفاع؛ بلندی از حذف سقف طبقهٔ چهارم روی این جعبه می‌آید، نه از طبقهٔ بلندتر",
+    "short_fa": "نشیمن دوارتفاعه"
+   },
+   {
+    "id": "f-kitchen",
+    "name_fa": "خانوادهٔ بزرگ — آشپزخانه و ناهارخوری کنار حفره",
+    "name_en": "large family — kitchen and dining by the void",
+    "kind": "kitchen",
+    "m": [
+     0.25,
+     4.9,
+     3.6,
+     9.4
+    ],
+    "tags": [
+     "b01",
+     "b02",
+     "q-stacks"
+    ],
+    "short_fa": "آشپزخانه"
+   },
+   {
+    "id": "void-3",
+    "name_fa": "حیاط عمودی",
+    "name_en": "vertical courtyard",
+    "kind": "void",
+    "m": [
+     3.6,
+     6.0,
+     6.1,
+     9.0
+    ],
+    "tags": [
+     "q-breathing"
+    ],
+    "short_fa": "حفره"
+   },
+   {
+    "id": "f-stair",
+    "name_fa": "پلهٔ داخلی دوبلکس — در شکاف کنار ستون فقرات",
+    "name_en": "duplex stair — in the slot beside the spine",
+    "kind": "circulation",
+    "m": [
+     6.4,
+     4.9,
+     7.35,
+     9.4
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "۰٫۹۵ × ۴٫۵؛ تنها پلهٔ خصوصی ساختمان",
+    "short_fa": "پلهٔ دوبلکس"
+   },
+   {
+    "id": "f-bed-3",
+    "name_fa": "یک خواب و حمام",
+    "name_en": "a bedroom and a bath",
+    "kind": "bedroom",
+    "m": [
+     0.25,
+     0.3,
+     7.35,
+     4.9
+    ],
+    "tags": [
+     "b05"
+    ],
+    "short_fa": "خواب"
+   },
+   {
+    "id": "stair",
+    "name_fa": "پلهٔ ساختمان",
+    "name_en": "core stair",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     5.3
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "پلهٔ دوطرفه ۲٫۲۵ × ۵٫۰ در جای پلهٔ ۱۳۹۹، ورودی از کوچه",
+    "short_fa": "پله"
+   },
+   {
+    "id": "lift",
+    "name_fa": "آسانسور",
+    "name_en": "lift",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     5.3,
+     10.25,
+     7.3
+    ],
+    "tags": [
+     "b19"
+    ],
+    "note_fa": "۱٫۶ × ۲٫۰، تا بام",
+    "short_fa": "آسانسور"
+   },
+   {
+    "id": "spine",
+    "name_fa": "ستون فقرات تأسیسات",
+    "name_en": "riser spine",
+    "kind": "service",
+    "m": [
+     7.35,
+     0.3,
+     8.0,
+     14.0
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "نوار ۰٫۶۵ متری B–C: رایزر فاضلاب، هواکش، لوله‌ها — در همهٔ طبقات یک‌جا",
+    "short_fa": "رایزر"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ },
+ {
+  "id": "next-fourth",
+  "attempt": "next",
+  "name_fa": "طبقهٔ چهارم — خانوادهٔ بزرگ، بالا — ایده",
+  "name_en": "Fourth floor — large family, upper — idea",
+  "elev": 12.6,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ],
+   [
+    0.25,
+    14.0,
+    10.25,
+    15.2
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "f-void-living",
+    "name_fa": "ووید نشیمن دوارتفاعه",
+    "name_en": "void over the double-height living",
+    "kind": "void",
+    "m": [
+     0.25,
+     9.4,
+     7.35,
+     15.2
+    ],
+    "tags": [
+     "c-double-height-loft"
+    ],
+    "note_fa": "سقف این جعبه حذف شده؛ پنجرهٔ ۵٫۸ متری جنوبی زیر لبهٔ بام",
+    "short_fa": "ووید"
+   },
+   {
+    "id": "f-gallery",
+    "name_fa": "گالری و کتابخانه، مشرف به نشیمن و حفره",
+    "name_en": "gallery and library over the living and the void",
+    "kind": "study",
+    "m": [
+     0.25,
+     4.9,
+     3.6,
+     9.4
+    ],
+    "tags": [
+     "b03",
+     "c-double-height-loft"
+    ],
+    "short_fa": "گالری"
+   },
+   {
+    "id": "void-4",
+    "name_fa": "حیاط عمودی",
+    "name_en": "vertical courtyard",
+    "kind": "void",
+    "m": [
+     3.6,
+     6.0,
+     6.1,
+     9.0
+    ],
+    "tags": [
+     "q-breathing"
+    ],
+    "short_fa": "حفره"
+   },
+   {
+    "id": "f-stair-up",
+    "name_fa": "پلهٔ داخلی — رسیدن",
+    "name_en": "duplex stair — arrival",
+    "kind": "circulation",
+    "m": [
+     6.4,
+     4.9,
+     7.35,
+     9.4
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "short_fa": "پله"
+   },
+   {
+    "id": "f-bath-4",
+    "name_fa": "حمام‌ها روی ستون فقرات",
+    "name_en": "baths on the spine",
+    "kind": "bath",
+    "m": [
+     6.1,
+     7.2,
+     6.4,
+     9.4
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "short_fa": "حمام"
+   },
+   {
+    "id": "f-beds-4",
+    "name_fa": "سه خواب رو به کوچه",
+    "name_en": "three bedrooms to the street",
+    "kind": "bedroom",
+    "m": [
+     0.25,
+     0.3,
+     7.35,
+     4.9
+    ],
+    "tags": [
+     "b05",
+     "q-facade"
+    ],
+    "short_fa": "خواب‌ها"
+   },
+   {
+    "id": "stair",
+    "name_fa": "پلهٔ ساختمان",
+    "name_en": "core stair",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     5.3
+    ],
+    "tags": [
+     "c-scissor-stair"
+    ],
+    "note_fa": "پلهٔ دوطرفه ۲٫۲۵ × ۵٫۰ در جای پلهٔ ۱۳۹۹، ورودی از کوچه",
+    "short_fa": "پله"
+   },
+   {
+    "id": "lift",
+    "name_fa": "آسانسور",
+    "name_en": "lift",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     5.3,
+     10.25,
+     7.3
+    ],
+    "tags": [
+     "b19"
+    ],
+    "note_fa": "۱٫۶ × ۲٫۰، تا بام",
+    "short_fa": "آسانسور"
+   },
+   {
+    "id": "spine",
+    "name_fa": "ستون فقرات تأسیسات",
+    "name_en": "riser spine",
+    "kind": "service",
+    "m": [
+     7.35,
+     0.3,
+     8.0,
+     14.0
+    ],
+    "tags": [
+     "q-stacks"
+    ],
+    "note_fa": "نوار ۰٫۶۵ متری B–C: رایزر فاضلاب، هواکش، لوله‌ها — در همهٔ طبقات یک‌جا",
+    "short_fa": "رایزر"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ },
+ {
+  "id": "next-roof",
+  "attempt": "next",
+  "name_fa": "بام — ایده",
+  "name_en": "Roof — idea",
+  "elev": 15.8,
+  "plot": {
+   "w": 10.5,
+   "d": 20.14
+  },
+  "yard": [
+   [
+    0,
+    14.0,
+    10.5,
+    20.14
+   ]
+  ],
+  "footprint": [
+   [
+    0.25,
+    0.3,
+    10.25,
+    14.0
+   ]
+  ],
+  "idea": true,
+  "coarse": true,
+  "grid": {
+   "x": [
+    0.25,
+    7.35,
+    10.25
+   ],
+   "y": [
+    0.3,
+    4.9,
+    9.4,
+    14.0
+   ],
+   "spine": [
+    7.35,
+    8.0
+   ],
+   "note_fa": "ستون‌ها روی سه خط A (دیوار غربی)، B (۷٫۳۵) و D (دیوار شرقی) و چهار خط عمقی ۱ تا ۴؛ نوار B–C ستون فیبر تأسیسات است، نه ستون.",
+   "note_en": "Columns on three lines A (west wall), B (7.35) and D (east wall) and four depth lines 1–4; the B–C strip is the riser spine, not a column line."
+  },
+  "columns": [
+   [
+    0.25,
+    0.3
+   ],
+   [
+    0.25,
+    4.9
+   ],
+   [
+    0.25,
+    9.4
+   ],
+   [
+    0.25,
+    14.0
+   ],
+   [
+    7.35,
+    0.3
+   ],
+   [
+    7.35,
+    4.9
+   ],
+   [
+    7.35,
+    9.4
+   ],
+   [
+    7.35,
+    14.0
+   ],
+   [
+    10.25,
+    0.3
+   ],
+   [
+    10.25,
+    4.9
+   ],
+   [
+    10.25,
+    9.4
+   ],
+   [
+    10.25,
+    14.0
+   ]
+  ],
+  "risers": [
+   [
+    7.35,
+    0.3,
+    8.0,
+    14.0
+   ],
+   [
+    0.25,
+    7.0,
+    0.9,
+    9.4
+   ]
+  ],
+  "idea_note_fa": "ایدهٔ خانواده در جعبه‌ها — ترسیم معماری نیست",
+  "rooms": [
+   {
+    "id": "roof-garden",
+    "name_fa": "بام سبز مشترک، دسترسی با آسانسور و پله برای همه",
+    "name_en": "shared roof garden, reached by the lift and the stair for all",
+    "kind": "green",
+    "m": [
+     0.25,
+     0.3,
+     7.35,
+     14.0
+    ],
+    "tags": [
+     "b09",
+     "c-roof-garden",
+     "q-roof"
+    ],
+    "note_fa": "باغچه‌های سبزی با خاک کم‌عمق روی نوارهای ستون‌ها؛ پرگولا",
+    "short_fa": "بام سبز"
+   },
+   {
+    "id": "skylight",
+    "name_fa": "نورگیر و دودکش حفره",
+    "name_en": "skylight and vent of the void",
+    "kind": "void",
+    "m": [
+     3.6,
+     6.0,
+     6.1,
+     9.0
+    ],
+    "tags": [
+     "q-breathing",
+     "c-cooling"
+    ],
+    "note_fa": "بازشو رو به شرق برای نور صبح؛ دریچهٔ هواکش برای دودکش شبانه",
+    "short_fa": "نورگیر"
+   },
+   {
+    "id": "stair-house",
+    "name_fa": "خرپشته",
+    "name_en": "stair house",
+    "kind": "circulation",
+    "m": [
+     8.0,
+     0.3,
+     10.25,
+     7.3
+    ],
+    "tags": [],
+    "short_fa": "خرپشته"
+   }
+  ],
+  "walls": [],
+  "windows": [],
+  "doors": [],
+  "elements": []
+ }
+]
