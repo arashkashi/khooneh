@@ -1,7 +1,9 @@
 /* 3D drawings built from the same schematic plans (content/plans-*.json → KHOONEH.plans) and level data.
-   Modular: KHOONEH.render3D(host, spec) where spec = { plans: [plan ids bottom→top], elev: {id: m}, clear: {id: m}, mode?: 'floor' }.
+   Modular: KHOONEH.render3D(host, spec) where spec = { plans: [plan ids bottom→top], elev: {id: m}, clear: {id: m}, mode?: 'floor'|'exploded', layout?: 'plan'|'volume', gap?: 0..1, idea?: bool }.
    mode 'floor' → one floor as a roofless "dollhouse": walls from the union of room edges, floor plates by kind, stairs/lift/etc.
    mode 'exploded' → the stacked massing with a floor-spacing slider; stairs, lift, columns and risers drawn as connectors that stretch with the gaps.
+                     Two layouts: 'plan' (default) draws every floor as its slab with the room plan flat on it (fills, low ink walls, flat labels);
+                     'volume' keeps the translucent room boxes. A top view looks at the stack from the south so the layouts stagger.
    otherwise  → the whole building as stacked massing with an explode toggle (the same spread machinery, a fixed 3.2 m per gap).
    Plan units are metres, north up: plan x → x, plan y → z, up = +y.
    Three.js is loaded as an ES module via the import map in the page head (needs http(s); on file:// the host shows a short note). */
@@ -10,6 +12,10 @@ const fa = (document.documentElement.lang || 'en').startsWith('fa');
 const KIND = { living: 0xCFE0D8, kitchen: 0xF0DDB4, dining: 0xF0DDB4, bedroom: 0xD9D4EA, bath: 0xC5E1EC, study: 0xE6DEC4, storage: 0xDADAD3, service: 0xD3CCC3,
   circulation: 0xE9E9E5, outdoor: 0xD6E4C9, void: 0xBFE3E0, parking: 0xE0E1DC, water: 0x2FA39C, green: 0x9FC58F, caretaker: 0xE6D3BC, hall: 0xEFEFEA };
 const OPEN_KINDS = new Set(['outdoor', 'green', 'parking', 'water']);   // rooms that stand open: a plate, no walls
+// the plan layout uses the same fills as the SVG plans (FILL in js/plan.js)
+const PLAN_FILL = { living: 0xE6EFEB, kitchen: 0xF5E6C6, dining: 0xF2E3C4, bedroom: 0xE8E5F2, bath: 0xD8EDF4, study: 0xEFE9D7, storage: 0xE9E9E4, service: 0xE2DDD6,
+  circulation: 0xF4F4F1, outdoor: 0xE5EEDD, void: 0xDDEFED, parking: 0xEBECE8, water: 0xBFE0DE, green: 0xCFE3C6, caretaker: 0xF0E3D2, hall: 0xF6F6F3 };
+const PLAN_WALL_H = 0.35, PLAN_LABEL = 0.7, INK = 0x2b3230;
 const WALL_T = 0.15, WALL_H = 2.6, SLAB = 0.3, DOOR_H = 2.1, SILL = 0.9;
 
 let THREE, OrbitControls, mergeGeometries, RoundedBoxGeometry;
@@ -272,19 +278,45 @@ function treeGroup(m, y) {
   return g;
 }
 
-// ---------- a label sprite (Persian/English) that always faces the camera ----------
+// ---------- labels: a canvas with the text in a light pill; as a sprite (always faces the camera) or as a plane lying on a slab ----------
 let labelFont;
-function labelSprite(text, size = 0.62, ink = '#2b3230') {
+function labelCanvas(text, ink = '#2b3230', pill = 0.82, px = 44, pad = 26, weight = 500) {
   if (!labelFont) { const cs = getComputedStyle(document.documentElement); labelFont = ((fa ? cs.getPropertyValue('--fa') : cs.getPropertyValue('--en')) || 'sans-serif').trim(); }
-  const c = document.createElement('canvas'), ctx = c.getContext('2d'), px = 44, font = `500 ${px}px ${labelFont}`;
+  const c = document.createElement('canvas'), ctx = c.getContext('2d'), font = `${weight} ${px}px ${labelFont}`;
   ctx.font = font; const tw = Math.ceil(ctx.measureText(text).width);
-  c.width = tw + 36; c.height = px + 26;
+  c.width = tw + Math.round(pad * 1.2); c.height = px + pad;
   ctx.font = font; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = 'rgba(255,255,255,0.82)'; ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(1, 1, c.width - 2, c.height - 2, c.height / 2); else ctx.rect(1, 1, c.width - 2, c.height - 2); ctx.fill();
+  ctx.fillStyle = `rgba(255,255,255,${pill})`; ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(1, 1, c.width - 2, c.height - 2, c.height / 2); else ctx.rect(1, 1, c.width - 2, c.height - 2); ctx.fill();
   ctx.fillStyle = ink; ctx.fillText(text, c.width / 2, c.height / 2 + 2);
+  return c;
+}
+function labelSprite(text, size = 0.62, ink = '#2b3230') {
+  const c = labelCanvas(text, ink);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter;
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false }));
   s.renderOrder = 20; const hh = size; s.scale.set(hh * c.width / c.height, hh, 1); return s;
+}
+// a label lying flat (normal up, readable from the south); vertical = turned along z for narrow rooms. Depth-tested, so a floor above hides it.
+const flatCanvas = (text, ink) => labelCanvas(text, ink, 0.74, 52, 14, 600);   // tighter pill, heavier face: the glyphs are most of the plane's height
+function flatLabel(text, size, vertical, aniso, ink = '#2b3230') {
+  const c = flatCanvas(text, ink);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = aniso || 1;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(size * c.width / c.height, size), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
+  m.rotation.set(-Math.PI / 2, 0, vertical ? Math.PI / 2 : 0); m.renderOrder = 6;
+  return m;
+}
+// where a label sits in a room and how much room it has: a rectangle → its centre and sides; a polygon → the grid point with the widest free
+// spans along x and z (an L-shaped hall gets its label in the wider arm, not at a centroid outside the room)
+function labelSpot(pts, m, isPoly) {
+  if (!isPoly) return { x: (m[0] + m[2]) / 2, z: (m[1] + m[3]) / 2, sx: m[2] - m[0], sz: m[3] - m[1] };
+  const span = (x, z, dx, dz) => { let a = 0, b = 0; while (a < 40 && pointInPoly(pts, x - (a + 0.1) * dx, z - (a + 0.1) * dz)) a += 0.1; while (b < 40 && pointInPoly(pts, x + (b + 0.1) * dx, z + (b + 0.1) * dz)) b += 0.1; return [a + b, (b - a) / 2]; };
+  let best = null; const step = Math.max(0.25, Math.min(m[2] - m[0], m[3] - m[1]) / 12);
+  for (let x = m[0] + step / 2; x < m[2]; x += step) for (let z = m[1] + step / 2; z < m[3]; z += step) {
+    if (!pointInPoly(pts, x, z)) continue;
+    const [sx, ox] = span(x, z, 1, 0), [sz, oz] = span(x, z, 0, 1), score = Math.min(sx, sz) + 0.15 * Math.max(sx, sz);
+    if (!best || score > best.score) best = { score, x: x + ox, z: z + oz, sx, sz };
+  }
+  return best;
 }
 
 // ---------- one roofless floor (dollhouse) ----------
@@ -408,6 +440,57 @@ function massingFloor(p, y, h, opts = {}) {
   return g;
 }
 
+// ---------- the plan layout of one floor (exploded view): slab with the voids cut out, opaque room fills, low ink walls, flat labels ----------
+// opts: idea → hatched slab, dashed outlines; connector(r) → the room is drawn as a connector elsewhere (outline only); arrival(r) → plum landing plate;
+//       labels → an array the flat labels are pushed to (built once the fonts are ready; the caller scales and fades them per frame); aniso → texture anisotropy
+function planFloor(p, y, mats, opts = {}) {
+  const g = new THREE.Group();
+  const rooms = (p.rooms || []).filter(r => validRect(r.m)), fps = (p.footprint || []).filter(validRect);
+  const explicit = (p.walls || []).some(w => Array.isArray(w) && w.length >= 4);
+  const snapX = explicit ? x => x : snapper(rooms.flatMap(r => r.poly ? r.poly.map(q => q[0]) : [r.m[0], r.m[2]]));
+  const snapZ = explicit ? z => z : snapper(rooms.flatMap(r => r.poly ? r.poly.map(q => q[1]) : [r.m[1], r.m[3]]));
+  const isPoly = r => Array.isArray(r.poly) && r.poly.length >= 3;
+  const ptsOf = r => (isPoly(r) ? r.poly : rectPts(r.m)).map(([x, z]) => [snapX(x), snapZ(z)]);
+  const voids = rooms.filter(r => r.kind === 'void'), isArrival = r => !!(opts.arrival && opts.arrival(r)), isConn = r => !!(opts.connector && opts.connector(r));
+  const ring = (pts, yl, color, opacity) => opts.idea ? dashedSegs(ringSegs(pts, yl), color, 0.45, 0.25) : lineSegs(ringSegs(pts, yl), color, opacity);
+  // slab, the voids cut out so the stack shows the courtyard and the double heights as openings
+  fps.forEach(fp => {
+    const inner = [fp[0] + 0.02, fp[1] + 0.02, fp[2] - 0.02, fp[3] - 0.02];
+    const holes = voids.map(v => isPoly(v) ? (rectInside(v.m, inner, 0) ? v.poly : null) : (rectIntersect(v.m, inner) && rectPts(rectIntersect(v.m, inner)))).filter(Boolean);
+    g.add(mesh(slabGeom(rectPts(fp), holes, SLAB), opts.idea ? ideaSlabMat() : mats.slab).translateY(y));
+    g.add(ring(rectPts(fp), y + 0.004, INK, 0.7)); g.add(ring(rectPts(fp), y - SLAB - 0.004, INK, 0.45));
+  });
+  // fills: larger rooms lower so a strip inside a room never fights it; a stair that is drawn as a connector keeps only its outline
+  const byArea = rooms.filter(r => r.kind !== 'void').map(r => ({ r, pts: ptsOf(r) })).map(o => ({ ...o, a: polyArea(o.pts) })).sort((a, b) => b.a - a.a);
+  byArea.forEach(({ r, pts }, i) => {
+    const py = y + 0.012 + i * 0.0015, conn = isConn(r);
+    if (!conn) g.add(mesh(flatGeom(pts), new THREE.MeshBasicMaterial({ color: isArrival(r) ? 0xD9C6DA : (PLAN_FILL[r.kind] ?? 0xEDEDE8) }), false, false).translateY(py));
+    g.add(ring(pts, py + 0.003, conn ? 0x5a6664 : INK, 0.75));
+  });
+  voids.forEach(v => g.add(dashedSegs(ringSegs(ptsOf(v), y + 0.02), 0x1D8F8A, 0.3, 0.18)));
+  // walls: the explicit centrelines when the plan has them (they already stop at doors), else the union of the room edges; low, ink, no openings
+  try {
+    const { hs, vs, diag } = collectWalls(p, PLAN_WALL_H);
+    g.add(wallGroup(trimWalls(hs, vs, explicit ? 0.03 : 0.2), diag, PLAN_WALL_H, y, { wall: mats.ink, glass: mats.glass }));
+  } catch (e) { console.warn('3D plan walls', p.id, e); }
+  // flat labels for rooms of 6 m² and more: the short name, turned along z when the room is narrow, dropped when it cannot fit at ¾ size
+  if (opts.labels) (document.fonts?.ready || Promise.resolve()).then(() => {
+    byArea.forEach(({ r, pts, a }) => {
+      if (a < 6 || isConn(r)) return;
+      let text = fa ? (r.short_fa || r.name_fa || r.name_en) : (r.name_en || r.name_fa); if (!text) return;
+      if (!(fa && r.short_fa)) { const parts = text.split(/\s+[—–-]\s+/); text = parts[parts.length - 1].trim() || text; }   // "duplex A — living" → "living"
+      const spot = labelSpot(pts, r.m, isPoly(r)); if (!spot) return;
+      const probe = flatCanvas(text), w0 = PLAN_LABEL * probe.width / probe.height, h0 = PLAN_LABEL;
+      const fitH = Math.min(spot.sx * 0.92 / w0, spot.sz * 0.92 / h0), fitV = Math.min(spot.sz * 0.92 / w0, spot.sx * 0.92 / h0);
+      const vertical = fitH < 0.75 && fitV > fitH, fit = vertical ? fitV : fitH; if (fit < 0.75) return;
+      const l = flatLabel(text, PLAN_LABEL, vertical, opts.aniso, isArrival(r) ? '#7A4E7E' : '#2b3230');
+      l.position.set(spot.x, y + 0.06, spot.z); l.userData.max = Math.min(fit, 2.6); g.add(l); opts.labels.push(l);   // max: how far it may grow with the camera before it overflows the room
+    });
+    if (opts.onLabels) opts.onLabels();
+  });
+  return g;
+}
+
 // ---------- connectors for the exploded view ----------
 // Built once in a unit frame (y: 0 → 1 = the lower slab top → the upper slab top) and stretched per frame with position.y / scale.y,
 // so they keep joining the floors as the floors spread. Stairs are sloped ribbons with a nosing line per tread; a spiral is a stepped helix.
@@ -455,8 +538,10 @@ K.render3D = async function (host, spec) {
   const floorMode = spec.mode === 'floor', exploded = spec.mode === 'exploded', n = plans.length;
   const idea = exploded && (!!spec.idea || plans.some(p => p.idea));
   const gap0 = Math.max(0, Math.min(1, Number.isFinite(+spec.gap) ? +spec.gap : 0.55));   // exploded: the slider's first value
+  let planLayout = exploded && spec.layout !== 'volume';                                     // exploded: the floors as plans (default) or as room volumes
   const aspect = floorMode ? 0.72 : 0.66;
-  const W = host.clientWidth || 640, H = Math.round(W * aspect);
+  const heightFor = w => Math.round(exploded ? Math.max(w * aspect, Math.min(w * 0.95, (window.innerHeight || 900) * 0.8)) : w * aspect);   // the exploded stack stands tall: take the viewport's height when it allows
+  const W = host.clientWidth || 640, H = heightFor(W);
   host.innerHTML = '';
   const bar = document.createElement('div'); bar.className = 'm3-bar';
   const btn = (a, label, pressed) => `<button type="button" data-a="${a}"${pressed ? ' aria-pressed="true"' : ''}>${label}</button>`;
@@ -464,7 +549,7 @@ K.render3D = async function (host, spec) {
   bar.innerHTML = floorMode
     ? `${btn('top', fa ? 'از بالا' : 'Top view')}${btn('reset', fa ? 'نمای مایل' : 'Oblique')}${btn('rotate', fa ? 'چرخش' : 'Rotate', true)}<span class="m3-hint">${fa ? 'طبقهٔ بی‌سقف، دیده از بالا · کشیدن: چرخاندن · چرخ ماوس: نزدیک و دور' : 'The floor without its roof · drag to orbit · wheel to zoom'}</span>`
     : exploded
-    ? `<label class="m3-gap" style="display:inline-flex;align-items:center;gap:.45rem;margin-inline-end:.3rem">${fa ? 'فاصلهٔ طبقات' : 'Floor spacing'}<input type="range" min="0" max="1" step="0.01" value="${gap0}" style="width:9rem;margin:0;accent-color:#1D8F8A" aria-label="${fa ? 'فاصلهٔ طبقات' : 'Floor spacing'}"></label>${btn('play', fa ? 'پخش' : 'Play')}${btn('rotate', fa ? 'چرخش' : 'Rotate', true)}${btn('reset', fa ? 'نمای اول' : 'Reset view')}${hint}`
+    ? `<label class="m3-gap" style="display:inline-flex;align-items:center;gap:.45rem;margin-inline-end:.3rem">${fa ? 'فاصلهٔ طبقات' : 'Floor spacing'}<input type="range" min="0" max="1" step="0.01" value="${gap0}" style="width:9rem;margin:0;accent-color:#1D8F8A" aria-label="${fa ? 'فاصلهٔ طبقات' : 'Floor spacing'}"></label>${btn('play', fa ? 'پخش' : 'Play')}<span role="group" aria-label="${fa ? 'نمایش طبقه' : 'Floor drawing'}" style="display:inline-flex;gap:.3rem;margin-inline:.2rem">${btn('plan', fa ? 'پلان' : 'Plan', planLayout)}${btn('volume', fa ? 'حجم' : 'Volume', !planLayout)}</span>${btn('top', fa ? 'از بالا' : 'Top view')}${btn('rotate', fa ? 'چرخش' : 'Rotate', true)}${btn('reset', fa ? 'نمای اول' : 'Reset view')}${hint}`
     : `${btn('explode', fa ? 'باز کردن طبقات' : 'Explode floors')}${btn('rotate', fa ? 'چرخش' : 'Rotate', true)}${btn('reset', fa ? 'نمای اول' : 'Reset view')}${hint}`;
   const stage = document.createElement('div'); stage.className = 'm3-stage';
   host.append(bar, stage);
@@ -490,12 +575,15 @@ K.render3D = async function (host, spec) {
   const bb = [Infinity, Infinity, -Infinity, -Infinity];
   const grow = m => { if (!m) return; bb[0] = Math.min(bb[0], m[0]); bb[1] = Math.min(bb[1], m[1]); bb[2] = Math.max(bb[2], m[2]); bb[3] = Math.max(bb[3], m[3]); };
   plans.forEach(p => { (p.footprint || []).forEach(grow); (p.rooms || []).forEach(r => grow(r.m)); (p.elements || []).forEach(e => grow(e.m)); });
+  const floorBB = plans.map(p => { const f = [Infinity, Infinity, -Infinity, -Infinity]; [...(p.footprint || []), ...(p.rooms || []).map(r => r.m)].filter(validRect).forEach(m => { f[0] = Math.min(f[0], m[0]); f[1] = Math.min(f[1], m[1]); f[2] = Math.max(f[2], m[2]); f[3] = Math.max(f[3], m[3]); }); return isFinite(f[0]) ? f : [0, 0, w, d]; });
   if (!floorMode || !isFinite(bb[0])) { bb[0] = 0; bb[1] = 0; bb[2] = w; bb[3] = d; }
   const bx = (bb[0] + bb[2]) / 2, bz = (bb[1] + bb[3]) / 2, bw = bb[2] - bb[0], bd = bb[3] - bb[1];
   const fit = Math.hypot(bw, bd) / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
   const homeTarget = floorMode ? new THREE.Vector3(bx, 0.6, bz) : new THREE.Vector3(cx, (top + bottom) / 2, cz);
   const view = (az, el, dist) => new THREE.Vector3(homeTarget.x + dist * Math.sin(az) * Math.cos(el), homeTarget.y + dist * Math.sin(el), homeTarget.z + dist * Math.cos(az) * Math.cos(el));
-  const home = floorMode ? view(THREE.MathUtils.degToRad(24), THREE.MathUtils.degToRad(52), fit * 1.12) : new THREE.Vector3(cx + 26, top + 14, cz + 30);
+  const homeVol = floorMode ? view(THREE.MathUtils.degToRad(24), THREE.MathUtils.degToRad(52), fit * 1.12) : new THREE.Vector3(cx + 26, top + 14, cz + 30);
+  const homePlan = view(THREE.MathUtils.degToRad(20), THREE.MathUtils.degToRad(38), homeVol.distanceTo(homeTarget));   // same distance, so the back-off maths is shared
+  const home = planLayout ? homePlan : homeVol;
   const topView = new THREE.Vector3(bx, fit * 1.0, bz + 0.01);
   camera.position.copy(home);
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -513,7 +601,7 @@ K.render3D = async function (host, spec) {
   scene.add(sun);
 
   const mats = {
-    wall: std(0xF3EFE7, { roughness: 0.95 }), slab: std(0xD9D5CC), stair: std(0xE4DFD5), shaft: std(0xCFCCC4), door: std(0xC9B99A, { roughness: 0.8 }),
+    wall: std(0xF3EFE7, { roughness: 0.95 }), slab: std(0xD9D5CC), stair: std(0xE4DFD5), shaft: std(0xCFCCC4), door: std(0xC9B99A, { roughness: 0.8 }), ink: std(INK, { roughness: 0.95 }),
     glass: new THREE.MeshStandardMaterial({ color: 0xBFE0EC, transparent: true, opacity: 0.45, roughness: 0.2, depthWrite: false }),
     water: new THREE.MeshStandardMaterial({ color: 0x2FA39C, transparent: true, opacity: 0.85, roughness: 0.3 }), green: std(0x9FC58F, { roughness: 1 }),
     lift: new THREE.MeshStandardMaterial({ color: 0xC4D2D6, transparent: true, opacity: 0.32, roughness: 0.3, depthWrite: false }),
@@ -521,12 +609,12 @@ K.render3D = async function (host, spec) {
   };
 
   // ground: a light plane under everything, the yard, and the plot outline
-  const groundY = floorMode ? -SLAB - 0.005 : Math.min(bottom, 0);
+  const groundY = floorMode ? -SLAB - 0.005 : exploded ? Math.min(bottom, 0) - SLAB - 0.02 : Math.min(bottom, 0);   // exploded: under the basement slab, so the slab does not fight the ground
   const ground = mesh(new THREE.PlaneGeometry(w + (exploded ? 900 : 160), d + (exploded ? 900 : 160)).rotateX(-Math.PI / 2), std(floorMode ? 0xF0EEE7 : 0xE8E4DA, { roughness: 1 }), false, true);
   ground.position.set(cx, groundY, cz); scene.add(ground);
-  if (!floorMode && bottom < 0) { // excavation: cut visible as a lighter box top below ground level
-    const pit = new THREE.Mesh(new THREE.BoxGeometry(w, -bottom + 0.02, d), std(0xF6F5F0));
-    pit.position.set(cx, bottom / 2, cz); scene.add(pit);
+  if (!floorMode && bottom < 0) { // excavation: cut visible as a lighter box top below ground level; exploded: see-through, so the basement's plan stays readable
+    const pit = new THREE.Mesh(new THREE.BoxGeometry(w, 0.02 - groundY, d), exploded ? new THREE.MeshStandardMaterial({ color: 0xF6F5F0, transparent: true, opacity: 0.38, depthWrite: false }) : std(0xF6F5F0));
+    pit.position.set(cx, (groundY + 0.02) / 2, cz); pit.renderOrder = 4; scene.add(pit);
   }
   if (floorMode) (plans[0].yard || []).forEach(yd => { scene.add(mesh(flatGeom(rectPts(yd)), std(0xE6E8DE, { roughness: 1 }), false, true).translateY(groundY + 0.004)); });
   scene.add(lineSegs(ringSegs([[0, 0], [w, 0], [w, d], [0, d]], floorMode ? groundY + 0.008 : 0.02), 0x8f9894, 0.9));
@@ -538,16 +626,24 @@ K.render3D = async function (host, spec) {
     || plans.slice(0, i).some(q => (q.rooms || []).some(s => s.id === r.id)) || departures[i - 1].some(q => overlapFrac(q.m, r.m) > 0.5));
   if (exploded) plans.forEach((p, i) => (p.rooms || []).forEach(r => { if (isPrivateStair(r) && validRect(r.m) && !isArrival(i, r)) departures[i].push(r); }));
 
-  const floors = [], conns = [], labels = [];
+  const floors = [], conns = [], labels = [], flatLabels = [], aniso = renderer.capabilities.getMaxAnisotropy();
+  const hasFlight = (i, r) => i + 1 < n && (isCoreStair(r) || departures[i].includes(r));   // this stair room is drawn as a flight to the floor above
   plans.forEach((p, i) => {
     const y = elevs[i], h = clears[i];
     const g = new THREE.Group(); g.userData.index = i;
     if (floorMode) { try { g.add(dollhouseFloor(p, y, h, mats, true)); } catch (e) { console.warn('3D floor', p.id, e); } }   // a bad plan record must not blank the stage
-    else g.add(massingFloor(p, y, h, exploded ? { idea: idea || !!p.idea, flat: r => isCoreStair(r) || isPrivateStair(r) || isLift(r), arrival: r => isPrivateStair(r) && !departures[i].includes(r) && i > 0 } : {}));
+    else {
+      const vol = massingFloor(p, y, h, exploded ? { idea: idea || !!p.idea, flat: r => isCoreStair(r) || isPrivateStair(r) || isLift(r), arrival: r => isPrivateStair(r) && !departures[i].includes(r) && i > 0 } : {});
+      g.add(vol);
+      if (exploded) { // the plan layout of the same floor; the two are switched by visibility
+        let pl; try { pl = planFloor(p, y, mats, { idea: idea || !!p.idea, connector: r => hasFlight(i, r), arrival: r => isPrivateStair(r) && !departures[i].includes(r) && i > 0, labels: flatLabels, aniso, onLabels: () => layout(kPrev) }); } catch (e) { console.warn('3D plan', p.id, e); pl = new THREE.Group(); }
+        vol.visible = !planLayout; pl.visible = planLayout; g.userData.vol = vol; g.userData.plan = pl; g.add(pl);
+      }
+    }
     scene.add(g); floors.push(g);
   });
   if (exploded) {
-    const addConn = (obj, i, j, d0 = 0, d1 = 0) => { scene.add(obj); conns.push({ obj, i, j, d0, d1 }); };
+    const addConn = (obj, i, j, d0 = 0, d1 = 0, d1plan = d1) => { scene.add(obj); conns.push({ obj, i, j, d0, d1, d1plan }); };   // d1plan: the top end in the plan layout
     const topOf = j => clears[j] > 0.5 ? clears[j] - 0.32 : 0.1;
     // stairs: the core stair floor to floor all the way up; a private stair from its floor to the one above only
     plans.forEach((p, i) => (p.rooms || []).forEach(r => {
@@ -558,7 +654,7 @@ K.render3D = async function (host, spec) {
     // the lift: one translucent shaft per lift id through every floor that has it
     const lifts = new Map();
     plans.forEach((p, i) => (p.rooms || []).forEach(r => { if (!isLift(r) || !validRect(r.m)) return; const L = lifts.get(r.id) || { lo: i, hi: i, m: r.m }; L.hi = i; lifts.set(r.id, L); }));
-    lifts.forEach(L => addConn(unitBox(L.m, mats.lift, 0x5a6664), L.lo, L.hi, 0, topOf(L.hi)));
+    lifts.forEach(L => addConn(unitBox(L.m, mats.lift, 0x5a6664), L.lo, L.hi, 0, topOf(L.hi), -0.02));
     // column grid and risers, when the plans carry them: earth rods and slim turquoise prisms from the lowest floor to the highest, continuous through the gaps
     const cols = new Map(), ris = new Map(); let lo = -1, hi = -1;
     plans.forEach((p, i) => {
@@ -566,29 +662,58 @@ K.render3D = async function (host, spec) {
       (p.columns || []).forEach(c => { if (Array.isArray(c) && c.length >= 2 && Number.isFinite(c[0]) && Number.isFinite(c[1])) cols.set(c[0].toFixed(2) + ',' + c[1].toFixed(2), c); });
       (p.risers || []).forEach(r => { if (validRect(r)) ris.set(r.map(v => v.toFixed(2)).join(','), r); });
     });
-    if (cols.size) addConn(mesh(mergeGeometries([...cols.values()].map(([x, z]) => new THREE.CylinderGeometry(0.07, 0.07, 1, 10).translate(x, 0.5, z)), false), std(0x9C6B3C, { roughness: 0.7 })), lo, hi, -SLAB, topOf(hi));
-    ris.forEach(r => addConn(unitBox(r, mats.riser, 0x1D8F8A), lo, hi, -SLAB, topOf(hi)));
+    if (cols.size) addConn(mesh(mergeGeometries([...cols.values()].map(([x, z]) => new THREE.CylinderGeometry(0.07, 0.07, 1, 10).translate(x, 0.5, z)), false), std(0x9C6B3C, { roughness: 0.7 })), lo, hi, -SLAB, topOf(hi), -0.02);
+    ris.forEach(r => addConn(unitBox(r, mats.riser, 0x1D8F8A), lo, hi, -SLAB, topOf(hi), -0.02));
     // a label per floor at the street corner, and over an idea the warning that these are the family's boxes, not a drawing
     (document.fonts?.ready || Promise.resolve()).then(() => {
       plans.forEach((p, i) => { const name = ((fa ? (p.name_fa || p.name_en) : (p.name_en || p.name_fa)) || p.id).split(/\s+—\s+/)[0].trim(); const s = labelSprite(name, 0.8); s.position.set(bb[2] + 0.7 + s.scale.x / 2, elevs[i] + 0.5, bb[1] + 0.5); s.userData.east = true; floors[i].add(s); labels.push(s); });
-      if (idea) { const s = labelSprite(fa ? 'ایدهٔ خانواده — نه نقشه' : "the family's idea — not a drawing", 1.15, '#7A4E7E'); s.position.set(cx, elevs[n - 1] + Math.max(clears[n - 1], 1) + 1.6, cz); floors[n - 1].add(s); labels.push(s); }
+      if (idea) { const s = labelSprite(fa ? 'ایدهٔ خانواده — نه نقشه' : "the family's idea — not a drawing", 1.15, '#7A4E7E'); s.position.set(cx, elevs[n - 1] + Math.max(clears[n - 1], 1) + 0.8, bb[1] - 1.4); floors[n - 1].add(s); labels.push(s); }   // just behind the north edge, so it does not cover the top plan
       labels.forEach(s => { s.userData.base = s.scale.clone(); }); layout(kPrev);
     });
   }
   const layout = k => { // place the floors and stretch every connector between its two floors
     const o = offsets(k);
     floors.forEach((g, i) => { g.position.y = o[i]; });
-    conns.forEach(c => { const y0 = elevs[c.i] + o[c.i] + c.d0, y1 = elevs[c.j] + o[c.j] + c.d1; c.obj.position.y = y0; c.obj.scale.y = Math.max(0.01, y1 - y0); });
+    conns.forEach(c => { const y0 = elevs[c.i] + o[c.i] + c.d0, y1 = elevs[c.j] + o[c.j] + (planLayout ? c.d1plan : c.d1); c.obj.position.y = y0; c.obj.scale.y = Math.max(0.01, y1 - y0); });
     labels.forEach(s => { if (!s.userData.base) return; s.scale.copy(s.userData.base).multiplyScalar(backoff(k)); if (s.userData.east) s.position.x = bb[2] + 0.7 + s.scale.x / 2; });   // labels keep their screen size as the camera backs off
+    const fade = Math.max(0, Math.min(1, (k - 0.12) / 0.13));                              // flat labels: gone below 0.12, full from 0.25 (floors too close to read)
+    flatLabels.forEach(l => { const sc = Math.min(l.userData.max, backoff(k)); l.scale.set(sc, sc, 1); l.material.opacity = fade; l.visible = planLayout && fade > 0; });
   };
 
   // spread animation: a damped spring toward the slider / toggle value (soft start, soft settle, frame-rate independent); the camera follows —
   // the orbit target rises with the middle of the stack and the camera backs off so the taller stack still fits
   let k = floorMode ? 0 : exploded ? gap0 : (spec.explode ? 1 : 0), target = k, vel = 0, kPrev = k, playing = false, phase = 0;
   const D0 = home.distanceTo(homeTarget), lift = kk => totalExtra(kk) * (exploded ? 0.62 : 0.5);
-  const backCoef = exploded ? Math.max(0.5, 1.8 * ((top - bottom) + totalExtra(1)) / D0 - 1) : 0.55;
+  const backCoefOf = plan => exploded ? Math.max(0.5, (plan ? 1.55 : 1.8) * ((top - bottom) + totalExtra(1)) / D0 - 1) : 0.55;   // the plan layout is thinner, so it sits closer
+  let backCoef = backCoefOf(planLayout);
   const backoff = kk => 1 + backCoef * kk;
-  const viewFor = kk => { controls.target.copy(homeTarget); controls.target.y += lift(kk); camera.position.copy(controls.target).add(home.clone().sub(homeTarget).multiplyScalar(backoff(kk))); };
+  const homeOf = () => planLayout ? homePlan : homeVol;
+  const viewFor = kk => { controls.target.copy(homeTarget); controls.target.y += lift(kk); camera.position.copy(controls.target).add(homeOf().clone().sub(homeTarget).multiplyScalar(backoff(kk))); };
+  // the exploded top view: from high on the south side (60°), so the layouts stagger down the stack instead of hiding each other. Perspective makes the
+  // near floors large, so the distance is found by projecting the stack's corners (and the label margin) until they fill 88 % of the frame
+  const topFor = kk => {
+    const el = THREE.MathUtils.degToRad(60), dir = new THREE.Vector3(0, Math.sin(el), Math.cos(el)), o = offsets(kk), yTop = top + totalExtra(kk) + 1.5, yBot = Math.min(bottom, 0) - SLAB;
+    const tgt = new THREE.Vector3(bx, (yTop + yBot) / 2, bz), pts = [];
+    for (const x of [0, w]) for (const z of [0, d]) pts.push(new THREE.Vector3(x, yBot, z));                               // the plot on the ground
+    plans.forEach((p, i) => { const f = floorBB[i]; for (const x of [f[0], f[2] + 4.5]) for (const z of [f[1], f[3]]) pts.push(new THREE.Vector3(x, elevs[i] + o[i], z)); });   // each floor where it stands (+ its label to the east)
+    pts.push(new THREE.Vector3(cx, yTop, bb[1]), new THREE.Vector3(cx, yTop, bb[3]));
+    let dist = 2 * (yTop - yBot) + 40; const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    for (let it = 0; it < 10; it++) {                                                  // project the points; centre the target on them, then set the distance so they fill 88 %
+      camera.position.copy(tgt).add(dir.clone().multiplyScalar(dist)); camera.lookAt(tgt); camera.updateMatrixWorld();
+      let x0 = 1, x1 = -1, y0 = 1, y1 = -1; pts.forEach(q => { const v = q.clone().project(camera); x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y); });
+      const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion), right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+      tgt.add(up.multiplyScalar((y1 + y0) / 2 * dist * tanV)).add(right.multiplyScalar((x1 + x0) / 2 * dist * tanV * camera.aspect));
+      dist *= Math.max((y1 - y0) / 2, (x1 - x0) / 2) / 0.88;
+    }
+    controls.target.copy(tgt); camera.position.copy(tgt).add(dir.multiplyScalar(dist));
+  };
+  const setLayout = plan => {
+    if (plan === planLayout) return;
+    const off = camera.position.clone().sub(controls.target), b0 = backoff(kPrev);
+    planLayout = plan; backCoef = backCoefOf(plan); camera.position.copy(controls.target).add(off.multiplyScalar(backoff(kPrev) / b0));   // the same view, at this layout's distance
+    floors.forEach(g => { if (g.userData.plan) { g.userData.plan.visible = plan; g.userData.vol.visible = !plan; } });
+    bar.querySelector('[data-a="plan"]')?.setAttribute('aria-pressed', plan); bar.querySelector('[data-a="volume"]')?.setAttribute('aria-pressed', !plan); layout(kPrev);
+  };
   if (!floorMode) { layout(k); viewFor(k); }
   if (k > 0.5) { const eb = bar.querySelector('[data-a="explode"]'); if (eb) eb.textContent = fa ? 'بستن طبقات' : 'Stack floors'; }
   const rotateBtn = bar.querySelector('[data-a="rotate"]'), slider = bar.querySelector('input[type="range"]'), playBtn = bar.querySelector('[data-a="play"]');
@@ -601,7 +726,8 @@ K.render3D = async function (host, spec) {
     if (b.dataset.a === 'play') setPlay(!playing);
     if (b.dataset.a === 'rotate') setRotate(!controls.autoRotate);
     if (b.dataset.a === 'reset') viewFor(kPrev);                                       // the first view, consistent with how far the floors are spread right now
-    if (b.dataset.a === 'top') { setRotate(false); camera.position.copy(topView); controls.target.set(bx, 0, bz); }
+    if (b.dataset.a === 'top') { setRotate(false); if (exploded) topFor(kPrev); else { camera.position.copy(topView); controls.target.set(bx, 0, bz); } }
+    if (b.dataset.a === 'plan' || b.dataset.a === 'volume') setLayout(b.dataset.a === 'plan');
   });
   let last = performance.now();
   const tick = () => {
@@ -619,7 +745,7 @@ K.render3D = async function (host, spec) {
     controls.update(); renderer.render(scene, camera); requestAnimationFrame(tick);
   };
   tick();
-  const ro = new ResizeObserver(() => { const w2 = host.clientWidth; if (!w2) return; const h2 = Math.round(w2 * aspect); renderer.setSize(w2, h2); camera.aspect = w2 / h2; camera.updateProjectionMatrix(); });
+  const ro = new ResizeObserver(() => { const w2 = host.clientWidth; if (!w2) return; const h2 = heightFor(w2); renderer.setSize(w2, h2); camera.aspect = w2 / h2; camera.updateProjectionMatrix(); });
   ro.observe(host);
 };
 
