@@ -211,7 +211,7 @@ if proposal:
     write('proposal/', 'proposal.html', p=proposal, groups=related_groups(proposal, 'p1'), backs=backlink_entries('p1'),
           section_json=json.dumps(section_ds, ensure_ascii=False), units_json=json.dumps(units_ds, ensure_ascii=False))
 # invite
-write('invite/', 'invite.html', sheets=sheets)
+write('invite/', 'invite.html', sheets=sheets, proposal=proposal)
 
 # all-in-one pages: post-process the hand-written single pages
 def nav_html(root, lang):
