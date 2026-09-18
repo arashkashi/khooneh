@@ -39,6 +39,10 @@
       {% endif %}
       {% endfor %}
 
+      {% if n.iterations %}
+      <h2 id="iterations">تکرارها — مجسمه، تراش به تراش</h2>
+      {% for it in n.iterations %}<h3 id="it-{{ it.n }}">{{ it.title_fa }}</h3>{% for x in it.body_fa|paras %}<p>{{ x }}</p>{% endfor %}{% if it.figure %}<figure class="hero-figure"><div data-{{ it.figure }}="1"></div></figure>{% endif %}{% endfor %}
+      {% endif %}
       {% if n.summary_en %}<h2 lang="en" dir="ltr">In English</h2><p lang="en" dir="ltr">{{ n.summary_en }}</p>{% endif %}
     </div>
   </div>
