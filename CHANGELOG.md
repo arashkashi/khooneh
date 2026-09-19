@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.8 — 2026-09-19, the next-design chapter withdrawn
+- The owner asked for the "next design" page to come off the site. Its content, plans and template moved to `../private/drafts/next-design/` (out of the deploy tree); `next/` removed, nav/chapters/one-page sections and links cleaned. The drawing modules built for it stay (exploded 3D with per-floor layouts on the 1403 page, stairs overlay, shading, structure/façade/section modules — the latter three unused for now), as do the two concept pages (scissor stair, cooling).
+
 ## v0.7 — 2026-09-19 (night), three refinements of the next design
 - Iteration 1 — rooms: the boxes became rooms with thin walls, windows and doors on all seven levels (`tools/author_next_plans.py` v2); the void moved to the west wall out of the car lanes; the east bay behind the lift joined the units; parking laid out (2 + 2 tandem + 1); unit areas recomputed from the rooms (parents ≈110, second household ≈78, student ≈20, large family ≈178) and the lesson written down: two façades give two windowed rooms each, so the student unit shrank and one bedroom faces the void.
 - Iteration 2 — bones: structural idea plan (`js/structure.js`: raft, twelve columns, beams, shear core and west shear walls, the void and the fourth-floor slab openings, the garden's separate retaining wall, shoring, joint) and the next design's section (`section.js` dataset `next`, idea mode: hatched slabs, dashed walls, watermark).
