@@ -10,6 +10,7 @@
       <p class="deck">{{ n.deck_fa }}</p>
     </header>
     <div class="node-body">
+      <figure class="hero-figure"><div data-section="next" data-caption="hero-sec-cap"></div><figcaption><p class="fig-title">یک برش، همهٔ ایده: درخت و آب پایین، پنج خانهٔ متفاوت دور یک حفرهٔ نور، اتاق بلندِ بی‌سقف رو به حیاط، بامی برای همه. ایدهٔ خانواده، نه نقشه.</p><p id="hero-sec-cap" class="fig-note" aria-live="polite"></p></figcaption></figure>
       <div class="notice">{% for x in n.stance_fa|paras %}<p>{{ x }}</p>{% endfor %}</div>
       <h2>پیام میان حرف‌ها</h2>
       {% for x in n.message_fa|paras %}<p>{{ x }}</p>{% endfor %}

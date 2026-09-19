@@ -34,6 +34,7 @@
     // rooms
     const focusBoxes = [];
     const rooms = el('g', { class: 'rooms' });
+    const labelLayer = el('g', { class: 'room-labels', style: 'pointer-events:none' });   // appended after everything else
     (plan.rooms || []).forEach(r => {
       const g = el('g', { class: 'room kind-' + r.kind + (matches(r) ? ' is-focus' : focus.size ? ' is-dim' : ''), tabindex: 0, role: 'button' }, rooms);
       if (r.poly) el('polygon', { points: r.poly.map(([x, y]) => `${X(x)},${Y(y)}`).join(' '), class: 'room-fill', fill: FILL[r.kind] || '#EDEDE8', stroke: '#5A6664', 'stroke-width': .8 }, g);
@@ -46,14 +47,49 @@
       const short = r.short_fa || (name.includes(' — ') ? name.split(' — ').pop() : name);
       const label = rw * S > est(name) ? name : rw * S > est(short) ? short : null;
       if (label && rh * S > 16) {
-        text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.15, label, { class: 'room-label', 'text-anchor': 'middle', fill: '#161C1B', 'font-size': '10.5px' }, g);
-        if (rw * S > 70 && rh * S > 34) text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.7, faDigits(area) + ' m²', { class: 'room-area', 'text-anchor': 'middle', fill: '#5A6664', 'font-size': '9px' }, g);
+        text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.15, label, { class: 'room-label', 'text-anchor': 'middle', fill: '#161C1B', 'font-size': '10.5px', style: 'paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;stroke-opacity:.85' }, labelLayer);
+        if (rw * S > 70 && rh * S > 34) text((r.m[0] + r.m[2]) / 2, (r.m[1] + r.m[3]) / 2 + 0.7, faDigits(area) + ' m²', { class: 'room-area', 'text-anchor': 'middle', fill: '#5A6664', 'font-size': '9px', style: 'paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;stroke-opacity:.85' }, labelLayer);
       }
       g.setAttribute('aria-label', `${name}, ${area} m²`);
       const on = () => { if (opts.caption) opts.caption.innerHTML = `<strong>${name}</strong> <span>${faDigits(area)} m²${r.poly ? '' : ' · ' + faDigits(rw.toFixed(1)) + ' × ' + faDigits(rh.toFixed(1))}</span>${r.note ? '<br>' + (T(r, 'note') || '') : ''}`; };
       g.addEventListener('mouseenter', on); g.addEventListener('focus', on); g.addEventListener('click', on);
       if (matches(r)) focusBoxes.push(r.m);
     });
+    // furniture (idea plans): light line-art so the rooms read at a glance — scale, use, where the bed and the table go
+    const FS = { fill: '#fff', stroke: '#7A8280', 'stroke-width': .8 }, FL = { stroke: '#7A8280', 'stroke-width': .7, fill: 'none' };
+    const frect = (x0, y0, x1, y1, g, extra = {}, rx = 0) => el('rect', Object.assign({ x: X(x0), y: Y(y0), width: (x1 - x0) * S, height: (y1 - y0) * S, rx: rx * S }, FS, extra), g);
+    const fline = (x0, y0, x1, y1, g) => el('line', Object.assign({ x1: X(x0), y1: Y(y0), x2: X(x1), y2: Y(y1) }, FL), g);
+    const fcircle = (x, y, r, g, extra = {}) => el('circle', Object.assign({ cx: X(x), cy: Y(y), r: r * S }, FS, extra), g);
+    const FURN = {
+      bed: (m, g, ew, eh) => { // headboard on the shorter side that touches a wall: the longer dimension is the length
+        frect(m[0], m[1], m[2], m[3], g, {}, 0.05);
+        const along = ew >= eh; // pillows at the "top" (north or west end)
+        const pw = 0.45, gap = 0.08;
+        if (along) { const n = eh > 1.2 ? 2 : 1; for (let i = 0; i < n; i++) { const y0 = m[1] + gap + i * (eh - 2 * gap) / n; frect(m[0] + gap, y0 + gap / 2, m[0] + gap + pw, y0 + (eh - 2 * gap) / n - gap / 2, g, {}, 0.05); } fline(m[0] + pw + 3 * gap, m[1], m[0] + pw + 3 * gap, m[3], g); }
+        else { const n = ew > 1.2 ? 2 : 1; for (let i = 0; i < n; i++) { const x0 = m[0] + gap + i * (ew - 2 * gap) / n; frect(x0 + gap / 2, m[1] + gap, x0 + (ew - 2 * gap) / n - gap / 2, m[1] + gap + pw, g, {}, 0.05); } fline(m[0], m[1] + pw + 3 * gap, m[2], m[1] + pw + 3 * gap, g); }
+      },
+      wardrobe: (m, g) => { frect(m[0], m[1], m[2], m[3], g); fline(m[0], m[1], m[2], m[3], g); fline(m[2], m[1], m[0], m[3], g); },
+      sofa: (m, g, ew, eh) => { frect(m[0], m[1], m[2], m[3], g, {}, 0.12); if (ew >= eh) { fline(m[0], m[3] - 0.28, m[2], m[3] - 0.28, g); fline(m[0] + 0.3, m[1], m[0] + 0.3, m[3] - 0.28, g); fline(m[2] - 0.3, m[1], m[2] - 0.3, m[3] - 0.28, g); } else { fline(m[0] + 0.28, m[1], m[0] + 0.28, m[3], g); fline(m[0] + 0.28, m[1] + 0.3, m[2], m[1] + 0.3, g); fline(m[0] + 0.28, m[3] - 0.3, m[2], m[3] - 0.3, g); } },
+      armchair: (m, g) => { frect(m[0], m[1], m[2], m[3], g, {}, 0.12); fline(m[0] + 0.2, m[1] + 0.2, m[2] - 0.2, m[1] + 0.2, g); },
+      table: (m, g, ew, eh, cx, cy) => { // rectangular table with chairs around; a square-ish one becomes round
+        if (Math.abs(ew - eh) < 0.3) { fcircle(cx, cy, Math.min(ew, eh) / 2 - 0.35, g); const rr = Math.min(ew, eh) / 2 - 0.1; [0, 90, 180, 270].forEach(a => { const t = a * Math.PI / 180; fcircle(cx + rr * Math.cos(t), cy + rr * Math.sin(t), 0.2, g); }); return; }
+        const pad = 0.5; frect(m[0] + pad, m[1] + pad, m[2] - pad, m[3] - pad, g);
+        const c = 0.42, along = ew >= eh, L = along ? ew - 2 * pad : eh - 2 * pad, n = Math.max(1, Math.floor(L / 0.7));
+        for (let i = 0; i < n; i++) { const p = (along ? m[0] : m[1]) + pad + (i + 0.5) * L / n; if (along) { frect(p - c / 2, m[1] + 0.05, p + c / 2, m[1] + pad - 0.05, g, {}, 0.06); frect(p - c / 2, m[3] - pad + 0.05, p + c / 2, m[3] - 0.05, g, {}, 0.06); } else { frect(m[0] + 0.05, p - c / 2, m[0] + pad - 0.05, p + c / 2, g, {}, 0.06); frect(m[2] - pad + 0.05, p - c / 2, m[2] - 0.05, p + c / 2, g, {}, 0.06); } }
+        if (along) { frect(m[0] + 0.05, cy - c / 2, m[0] + pad - 0.05, cy + c / 2, g, {}, 0.06); frect(m[2] - pad + 0.05, cy - c / 2, m[2] - 0.05, cy + c / 2, g, {}, 0.06); } else { frect(cx - c / 2, m[1] + 0.05, cx + c / 2, m[1] + pad - 0.05, g, {}, 0.06); frect(cx - c / 2, m[3] - pad + 0.05, cx + c / 2, m[3] - 0.05, g, {}, 0.06); }
+      },
+      counter: (m, g, ew, eh) => { frect(m[0], m[1], m[2], m[3], g); const along = ew >= eh; const L = along ? ew : eh; const at = f => along ? [m[0] + f * L, (m[1] + m[3]) / 2] : [(m[0] + m[2]) / 2, m[1] + f * L]; const [sx, sy] = at(0.28); const [hx, hy] = at(0.72); frect(sx - 0.25, sy - 0.2, sx + 0.25, sy + 0.2, g, {}, 0.08); fcircle(sx, sy, 0.05, g); [[-0.13, -0.13], [0.13, -0.13], [-0.13, 0.13], [0.13, 0.13]].forEach(([dx, dy]) => fcircle(hx + dx, hy + dy, 0.08, g)); },
+      wc: (m, g, ew, eh, cx, cy) => { const along = ew >= eh; el('ellipse', Object.assign({ cx: X(cx), cy: Y(cy), rx: (along ? 0.28 : 0.2) * S, ry: (along ? 0.2 : 0.28) * S }, FS), g); if (along) frect(m[2] - 0.2, cy - 0.22, m[2], cy + 0.22, g); else frect(cx - 0.22, m[1], cx + 0.22, m[1] + 0.2, g); },
+      basin: (m, g, ew, eh, cx, cy) => { frect(m[0], m[1], m[2], m[3], g); el('ellipse', Object.assign({ cx: X(cx), cy: Y(cy), rx: 0.2 * S, ry: 0.15 * S }, FS), g); },
+      tub: (m, g) => { frect(m[0], m[1], m[2], m[3], g, {}, 0.1); frect(m[0] + 0.12, m[1] + 0.12, m[2] - 0.12, m[3] - 0.12, g, {}, 0.25); },
+      shower: (m, g) => { frect(m[0], m[1], m[2], m[3], g); fline(m[0], m[1], m[2], m[3], g); fcircle((m[0] + m[2]) / 2, (m[1] + m[3]) / 2, 0.06, g); },
+      desk: (m, g, ew, eh, cx, cy) => { frect(m[0], m[1], m[2], m[3], g); const along = ew >= eh; if (along) frect(cx - 0.22, m[3] + 0.05, cx + 0.22, m[3] + 0.45, g, {}, 0.06); else frect(m[2] + 0.05, cy - 0.22, m[2] + 0.45, cy + 0.22, g, {}, 0.06); },
+      bench: (m, g, ew, eh) => { frect(m[0], m[1], m[2], m[3], g); const n = 3; for (let i = 1; i < n; i++) { if (ew >= eh) fline(m[0], m[1] + eh * i / n, m[2], m[1] + eh * i / n, g); else fline(m[0] + ew * i / n, m[1], m[0] + ew * i / n, m[3], g); } },
+      basin_big: (m, g) => { frect(m[0], m[1], m[2], m[3], g, { fill: '#BFE0DE' }, 0.15); frect(m[0] + 0.25, m[1] + 0.25, m[2] - 0.25, m[3] - 0.25, g, { fill: '#A8D3D0' }, 0.1); },
+      bike: (m, g, ew, eh, cx, cy) => { const along = ew >= eh; const r = 0.3; if (along) { fcircle(cx - 0.55, cy, r, g); fcircle(cx + 0.55, cy, r, g); fline(cx - 0.55, cy, cx + 0.55, cy, g); } else { fcircle(cx, cy - 0.55, r, g); fcircle(cx, cy + 0.55, r, g); fline(cx, cy - 0.55, cx, cy + 0.55, g); } },
+      plant: (m, g, ew, eh, cx, cy) => { fcircle(cx, cy, Math.min(ew, eh) / 2, g, { fill: '#CFE3C6' }); fcircle(cx - 0.12, cy - 0.1, Math.min(ew, eh) / 4, g, { fill: '#BFD8B4' }); },
+      island: (m, g) => { frect(m[0], m[1], m[2], m[3], g, {}, 0.05); }
+    };
     // elements
     const els = el('g', { class: 'elements' });
     (plan.elements || []).forEach(e => {
@@ -69,6 +105,8 @@
       } else if (e.type === 'lift') {
         rect(m, { class: 'lift', fill: '#F4F4F1', stroke: '#5A6664', 'stroke-width': .8 }, g);
         el('line', { x1: X(m[0]), y1: Y(m[1]), x2: X(m[2]), y2: Y(m[3]), class: 'tread', stroke: '#5A6664', 'stroke-width': .7 }, g); el('line', { x1: X(m[2]), y1: Y(m[1]), x2: X(m[0]), y2: Y(m[3]), class: 'tread', stroke: '#5A6664', 'stroke-width': .7 }, g);
+      } else if (FURN[e.type]) {
+        FURN[e.type](m, g, ew, eh, cx, cy);
       } else if (e.type === 'car') {
         el('rect', { x: X(m[0]) + 2, y: Y(m[1]) + 2, width: ew * S - 4, height: eh * S - 4, rx: 9, class: 'car-top', fill: '#ECEDE9', stroke: '#5A6664' }, g);
         el('rect', { x: X(m[0]) + ew * S * 0.22, y: Y(m[1]) + eh * S * 0.18, width: ew * S * 0.56, height: eh * S * 0.64, rx: 6, class: 'car-roof', fill: '#fff', stroke: '#5A6664', 'stroke-width': .7 }, g);
@@ -91,6 +129,11 @@
     (plan.walls || []).forEach(wl => el('line', { x1: X(wl[0]), y1: Y(wl[1]), x2: X(wl[2]), y2: Y(wl[3]), class: 'wall', stroke: '#161C1B', 'stroke-width': Math.max(2, (wl[4] || 0.2) * S), 'stroke-linecap': 'square' }));
     (plan.windows || []).forEach(wn => el('line', { x1: X(wn[0]), y1: Y(wn[1]), x2: X(wn[2]), y2: Y(wn[3]), class: 'window', stroke: '#1D8F8A', 'stroke-width': 2 }));
     (plan.doors || []).forEach(dr => { const [x, y, wd, dir] = dr; const r0 = wd * S; const cx0 = X(x), cy0 = Y(y);
+      const gt = 0.11; // the opening: a paper-coloured cut through the wall line, so the door reads as a door and not a glued-on arc
+      if (dir === 'n' || dir === 's') el('rect', { x: X(x), y: Y(y - gt), width: wd * S, height: 2 * gt * S, fill: '#fff', class: 'door-gap' });
+      else el('rect', { x: X(x - gt), y: Y(y), width: 2 * gt * S, height: wd * S, fill: '#fff', class: 'door-gap' });
+      if (dir === 'n' || dir === 's') el('line', { x1: X(x), y1: Y(y), x2: X(x + wd), y2: Y(y), stroke: '#5A6664', 'stroke-width': .5, 'stroke-dasharray': '2 2', class: 'door-sill' });
+      else el('line', { x1: X(x), y1: Y(y), x2: X(x), y2: Y(y + wd), stroke: '#5A6664', 'stroke-width': .5, 'stroke-dasharray': '2 2', class: 'door-sill' });
       const ends = { n: [cx0 + r0, cy0, cx0, cy0 - r0], s: [cx0 + r0, cy0, cx0, cy0 + r0], e: [cx0, cy0 + r0, cx0 + r0, cy0], w: [cx0, cy0 + r0, cx0 - r0, cy0] }[dir || 'n'];
       el('path', { d: `M${ends[0]} ${ends[1]} A${r0} ${r0} 0 0 ${dir === 's' || dir === 'w' ? 1 : 0} ${ends[2]} ${ends[3]}`, fill: 'none', stroke: '#5A6664', 'stroke-width': .8, class: 'door-arc' });
       el('line', { x1: cx0, y1: cy0, x2: ends[2], y2: ends[3], stroke: '#5A6664', 'stroke-width': 1.2, class: 'door-leaf' }); });
@@ -121,6 +164,7 @@
     for (let i = 0; i <= 5; i++) el('line', { x1: i * S, y1: -3, x2: i * S, y2: 3, class: 'scale-line', stroke: '#5A6664' }, sb);
     const st = el('text', { x: 5 * S + 6, y: 4, class: 'tag', fill: '#5A6664', 'font-size': '10px' }, sb); st.textContent = faDigits(5) + ' m';
 
+    svg.appendChild(labelLayer);
     // viewBox: whole plan, or zoom to the focus
     let full = [0, 0, W, H];
     let vb = full;
