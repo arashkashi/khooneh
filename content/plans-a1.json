@@ -1229,9 +1229,9 @@
    },
    {
     "id": "yard-court",
-    "name_fa": "حیاط روی گودال",
-    "name_en": "yard over the courtyard",
-    "kind": "outdoor",
+    "name_fa": "خالیِ حیاط روی گودال‌باغچه",
+    "name_en": "open yard over the sunken courtyard",
+    "kind": "void",
     "m": [
      2.08,
      12.24,
@@ -1243,8 +1243,8 @@
      "c-godal-baghcheh",
      "c-shabak"
     ],
-    "note_fa": "کف شیشه‌ای مات روی حفرهٔ حیاط: حیاط قابل راه رفتن می‌ماند و زیرزمین نور می‌گیرد",
-    "short_fa": "کف شیشه‌ای"
+    "note_fa": "در سری ۱۳۹۹/۰۴/۲۱ حفره باز است، با نردهٔ شیشه‌ای دور آن (Shabak, Glass Handrail)؛ کف شیشه‌ای مات و طاق سبز در بازنگری شهریور آمدند و روی سایت نیستند.",
+    "short_fa": "خالیِ حیاط"
    },
    {
     "id": "green-w",
@@ -1984,20 +1984,19 @@
     ]
    },
    {
-    "id": "study-box",
-    "name_fa": "اتاقک کار",
-    "name_en": "study box",
-    "kind": "study",
+    "id": "hall-corner",
+    "name_fa": "گوشهٔ هال",
+    "name_en": "hall corner",
+    "kind": "hall",
     "m": [
      0.29,
      7.9,
      1.72,
      9.23
     ],
-    "tags": [
-     "b03"
-    ],
-    "note_fa": "یک میز، ۱٫۴۳ متر عرض — شاخص ۳ در کوچک‌ترین شکلش"
+    "tags": [],
+    "note_fa": "در بازنگری شهریور این گوشه «اتاقک کار» شد؛ در سری ۰۴/۲۱ بخشی از هال است.",
+    "short_fa": "هال"
    },
    {
     "id": "bath",
@@ -2086,8 +2085,8 @@
    },
    {
     "id": "balcony",
-    "name_fa": "بالکن با کف کشویی",
-    "name_en": "sliding-floor balcony",
+    "name_fa": "بالکن",
+    "name_en": "balcony",
     "kind": "outdoor",
     "m": [
      3.81,
@@ -2098,7 +2097,7 @@
     "tags": [
      "b11"
     ],
-    "note_fa": "کف کشویی و نردهٔ تاشو: بالکن می‌تواند به فضای داخل بپیوندد",
+    "note_fa": "بالکن جنوبی رو به حیاط؛ کف کشویی و نردهٔ تاشو در بازنگری شهریور اضافه شد.",
     "short_fa": "بالکن"
    },
    {
@@ -2706,9 +2705,9 @@
     ]
    },
    {
-    "id": "smoking",
-    "name_fa": "اتاق سیگار با اگزاست",
-    "name_en": "smoking room",
+    "id": "loft-room",
+    "name_fa": "اتاق کوچک نیم‌طبقه",
+    "name_en": "small loft room",
     "kind": "study",
     "m": [
      7.32,
@@ -2719,8 +2718,8 @@
     "tags": [
      "b14"
     ],
-    "note_fa": "اتاقی کوچک با هواکش مستقل، تا مهمان سیگاری خانه را دود نکند",
-    "short_fa": "اتاق سیگار"
+    "note_fa": "در بازنگری شهریور «اتاق بی‌دود» با هواکش شد؛ در سری ۰۴/۲۱ اتاقی کوچک است.",
+    "short_fa": "اتاقک"
    },
    {
     "id": "shaft-e",
@@ -4273,8 +4272,8 @@
    },
    {
     "id": "balcony",
-    "name_fa": "بالکن با کف کشویی",
-    "name_en": "sliding-floor balcony",
+    "name_fa": "بالکن",
+    "name_en": "balcony",
     "kind": "outdoor",
     "m": [
      3.85,
@@ -4285,7 +4284,8 @@
     "tags": [
      "b11"
     ],
-    "short_fa": "بالکن"
+    "short_fa": "بالکن",
+    "note_fa": "بالکن جنوبی؛ کف کشویی در بازنگری شهریور."
    },
    {
     "id": "shaft-e",

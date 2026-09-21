@@ -58,30 +58,5 @@
   "svg": "drawings/svg/a3-fourth-alt.svg",
   "w": 772,
   "h": 489
- },
- "a1a-basement": {
-  "svg": "drawings/svg/a1a-basement.svg",
-  "w": 423,
-  "h": 650
- },
- "a1a-ground": {
-  "svg": "drawings/svg/a1a-ground.svg",
-  "w": 423,
-  "h": 650
- },
- "a1a-first-loft": {
-  "svg": "drawings/svg/a1a-first-loft.svg",
-  "w": 460,
-  "h": 810
- },
- "a1a-second-loft": {
-  "svg": "drawings/svg/a1a-second-loft.svg",
-  "w": 460,
-  "h": 810
- },
- "a1a-third": {
-  "svg": "drawings/svg/a1a-third.svg",
-  "w": 422,
-  "h": 648
  }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.9 — 2026-09-21, the 1399 drawings are the family's «Latest» set
+- Arash's ruling: `private/originals/Latest/` (1399/04/21) is the 1399 design. The site now serves that set everywhere under the canonical names — sheet pages, index, attempt page, downloads, one-page views, WebP renders, cropped vector SVGs and PDFs (hashes identical to the folder). The 1399/06/13 revision is gone from the site (corpus-only) and is mentioned only as «بازنگری شهریور».
+- The redrawn 2020 plans lost the 06/13-only features (study box, smoking room, sliding balcony floor, opaque glass floor over the courtyard — the yard opening is drawn as it is on the 04/21 sheet, with its glass handrail).
+- Sheet notes and impressions cleaned of 06/13-only items; sheet numbers A3-004…008 from the 04/21 title blocks.
+
 ## v0.8 — 2026-09-19, the next-design chapter withdrawn
 - The owner asked for the "next design" page to come off the site. Its content, plans and template moved to `../private/drafts/next-design/` (out of the deploy tree); `next/` removed, nav/chapters/one-page sections and links cleaned. The drawing modules built for it stay (exploded 3D with per-floor layouts on the 1403 page, stairs overlay, shading, structure/façade/section modules — the latter three unused for now), as do the two concept pages (scissor stair, cooling).
 

@@ -12,7 +12,7 @@ Files (one owner each):
 
 Fixed ids
 - attempts: a1, a3
-- sheets: a1-section, a1a-basement, a1a-ground, a1a-first-loft, a1a-second-loft, a1a-third (rev A 1399/04/21, the family's «Latest» folder, primary), a1-basement, a1-ground, a1-first-loft, a1-second-loft, a1-third (rev B 1399/06/13, second version), a3-basement, a3-ground, a3-first, a3-second, a3-third, a3-fourth-alt  (files: drawings/2020/{section-b-b,basement,ground,first-loft,second-loft,third}.webp, drawings/2024/{basement,ground,first,second,third,fourth-alt}.webp; thumbs `-thumb.webp`; pdfs drawings/pdf/2020_*.pdf, drawings/pdf/2024_*.pdf as in the current index.html)
+- sheets: a1-section, a1-basement, a1-ground, a1-first-loft, a1-second-loft, a1-third (all from the family's «Latest» set, 1399/04/21; the 1399/06/13 revision is corpus-only), a3-basement, a3-ground, a3-first, a3-second, a3-third, a3-fourth-alt  (files: drawings/2020/{section-b-b,basement,ground,first-loft,second-loft,third}.webp, drawings/2024/{basement,ground,first,second,third,fourth-alt}.webp; thumbs `-thumb.webp`; pdfs drawings/pdf/2020_*.pdf, drawings/pdf/2024_*.pdf as in the current index.html)
 - brief: b01…b19
 - questions: q-level-minus-2, q-window-paradox, q-breathing, q-both-sides, q-convertible, q-cost-in-quantities, q-tree, q-roof, q-mix, q-fourth-floor, q-stacks, q-facade
 - concepts: c-iwan, c-godal-baghcheh, c-shabak, c-hoz, c-nested-floors, c-bahamestan, c-double-skin, c-double-height-loft, c-student-unit, c-caretaker, c-roof-garden, c-tree, c-cross-ventilation, c-parking, c-scissor-stair, c-cooling
