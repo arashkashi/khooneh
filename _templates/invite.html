@@ -77,6 +77,6 @@
     <li><a href="{{ root }}content/proposal.json">پیشنهاد خانواده و دو گزینه (JSON)</a></li>
   </ul>
   <h3>شیت‌های اصلی</h3>
-  <ul class="dl">{% for s in sheets %}<li><a href="{{ root }}{{ s.pdf }}" target="_blank" rel="noopener" type="application/pdf">{{ 'طرح ۱۳۹۹' if s.attempt == 'a1' else 'طرح ۱۴۰۳' }} · {{ s.title_fa }}</a> · <a href="{{ root }}drawings/svg/{{ s.id }}.svg">SVG</a></li>{% endfor %}</ul>
+  <ul class="dl">{% for s in sheets %}<li><a href="{{ root }}{{ s.pdf }}" target="_blank" rel="noopener" type="application/pdf">{{ 'طرح ۱۳۹۹' if s.attempt == 'a1' else 'طرح ۱۴۰۳' }} · {{ s.title_fa }}</a> · <a href="{{ root }}{{ svg_index[s.id].svg if s.id in svg_index else 'drawings/svg/' ~ s.id ~ '.svg' }}">SVG</a></li>{% endfor %}</ul>
 </section>
 {% endblock %}

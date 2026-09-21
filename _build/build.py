@@ -250,7 +250,7 @@ if proposal:
     write('proposal/', 'proposal.html', p=proposal, groups=related_groups(proposal, 'p1'), backs=backlink_entries('p1', proposal),
           section_json=json.dumps(section_ds, ensure_ascii=False), units_json=json.dumps(units_ds, ensure_ascii=False))
 # invite
-write('invite/', 'invite.html', sheets=sheets, proposal=proposal)
+write('invite/', 'invite.html', sheets=sheets, proposal=proposal, svg_index=svg_index)
 # next design (the family's imagination, coarse boxes)
 if nxt:
     write('next/', 'next.html', n=nxt, plan_ids=MODEL['next']['plans'], model_json=json.dumps(dict(MODEL['next'], mode='exploded', idea=True), ensure_ascii=False), groups=related_groups(nxt, nxt['id']), backs=backlink_entries(nxt['id'], nxt))

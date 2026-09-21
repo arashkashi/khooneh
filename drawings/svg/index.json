@@ -1,31 +1,31 @@
 {
  "a1-section": {
-  "svg": "drawings/svg/a1-section.svg",
+  "svg": "drawings/svg/a1-section.1399-04-21.svg",
   "w": 570,
   "h": 710
  },
  "a1-basement": {
-  "svg": "drawings/svg/a1-basement.svg",
+  "svg": "drawings/svg/a1-basement.1399-04-21.svg",
   "w": 423,
   "h": 650
  },
  "a1-ground": {
-  "svg": "drawings/svg/a1-ground.svg",
+  "svg": "drawings/svg/a1-ground.1399-04-21.svg",
   "w": 423,
   "h": 650
  },
  "a1-first-loft": {
-  "svg": "drawings/svg/a1-first-loft.svg",
+  "svg": "drawings/svg/a1-first-loft.1399-04-21.svg",
   "w": 460,
   "h": 810
  },
  "a1-second-loft": {
-  "svg": "drawings/svg/a1-second-loft.svg",
+  "svg": "drawings/svg/a1-second-loft.1399-04-21.svg",
   "w": 460,
   "h": 810
  },
  "a1-third": {
-  "svg": "drawings/svg/a1-third.svg",
+  "svg": "drawings/svg/a1-third.1399-04-21.svg",
   "w": 422,
   "h": 648
  },
