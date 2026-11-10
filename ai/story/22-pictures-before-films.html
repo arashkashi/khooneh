@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pictures before films</title><link rel="stylesheet" href="story.css"></head><body><main>
+<nav><a href="index.html">The story</a> · <a href="21-the-court-comes-in.html">Previous chapter</a></nav>
+<p class="meta">Chapter 22 · night of 7–8 November 2026</p>
+<h1>Pictures before films</h1>
+<p>The first walk films took about an hour each on this laptop, and every one had faults that only showed once it was finished. Several walks ended staring at a bookcase or a dark door. A kitchen under a stair went black. A band like a wall blocked the top of a stair. In a two-floor home, the camera went straight downstairs without looking round the floor it started on. Watching them at four in the morning, the owner changed the order of work.</p>
+<div class="decision"><b>Decision.</b> Pictures first, films last. Every walk is rendered first as a preview: every twentieth frame, numbered pictures in its own folder, with the corner map. That takes about seven minutes per walk, against an hour for a film. The pictures are checked, the route or light is fixed, and the preview is run again. Only when the pictures are right are the full films rendered, and that will be on the owner's computer with an NVIDIA card. Long films are acceptable; a skipped room is not.</div>
+<p>The owner's rules for a walk became a checker that runs after every preview and writes its verdict next to the pictures:</p>
+<ul>
+<li>no dark stretches;</li>
+<li>every room of the home entered, bathrooms included;</li>
+<li>a full look round in every main room, walls, corners and windows;</li>
+<li>real pauses, and turns no faster than the liked first walk;</li>
+<li>each floor explored before taking the stair;</li>
+<li>the walk ends where it started.</li>
+</ul>
+<p>Its first run passed none of the thirteen walks. They entered only one to four rooms each, never held still, and ended up to sixteen metres from their start. The routes are now planned from the numbers of the plan, room by room, without opening Blender. Homes on two floors get one film per floor. The shared and roof walks ride the lift back down to where they began.</p>
+<div class="decision"><b>Decision.</b> No more time travel. The pause where the camera stopped at a window while the sun ran through the seasons is gone. Every walk keeps one light, the one the owner liked from the start: 15 October at four in the afternoon. No single hour lights both sides of this plot: the street side faces north-east and gets direct sun only early in the morning. So rooms the sun can't reach now get sky light and lamps.</div>
+<p>Looking closely found the causes of the faults:</p>
+<ul>
+<li><b>The darkness:</b> Blender had never been told to include the sky's light inside the rooms, so only the low sun lit them. Windowless halls and stairs also had lamps that glowed but lit nothing.</li>
+<li><b>The band over the stair:</b> a modelling fault, not the design. The loft floor's edge had been built twice, once as a solid rail across the stair opening. The real headroom is 2.5 m.</li>
+<li><b>The corner map:</b> it became a floor plan, with both floors side by side while you climb a stair.</li>
+</ul>
+<div class="decision"><b>Decision.</b> The −1 garden reaches into the house. The owner's drawing shows the court's planted bed and its tree continuing, on the same axis and symmetric, as a small garden of five planting rows inside the basement. It is closed in by glass where it meets the rooms, so from inside you look into the planting and through it to the tree. It is a garden to look into, not a room to walk through. An earlier reading had turned it into a porch with two side beds; that was corrected the same night, for both 1399 and 1405.</div>
+<div class="turn"><b>What it means.</b> The design page for the AI's design was renamed <code>design-1405.html</code>, the living view of 1405, rebuilt and committed whenever the design changes. The walks are no longer judged by watching an hour of film. They are judged by a folder of pictures you can scroll through in Finder, and by a checker that says what is missing.</div>
+<p class="meta">Files: <code>design/blender/render_all.py</code>, <code>render_all.bat</code>, <code>render_all.command</code>, <code>design/blender/lib/walk_qa.py</code>, <code>lib/preview_check.py</code>, <code>lib/walk_plan.py</code>, <code>design/blender/walk-guidelines.md</code>, <code>design/blender/walk-review.md</code>, <code>lib/planmap.py</code>, <code>lib/walk_light.py</code>, <code>design/stair_check.py</code>, <code>design/design-1405.html</code>, <code>design/research/green-threshold-minus1.md</code></p>
+</main></body></html>

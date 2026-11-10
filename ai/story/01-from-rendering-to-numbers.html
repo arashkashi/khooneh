@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>From rendering to numbers</title><link rel="stylesheet" href="story.css"></head><body><main>
+<nav><a href="index.html">The story</a> · <a href="02-values-before-options.html">Next chapter</a></nav>
+<p class="meta">Chapter 1 · 5 November 2026</p>
+<h1>From rendering to numbers</h1>
+<p>It began as a tooling question: how to do 3D modelling, simulation and high-quality rendering with an AI coding tool on a Mac, with little setup. The AI should read the 2D architectural PDFs, suggest improvements, and model step by step from coarse to refined.</p>
+<p>The test used Blender. It worked on the M1 Mac (a simple 1080p scene took about 8 minutes), but it also showed the cost: free disk space fell to 920 MB.</p>
+<div class="turn"><b>Turning point.</b> The disk rule: "before downloading stuff see if there is enough space and ask me." The test files were removed, and this is now a standing rule.</div>
+<p>The 1399 design was chosen as the first to work from. Then the direction changed: before any 3D, build files that can be computed, compared and previewed.</p>
+<div class="decision"><b>Decision.</b> A pipeline in phases: numbers, stacking, block plans, room plans, massing, rendering. Each phase has an easy preview. 3D waits until the early phases have settled.</div>
+<p>The point of 1399 was named here for the first time: the basement, duplexes together, a different plan on each floor, and different areas for different purposes. Those are the values to carry over; the building itself isn't.</p>
+<h2>How to describe a design with numbers</h2>
+<p>A research agent compared graphs, B-rep, voxels and learned models. The conclusion was plain: one JSON source in metres, a fixed frame, and rectangles tagged by home and use. Graphs, quantities and 3D can all be derived from it. Voxels, signed distance fields and learned models don't fit a problem with this little data.</p>
+<p>Checking that work found errors of mine too. The code gave an underground flat north windows, and I had overstated that a home sharing a floor can face only one side. Both were corrected.</p>
+<p class="meta">Files: <code>design/design.py</code>, <code>design/research/representation.md</code></p>
+</main></body></html>
