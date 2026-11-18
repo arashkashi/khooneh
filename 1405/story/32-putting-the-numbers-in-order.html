@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>32. Putting the numbers in order</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>32. Putting the numbers in order</h1>
+<p class="date">10 November 2026</p>
+
+<p>Before the work in layers could start, the code that turns the plan into numbers needed tidying. You asked for it on
+10 November: "put things in better order and factor out items into data structure", with one condition first: "we need
+unit tests before to make sure we do not break any past functionality". The AI first wrote a review of the whole
+numerical pipeline, had it graded independently (92 of 100), and then carried it out in small steps.</p>
+
+<h2>The safety net first</h2>
+<ul>
+<li><b>A test that builds the design twice.</b> For every step, the design is built from scratch twice, once from the
+step and once from the step before, and every one of about a hundred output files is compared. A step that changes
+anything is undone.</li>
+<li><b>Tests for the parts that had none.</b> The plan author, the window study, the door and furniture search, the
+walls and furniture, the page, the roof garden and the iteration record are now each tested on their own, with faults
+planted at the edges. The two largest parts went from under half of their lines tested to over 90 %.</li>
+</ul>
+
+<h2>What changed, with nothing in the design changing</h2>
+<ul>
+<li><b>Render code no longer marks the numbers stale.</b> A fix to the walks used to make seven numerical stages look out
+of date. That link is cut.</li>
+<li><b>One place for each thing.</b> One way to read and write the data files; one set of plan geometry, where before
+"overlap" meant an area in some files and a yes-or-no in others; one list each of which rooms count as indoors.</li>
+<li><b>The programme as data.</b> The levels, their clear heights, the homes, who sleeps where and the private stairs
+now live in one data file (<code>programme-1405.json</code>) instead of in five program files. "B for four or five
+people" is now a one-number edit there.</li>
+<li><b>The old plan author is archived,</b> so it can no longer overwrite the current design by accident.</li>
+</ul>
+
+<h2>Numbers that disagree: yours to decide</h2>
+<p>Some numbers were copied, and the copies no longer agree. The AI did not pick one: each is listed on the decision
+page <a href="../design/decisions/wip-refactor-constants.html">wip-refactor-constants</a>, with what changes if they
+are made one.</p>
+
+<h2>Where it stands</h2>
+<p>Next come the layers themselves: the structure and everything that runs through every floor as its own data, then
+the folders by layer, then the large parts split by layer. The plan is in
+<code>design/research/pipeline-review.md</code>, section 7.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40. A concrete frame</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>40. A concrete frame</h1>
+<p class="date">17 November 2026</p>
+
+<p>You said on 17 November: "Please take into account the structure of the building, not metal bars but concrete. Make a
+safe estimation of the thickness and also position of them. I could later refine it with the help of an engineer."</p>
+
+<p>So the building now has a structure in its data. It is reinforced concrete, sized on the safe side. It is a preliminary
+estimate for the engineer, not a structural design.</p>
+
+<h2>What the codes say about Qazvin</h2>
+<ul>
+<li><b>The hazard.</b> Standard 2800 (4th edition) lists Qazvin among the cities of <b>very high</b> earthquake hazard,
+with a design acceleration of 0.35 g. A 5th edition exists; the engineer will say whether it applies.</li>
+<li><b>The loads.</b> Part 6 asks 2 kN/m² for the rooms of a home, 5 for a roof garden and 4 for the parking.</li>
+<li><b>The sizes.</b> Part 9 sets the smallest sizes: columns at least 30 cm, shear walls at least 15 cm, basement walls at
+least 20 cm.</li>
+<li><b>What could not be confirmed.</b> The usual Iranian rules of thumb (40×40 columns, a 25+5 cm tirchebloc floor) were not
+found in any citable source, so they are not used.</li>
+</ul>
+
+<h2>The system</h2>
+<p>On a plot 10 m wide with neighbours on both sides, the party walls are the only long walls without windows. They become
+<b>concrete shear walls</b> from the foundation to the top floor, now along the whole depth of the building. With the walls
+round the stair and the lift, they carry the earthquake. Beams and columns carry the floors. The floors are 0.20 m solid
+slabs on beams, and the foundation is a mat in two steps.</p>
+
+<h2>What changes in the plan now</h2>
+<p>Only what stays inside walls:</p>
+<ul>
+<li>both party walls now run to the yard façade, which also carries the south-east corner (before, it hung 2.3 m out);</li>
+<li>the stair house's east wall is concrete.</li>
+</ul>
+<p>No room loses floor. The columns the plan already had are big enough: the most loaded carries about 2,400 kN at a third
+of its strength.</p>
+
+<h2>What is for you to decide</h2>
+<ul>
+<li><a href="../design/decisions/wip-structure-x-walls.html">Shear walls across the plot</a>. Across the plot there are
+too few, so the stair's street wall and the core walls should grow.</li>
+<li><a href="../design/decisions/wip-structure-headroom.html">Beams and heights</a>. The yard windows run into the yard
+beam, and the basement's shared rooms are 3 cm short under the beams.</li>
+<li><a href="../design/decisions/wip-structure-basement-walls.html">Basement walls</a>. They need 0.30 m.</li>
+<li><a href="../design/decisions/wip-structure-gap.html">The gap to the neighbours</a>. It must grow to about 10 cm at the
+top.</li>
+<li><a href="../design/decisions/wip-structure-r2.html">Riser R2</a>. It runs through a column.</li>
+</ul>
+
+<p>Everything the engineer must confirm is listed in <code>design/research/structure-1405.md</code>. The "Structure" section
+of the design page and the sheets <code>drawings/structure-*.svg</code> show it level by level.</p>
+</main>
+</body>
+</html>

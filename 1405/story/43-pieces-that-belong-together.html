@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>43. Pieces that belong together</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>43. Pieces that belong together</h1>
+<p class="date">17 November 2026</p>
+
+<p>On 17 November you looked at the caretaker's home and wrote five notes. The dining table in the hall ran into the bath
+wall and the end of the hob run. In the living room the TV was "not right in front of the sofa", and a dining table stood
+between them: "how could someone sit in front of the TV? There is no logic of interior design and space." The tub still
+stood beside the column with a pocket behind it, although the dead-floor rules (chapter 34) were meant to stop exactly
+that. In A's bedroom a wardrobe stood across a quarter of the window, and in A's living room the TV unit stood past the
+end of the store wall, "like a short wall". And: "when a table or furniture is put, it should not narrow down the
+passages; make it a numerical constraint."</p>
+
+<h2>Why the tub pocket came back</h2>
+<p>Nothing was stale. The search had read the dead-floor rule too literally. Floor counted as usable when a 0.30 m square
+could reach it from the door, and 0.30 m is the rule's smallest strip. So the search slid the tub 0.30 m off the north
+wall: a 0.30 m slot opened at its head, and through that slot the 0.5 x 0.85 m notch behind it counted as "reached". No
+one stands in a slot. Now usable floor must lie within a hand's and a mop's reach, 1.0 m along the floor, of somewhere a
+person can stand (a 0.45 m square joined to the door). The tub may also meet the column with part of its front, because
+you step into a tub from the middle of its long side. The search now lays the tub along the north wall with its head in
+the notch. What is left is a 0.1 m strip under the tub's apron.</p>
+
+<h2>The chairs on the walls</h2>
+<p>The decision pages drew a table's chairs if they fell inside any room of the floor, so the hall table showed two
+chairs across the bath wall and the hob run. design-1405.html already refused those chairs. Now the search records the
+chairs a table really has, and every page draws only those.</p>
+
+<h2>The new numbers</h2>
+<ul>
+<li><b>F-overlap</b>: no piece, use floor or chair stands on another piece, a wall, a column, a stair or a door's swing,
+here or in the room next door.</li>
+<li><b>KZ-table-clear</b>, extended: every chair of every table keeps 0.6 m (your 0.6 to 0.75) behind it.</li>
+<li><b>F-tv</b>: the TV within 0.3 m and 15° of the sofa's axis, 2.0 to 3.6 m away for a 55" screen, its back on a
+solid wall for 90 % of its width, and not in a door's approach. <b>T1</b> gains a glare cone: no window within 20° of
+the screen, seen from the sofa.</li>
+<li><b>LV-view</b>: between the sofa and the TV nothing higher than a coffee table. <b>LV-group</b>: one seating
+group. <b>LV-zone</b>: dining and living apart, and no way through the view. <b>LV-sofa-back</b>: the sofa's back on
+a wall, or 0.9 m of way behind it.</li>
+<li><b>F-pair</b>: a coffee table 0.4 to 0.5 m from the sofa, night tables at the bed's head, 0.75 m for a desk's
+chair. The table and the serve landing stay rule KZ-hob-table.</li>
+<li><b>PS-route</b>: 1.0 m ways through halls, living rooms and entries, 0.9 m through bedrooms, between every two ways
+in and from each to the table and the sofa, counting the chairs pulled out and the doors' swings. <b>PS-table-room</b>:
+a table only where it, its chairs pulled out and that way fit.</li>
+<li><b>F8-block</b> (hard): no tall piece covers more than 20 % of a window's glass. <b>F8-window</b> also keeps a
+low piece's reach to the handle and keeps a wardrobe's doors out of a casement's swing.</li>
+</ul>
+<p>The search uses the same numbers it is judged by. A table now carries its chairs and their pull-out floor instead of
+a ring. A TV is only placed with its back on a wall. A sofa may stand free, but only facing a place the TV can go and with
+a way behind it. The TV, the coffee table and an armchair are placed for their relation to the sofa.</p>
+
+<h2>What changed in the homes</h2>
+<ul>
+<li><b>C's hall</b> is a hall again: the table, its chairs pulled out and a 1.0 m way need about 2.9 m, the hall is 1.85 m.
+The everyday table for four moved into the living room by the kitchen.</li>
+<li><b>C's living room</b>: the sofa on the east wall facing the TV on the west wall, nothing between them, the table by
+the kitchen. The columns keep the TV 0.7 m off the sofa's axis, and the chairs pulled out reach 0.3 m into the living
+zone. That is a near miss the room can't clear by itself, so it is a card.</li>
+<li><b>A's living room</b>: the TV moved fully onto a wall, and the sofa stands free, facing it 2.2 m away, with a way
+behind it. Before, the TV stood past the end of the store wall and at right angles to the sofa.</li>
+<li><b>The caretaker's bath</b>: the tub along the north wall, its head in the notch by the column.</li>
+<li><b>The couple rooms of A and C</b>: no wardrobe across the north window any more. The bed had to turn, and the way to
+one of its sides now fails. That is added to the card on the bedding.</li>
+<li><b>Level −1</b>: the tea corner's run already stands on riser R2's face, and the wet room leaves no dead floor; nothing
+moved.</li>
+<li>Across 1405 the new rules counted 62 narrowed ways before and 26 after, 10 tables with no room for their chairs
+before and 1 after, 8 TV faults before and 3 after, and 3 wardrobes across windows before and none after.</li>
+</ul>
+
+<h2>What is yours to decide</h2>
+<ul>
+<li><a href="../design/decisions/wip-rel-c-living.html">wip-rel-c-living</a>: the caretaker's living room holds the table
+and the TV group; the AI suggests a drop-leaf table.</li>
+<li><a href="../design/decisions/wip-rel-d-dining.html">wip-rel-d-dining</a>: no table for four in D's dining corner keeps
+a 1.0 m way; the AI suggests a bench on the wall.</li>
+<li><a href="../design/decisions/wip-f8-couple-rooms.html">wip-f8-couple-rooms</a>, updated: the wardrobe off the window
+costs the bed a side.</li>
+</ul>
+
+<h2>The open decisions, explained</h2>
+<p>The seven decisions under "Decisions still open" each have their own page now, like the suggestions in progress. Each
+page shows the options drawn on the plan, the numbers, and the AI's answer: the fourth-floor balcony, the rain tank, the
+ground-floor gap, the garden pocket, the birch, the roof garden and the court.</p>
+</main>
+</body>
+</html>

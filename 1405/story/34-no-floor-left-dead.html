@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>34. No floor left dead</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>34. No floor left dead</h1>
+<p class="date">11 November 2026</p>
+
+<p>Looking at the caretaker's bathroom on the design page, you saw two gaps: "There is a dead space on the left side of
+the bath tub, there is dead space between the sink and the washing machine." And you asked for more than a fix: "make
+some numerical rules to better place items here, and the rules you write and test to be applied elsewhere ... so we do
+not make the same mistake elsewhere."</p>
+
+<h2>Why the gaps were there</h2>
+<p>A 0.5 m deep column stands in the bathroom's west wall. It leaves two pockets, each 0.50 × 0.85 m, one on either side
+of it. The layout search let a fixture stand with half its back on the column and half on nothing. So the tub went
+against the column with the pocket behind it, closed off on every side. The basin went on the column too, and the
+washing machine, 0.6 m wide in a 0.85 m pocket, left a 0.25 m notch between them. Nothing in the search measured the
+floor behind or beside a fixture, only in front of it.</p>
+
+<h2>Four new rules, for every room</h2>
+<ul>
+<li><b>No dead strip (DS-strip).</b> No free strip narrower than 0.30 m and longer than 0.30 m, and no pocket cut off
+from the door, unless it is the floor in front of a fixture, a WC's elbow room, a door's swing or a gap left on
+purpose for a pipe.</li>
+<li><b>Flush or roomy (DS-snap).</b> A fixture stands flush against a wall, a column or its neighbour (0.02 m), or
+far enough away to clean (0.30 m) or, for furniture, to step past (0.45 m). Nothing in between.</li>
+<li><b>Little dead floor (DS-share).</b> At most 4 % of a bath or WC, 5 % of a kitchen and 8 % of other rooms.</li>
+<li><b>Fill what can't be closed (DS-fill).</b> Where a gap must stay, the catalogue suggests something that fits it,
+such as a towel rail or an open shelf. Nothing is invented.</li>
+</ul>
+<p>Every number is yours to tune in the rules file, and each is tested at both ends of its range.</p>
+
+<h2>The search now uses them</h2>
+<p>The layout search now tries positions flush with every wall end and column face. It counts the dead floor of every
+arrangement it tries, and it never leaves out a fixture to save floor. In the caretaker's bath, the tub now stands in
+the middle of the column face, so both pockets open onto the room. The WC sits in the south-west pocket, closest to the
+riser, and the washing machine and basin are on the east wall. Dead floor there went from 0.55 m² to 0.03 m². The
+cost: the basin and washer now drain 4.0–4.6 m to the riser, more than the 3 m guide (a soft check, for the
+engineer).</p>
+<p>Across the building, dead floor fell from 7.1 m² to 1.8 m². The rules also found something worse. In B's
+children's bath, the basin and shower could only be reached through a 0.2 m gap between the WC and the washing
+machine. That is fixed too.</p>
+
+<h2>Yours to decide</h2>
+<p>One gap needs your choice. The caretaker's fridge stands in a 1.1 m alcove and leaves 0.38 m² closed off behind it:
+<a href="../design/decisions/wip-ds-c-kitchen-alcove.html">wip-ds-c-kitchen-alcove</a>.</p>
+</main>
+</body>
+</html>

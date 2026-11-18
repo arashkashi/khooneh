@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>41. Stairs by the numbers</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>41. Stairs by the numbers</h1>
+<p class="date">17 November 2026</p>
+
+<p>You asked on 16 November: "please review the stairs, make sure the number of stairs and elevation change and
+resting space is standard, make it a numerical thing." You then added that the rules must reach every stair and step
+the building has or will have, so that none can escape the check.</p>
+
+<h2>One list of every stair</h2>
+<p>The project now keeps one register of stairs, built from the plan data. It finds each stair, step and raised floor
+on every level. A separate check looks for every change of height in the plan: floors that people use, the floors of
+each two-storey home, the court against the ground, raised built-ins, and rooms drawn as stairs or steps. That check
+does not use the register, and a test fails if it finds a change of height the register has missed. The register
+holds eleven entries for 1405:</p>
+<ul>
+<li>the shared stair, seven storeys from −2 to the roof;</li>
+<li>D's spiral, from the second floor to the third;</li>
+<li>B's own stair, from the third floor to the fourth;</li>
+<li>the court stair, from the court floor up to the bridge;</li>
+<li>B's soffeh, a raised floor 0.40 m high.</li>
+</ul>
+<p>1405 draws no threshold step and no ramp. For 1399 the register also lists the jacuzzi steps and the sunken pit,
+both left open because the data does not give their heights.</p>
+
+<h2>Fourteen rules</h2>
+<p>Each stair is worked out from its numbers:</p>
+<ul>
+<li>how many equal risers divide the floor height;</li>
+<li>a going taken from the middle of the step rule (two risers and a going add up to 630–640 mm);</li>
+<li>whatever length the box leaves over, which becomes landings.</li>
+</ul>
+<p>Fourteen rules then test every stair of the kinds they apply to: riser, going, step rule, risers per flight,
+landings, headroom, width, guards, handrails, even risers, spiral, door swing, open risers and raised floors. Each
+figure is a setting you can change, with its source. Iran's figures come from summaries of Parts 3 and 4 of the
+National Building Regulations, because the official text could not be found online, so they are labelled as
+secondary sources. DIN 18065 and the UK's Approved Document K sit beside them for comparison.</p>
+
+<h2>What the numbers say</h2>
+<ul>
+<li><b>The shared stair passes on every count but one.</b> Its risers are 173 to 180 mm (17 to 20 a storey, in
+flights of 8 to 10), its goings 280 to 288 mm, and its half landings 1.10 m deep. Floor landings are 1.33 to 1.66 m,
+and headroom is at least 2.23 m, the lowest point being under the stair house on the roof. The exception: one source
+quotes a 2.40 m stair shaft, and the box is 2.30 m. Card
+<a href="../design/decisions/wip-st-core-box.html">wip-st-core-box</a> recommends keeping 2.30 m until the engineer
+reads the printed clause.</li>
+<li><b>B's stair passes.</b> It has 18 risers of 178 mm, 280 mm goings and two flights of 9 risers, 0.90 m wide as
+you asked. Its half landing is 0.90 m deep, and it has at least 3.8 m clear above it, under the roof.</li>
+<li><b>D's spiral fails on its treads.</b> On the walking line each tread is 128 mm deep, where 200 mm is asked. A
+bigger box would not help; only turning further does. Card
+<a href="../design/decisions/wip-st-spiral.html">wip-st-spiral</a> recommends 16 risers of 200 mm turning about 460°
+in the same box.</li>
+<li><b>The court stair now passes.</b> A 288 mm going replaces 280 mm, and the half landing is still 1.24 m.</li>
+<li><b>The soffeh is a seat, not a step:</b> at 0.40 m it falls within the seat band.</li>
+</ul>
+
+<h2>What was fixed, and what was not</h2>
+<p>Three things were matters of calculation and are now fixed in the numbers:</p>
+<ul>
+<li>the way each floor height is split into risers;</li>
+<li>goings that had been stretched to fill each box, which made the shared stair's goings 0.39–0.43 m long;</li>
+<li>the end of the core stair that meets its landing.</li>
+</ul>
+<p>Two plan matters became cards instead of silent edits: the spiral's treads and the core box's width. Some
+differences remain for the 3D model to catch up on when it is next rebuilt:</p>
+<ul>
+<li>it still stretches the goings;</li>
+<li>it starts the core flights at the street end;</li>
+<li>it puts a 1.00 m guard round openings where 1.10 m is asked;</li>
+<li>it measures floors with a 0.30 m slab, while the page's clear heights assume a 0.48 m build-up.</li>
+</ul>
+<p>Your open-riser stairs fit the rules. The two homes' own stairs keep open risers, with a 40 mm bar under each tread
+so that a 100 mm ball cannot pass. The shared escape stair keeps closed risers.</p>
+
+<p>The section "Stairs, by the numbers" on the <a href="../design/design-1405.html#s-stairs">design page</a> shows a
+table and a section drawing for every stair.</p>
+</main>
+</body>
+</html>

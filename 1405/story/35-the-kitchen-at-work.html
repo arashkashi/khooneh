@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>35. The kitchen at work</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>35. The kitchen at work</h1>
+<p class="date">11 November 2026</p>
+
+<p>You said on 11 November: "kitchen is an important place, and we should be able to numerically optimize where
+everything in kitchen is located and how they are related to other items", and you named the moments that matter:
+preparing the food, arriving home with groceries, cleaning up the dishes, the way from the hob to the table, the tea
+always ready, knives and the boiler on the counter, professional sinks, open and closed shelves, and a table for the
+four or five who live there rather than the table for eight.</p>
+
+<h2>Who eats at the table</h2>
+<p>The project counts the people who sleep in each home: A 3, B 4, C 3, D 2. The kitchen now keeps a second number,
+the everyday diners: by default the sleepers, but at least 4 and at most 6. It sizes the everyday table and the
+kitchen's walks; the rooms keep the sleepers until you answer the card
+<a href="../design/decisions/wip-kitchen-households.html">wip-kitchen-households</a>.</p>
+
+<h2>Everything in the kitchen, as numbers</h2>
+<ul>
+<li><b>An inventory of 128 things</b> (the samovar, the knives, the polo pot, rice by the season, bread in the
+freezer, the detergents) each with its size, how often it is used, the height it should be kept at and the work
+centre it belongs to. It is now source data that the pipeline reads.</li>
+<li><b>A planner for every kitchen</b> (a new step before the furniture search). It takes each kitchen's runs as
+drawn and searches where the sink, its drainer, the hob, the oven, the dishwasher slot, the tea station and the
+landings go: first on a 15 cm grid, then on a 5 cm one. Hard rules are never broken; every other fault and every
+metre walked has a price. A deep single bowl with a drainer and a pull-down spray tap is the default sink, because
+fewer than one Iranian home in ten has a dishwasher.</li>
+<li><b>Cupboards, drawers and shelves.</b> Drawers at the prep worktop and the hob; the bins and the latched
+detergents under the sink; open shelves only for the daily glasses and never near the hob; a tall larder where a
+run meets a wall. Each of the 128 things is given a place: daily things between 0.6 and 1.6 m, nothing heavy above
+1 m, knives on a strip at the prep worktop. What doesn't fit goes to the home's store, or to its share of the
+building's store in the basement.</li>
+<li><b>Fourteen scenarios walked on the plan</b>: morning tea, a polo dinner, the weekly shopping, the daily bread,
+the washing-up by hand, guests, two people cooking at once, the herbs, the rice bought by the season. Each is scored
+for the metres walked, the load carried, the times it cuts through the cook's working strip, the hands full at a
+door, things out of reach, and two people in each other's way.</li>
+</ul>
+
+<h2>The everyday table</h2>
+<p>Every home now has a table for six beside its kitchen, 1.6 x 0.9 m, which opens to 2.4 m for eight guests. In A and B it takes the place of the
+living-room table for eight; in C it stands in the hall by the kitchen, and the living room keeps its table for six. The hall tables against a wall now seat four, two of them at the ends.
+On the drawings the tables carry plates and cutlery instead of a fruit bowl and a jug, which had read as a hob and a
+sink, and the floor sheets no longer draw the beds and the floor cushions on top of each other.</p>
+
+<h2>What it found</h2>
+<ul>
+<li>The weekly walking and carrying score fell in A (from about 3,250 to 2,290) and B (2,950 to 2,690), and a
+little in C (4,560 to 4,360). D had no table before, so its new score (about 3,980) counts walks that didn't exist.</li>
+<li>C's and D's kitchens hold too little: about twenty things in C and a dozen in D, some of them used every day,
+find no cupboard and would be fetched from the store; the rule KZ-fits names them, and that is what keeps C's score
+high. C's and D's prep worktops are short of 1.2 m. B's tea station is 8 m from its living seats.</li>
+<li>Some work-triangle legs grew a little: the planner shortens the walks people really make instead.</li>
+</ul>
+<p>All of it is on the design page under <b>The kitchen at work</b>, and on a 1:20 kitchen sheet per home in the
+drawings.</p>
+</main>
+</body>
+</html>

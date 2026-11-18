@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>36. Where the sky runs out</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>36. Where the sky runs out</h1>
+<p class="date">17 November 2026</p>
+
+<p>Reading the facade table, you asked: "There are parts where the percentage of sky is almost zero; do you have
+suggestions for this?" Your screenshot showed a second-floor window "on the side, facing the terrace", 6.0 m² of glass
+that sees no sky and no sun on any day, and yard rows at 4 % and 6 %.</p>
+
+<h2>First, which design it was</h2>
+<p>Those rows were iteration 2's, not 1405's. The daylight page shows several designs and remembered the one picked on
+an earlier visit, and nothing on the table said which design it showed. In iteration 2 that side window looked
+from the living room across a covered terrace, 2.25 m wide, at the side neighbour's wall, with the floor above
+over it: a window with no sky at all. 1405 has no such window. The page now always opens on the current design,
+names the design above the table, and puts a banner on any older one.</p>
+
+<h2>What takes the sky in 1405</h2>
+<p>A new measure follows every line from a window's centre to the sky. Where one is stopped, it charges the loss to
+the first thing it meets: the building behind, the side neighbour, the row across the street, our own balconies,
+floors or walls, or the earth around the court.</p>
+<ul>
+<li><b>The street side</b> (10.6 % on the first floor, 16.3 % on the second): all of it is the row across the 8 m
+alley. Nothing of ours stands in the way.</li>
+<li><b>The yard side, first and second floors</b> (5.3 % and 9.1 %): the building our size behind takes about 30
+points, and our balconies 0.7 to 3.4. With that building 12 m away instead of 6 m, the same windows see 13.1 % and
+19.7 %.</li>
+<li><b>The third floor's yard</b> (9.0 %): D's bedroom has two windows. The west one sees 13.1 %. The east one sees
+3.2 %, because B's balcony above takes 16.6 points of its sky. This is the one that is ours to fix.</li>
+<li><b>Below ground,</b> the glass sees almost nothing: four floors stand over it. That was settled earlier, with
+electric light.</li>
+</ul>
+<p>No window in 1405 turned out to be a modelling error: none sits inside a wall, faces back into the building or
+has something pressed against its glass.</p>
+
+<h2>Twelve fixes, measured</h2>
+<p>Each fix was measured on the rooms it touches: sky, daylight in the room, sun hours, summer heat and the winter
+balance. Raising the heads to the ceiling buys almost nothing. Paler reveals, ceilings and floors raise the daylight
+of every low room by about a sixth, which on the lower floors is more than any change to the sky can give. For D's
+bedroom, three changes work: one window instead of two, clear of the balcony; B's balcony moved over B's own loggia;
+or a grating floor that lets half the sky through.</p>
+
+<h2>A rule, and your choice</h2>
+<p>A new rule, WIN-sky-min, checks every window of a main room, not only the room's best one. It now flags D's east
+window. The options and the AI's recommendation are on
+<a href="../design/decisions/wip-sky.html">wip-sky</a>. The full numbers are in <code>design/research/sky-1405.md</code>.</p>
+</main>
+</body>
+</html>

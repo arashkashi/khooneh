@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision wip-st-spiral</title>
+<style>
+:root{color-scheme:light;--bg:#F6F5F0;--ink:#171D1C;--muted:#58635F;--line:#D6D8D1;--card:#fff;--accent:#16736F;--accent-soft:#E2F0EE;--warn:#9A5B13;--warn-soft:#FBF1E2;--bad:#A8321F;--good:#23703F;--ai:#5B4A8A;--ai-soft:#EFECF7;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+html[lang=fa]{--font:"Vazirmatn","Vazir",Tahoma,"Geeza Pro","Segoe UI",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.55 var(--font);overflow-x:clip}
+html[lang=en] .fa,html[lang=fa] .en{display:none}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:1100px;margin:0 auto;padding:6px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:13.5px}
+.bar a{color:var(--muted);text-decoration:none}
+.lang button{border:0;background:none;padding:3px 7px;font:inherit;color:var(--muted);border-radius:5px;cursor:pointer}.lang button.on{color:var(--accent);font-weight:700;background:var(--accent-soft)}
+main{max-width:1100px;margin:0 auto;padding:16px 14px 70px}
+h1{font-size:23px;line-height:1.3;margin:6px 0 8px}
+h2{font-size:17px;margin:0 0 8px}
+h3{font-size:15px;margin:0 0 4px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:16px;min-width:0}
+.small{font-size:12.5px;color:var(--muted)}
+.status{display:inline-block;font-size:12.5px;padding:2px 9px;border-radius:999px;background:var(--warn-soft);color:var(--warn);font-weight:600}
+.st-decided{background:var(--accent-soft);color:var(--accent)}
+.answer{background:var(--accent-soft);border-inline-start:4px solid var(--accent);border-radius:8px;padding:10px 14px;margin:10px 0;font-size:16px}
+.pill{font-size:11.5px;padding:1px 8px;border-radius:999px;font-weight:600}.pill.ai{background:var(--ai-soft);color:var(--ai)}.pill.own{background:var(--accent);color:#fff}
+.key{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;background:var(--ink);color:#fff;font-size:13px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.opt{border:1px solid var(--line);border-radius:9px;padding:10px;background:#FCFCFA;min-width:0;display:flex;flex-direction:column;gap:6px}
+.opt.rec{border-color:var(--ai);box-shadow:0 0 0 1px var(--ai) inset}
+.opt-fig{margin:0}
+svg.plan{display:block;width:100%;height:auto;background:#FCFCFA;border:1px solid var(--line);border-radius:8px;direction:ltr;touch-action:manipulation}
+.notes{margin:0;padding-inline-start:20px;font-size:13px}
+button{font:inherit;font-size:14px;padding:6px 11px;border-radius:7px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--accent);color:var(--accent)}button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+button.copy{align-self:flex-start;border-color:var(--accent);color:var(--accent);font-weight:600}
+button.copy.done{background:var(--accent);color:#fff}
+code.line{font-size:11.5px;color:var(--muted);user-select:all;word-break:break-word}
+.viewer .ctl{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-bottom:8px}
+.stage{position:relative;direction:ltr}.stage svg,.wipe svg{max-height:72vh}
+.wipe{position:relative;direction:ltr}.wipe .top{position:absolute;inset:0}
+.wipe .top svg{background:transparent}
+.wipe-bar{position:absolute;top:0;bottom:0;width:2px;background:var(--ai);pointer-events:none}
+.wipe-lab{position:absolute;top:6px;font-size:12px;background:rgba(255,255,255,.9);padding:1px 6px;border-radius:5px;font-weight:600}
+input[type=range]{width:100%;accent-color:var(--ai)}
+.tip{position:fixed;z-index:20;pointer-events:none;background:#1B2120;color:#fff;font-size:12.5px;padding:6px 9px;border-radius:7px;max-width:260px;display:none}
+.scroll{overflow-x:auto}
+table.nums{border-collapse:collapse;width:100%;font-size:14px}
+table.nums th,table.nums td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
+table.nums thead th{font-size:13px;color:var(--muted)}
+td.n{white-space:nowrap}td.best{font-weight:700;color:var(--good);background:#EEF6EF}
+.src{font-weight:400}
+.ours{background:var(--ai-soft);border-color:#D9D2EC}
+.pics{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.pic{margin:0}.pic img{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block}.pic figcaption{font-size:13px;color:var(--muted);margin-top:3px}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px}
+.prevnext{display:flex;justify-content:space-between;gap:10px;margin-top:14px;font-size:14px}
+a{color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:18px;height:10px;vertical-align:middle;margin-inline-end:4px;border-radius:2px}
+/* plan classes, as on design-1405.html */
+.rm{fill:#1B2120;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-opacity:.82;stroke-linejoin:round}
+.rm .ar{font-weight:600}
+.w-outer{fill:#2F3634}.w-party{fill:#46504D}.w-inner{fill:#7F8784}.w-struct{fill:#121614}.w-glass{fill:#E3F2FB;stroke:#5AA9D6;stroke-width:1;vector-effect:non-scaling-stroke}
+.win{stroke:#00A7B5;stroke-width:3;vector-effect:non-scaling-stroke}
+.wt-street-vertical{stroke:#00A7B5;stroke-width:4}.wt-yard-tall{stroke:#006C84;stroke-width:6}.wt-yard-living{stroke:#006C84;stroke-width:5;stroke-dasharray:10 2}.wt-yard-kitchen{stroke:#2B8C9E;stroke-width:4;stroke-dasharray:7 2}
+.wt-yard-bedroom{stroke:#3E7FA6;stroke-width:4;stroke-dasharray:2 2}.wt-stair{stroke:#7FCBD3;stroke-width:3}.wt-court-glass{stroke:#7FB8E0;stroke-width:4}
+.dr{stroke:#1B2120;fill:none;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.arc{stroke:#1B2120;fill:rgba(0,0,0,.035);stroke-width:.8;stroke-dasharray:3 2;vector-effect:non-scaling-stroke}
+.it{fill:#E9E0CE;stroke:#6C5A3E;stroke-width:1;vector-effect:non-scaling-stroke}
+.sh{fill:none;stroke:var(--ai);stroke-width:1.2;stroke-dasharray:4 2;vector-effect:non-scaling-stroke}
+.lk{fill:url(#hatch);stroke:var(--ai);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.fx{fill:#DDEBF2;stroke:#2E6A8A;stroke-width:1;vector-effect:non-scaling-stroke}
+.st{stroke:#3A413E;stroke-opacity:.45;stroke-width:.8;fill:none;vector-effect:non-scaling-stroke}.sd{stroke:#3A413E;stroke-opacity:.75;stroke-width:1;vector-effect:non-scaling-stroke}
+.sp{stroke:none}
+/* what an option changes */
+.chg.sp{stroke:var(--ai);stroke-width:2.5;vector-effect:non-scaling-stroke;fill-opacity:.55}
+rect.chg:not(.sp){stroke:var(--ai);stroke-width:2.6;vector-effect:non-scaling-stroke}
+line.chg{stroke:var(--ai)!important}
+.door-g.chg .dr,.door-g.chg .arc{stroke:var(--ai);stroke-width:2.6}.door-g.chg .arc{fill:rgba(91,74,138,.14)}
+.leaf-light{stroke:#C9A86A!important;stroke-width:4!important}
+/* furniture and fittings as plan symbols (pages/plan_draw.py) */
+.pm-wd{fill:#EAD7B7;stroke:#6B5134}.pm-tx{fill:#F6F1E8;stroke:#8C7C66}.pm-cr{fill:#FFFFFF;stroke:#3F5566}.pm-mt{fill:#DCE1E4;stroke:#4D5961}.pm-gl{fill:#DDEFF7;stroke:#4A88A8}.pm-st{fill:#E4E0D8;stroke:#6E6A62}.pm-pl{fill:#C4DDB0;stroke:#4E7A3A}.pm-pot{fill:#E2AE8E;stroke:#8C4F2B}.pm-ot{fill:#EEEAE2;stroke:#6B6660}.pm-sw{fill:none;stroke:#6B6660}.pm{stroke-width:.9;stroke-linejoin:round;stroke-linecap:round}.pm.fine{stroke-width:.5}line.pm,polyline.pm{fill:none}.pm.ab{fill:none;stroke:#59605D;stroke-width:.7;stroke-dasharray:5 3}.pm.sw{fill:none;stroke-width:.5;stroke-dasharray:3 2.5}.pi-hl{fill:none;stroke:none}.pi.chg .pi-hl{stroke:#A8321F;stroke-width:2.2;stroke-dasharray:6 3}.pi.gone{opacity:.28}.pi.gone .pm{stroke-dasharray:3 3}.pm{vector-effect:non-scaling-stroke}.pm{stroke-width:.9}.pm.fine{stroke-width:.5}.pm.ab{stroke-width:.8}
+.pi.chg .pi-hl{stroke:var(--ai);stroke-width:2.4;stroke-dasharray:none;vector-effect:non-scaling-stroke}
+.pi.locker .pi-hl{stroke:var(--ai);stroke-width:1;stroke-dasharray:4 2;vector-effect:non-scaling-stroke}
+.pi.gone{opacity:.85}.pi.gone .pm{fill:none!important;stroke:var(--bad)!important;stroke-dasharray:4 3}
+.gone{fill:none!important;stroke:var(--bad)!important;stroke-dasharray:4 3;stroke-width:1.6;vector-effect:non-scaling-stroke;opacity:.85}
+line.gone{stroke-opacity:.6}
+.mk-guard{stroke:var(--ai);stroke-width:5;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.mk-gate{stroke:#B4233C;stroke-width:6;vector-effect:non-scaling-stroke;stroke-dasharray:6 3}
+.mk-open{stroke:var(--bad);stroke-width:4;vector-effect:non-scaling-stroke;stroke-dasharray:2 4;stroke-linecap:round}
+.mk-trellis{stroke:#3E6B2E;stroke-width:6;vector-effect:non-scaling-stroke;stroke-dasharray:2 3}
+.mk-line{stroke:#555;stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:6 3}
+.mk-drain{stroke:#2E6F9E;stroke-width:2;vector-effect:non-scaling-stroke;stroke-linecap:round;opacity:.85}
+.mk-duct{stroke:#4E7A3A;stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-dasharray:4 2;opacity:.85}
+.mk-over{stroke:#C0392B;stroke-width:2.4;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.mk-zone{fill:rgba(91,74,138,.16);stroke:var(--ai);stroke-width:1.8;stroke-dasharray:5 3;vector-effect:non-scaling-stroke}
+.mk-note circle{fill:var(--ai);stroke:#fff;stroke-width:1.5;vector-effect:non-scaling-stroke}.mk-note text{fill:#fff;text-anchor:middle;font-weight:700;font-family:-apple-system,sans-serif}
+/* elevations and sections */
+.el-wall{fill:#E7E3DA;stroke:#7F8784;stroke-width:1;vector-effect:non-scaling-stroke}.el-floor{fill:#7F8784}.el-ground{fill:#B8AE9C}.el-sky{fill:#EAF3F8}
+.el-glass{fill:#CFE6F2;stroke:#2E6A8A;stroke-width:1.2;vector-effect:non-scaling-stroke}.el-fixed{fill:#B9D7E6;stroke:#2E6A8A;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.el-frame{fill:none;stroke:#2F3634;stroke-width:2.4;vector-effect:non-scaling-stroke}.el-platform{fill:#D9B98C;stroke:#7A4A2A;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.el-tv{fill:#1B2120}.el-cab{fill:#C9A86A;stroke:#7A4A2A;stroke-width:1.2;vector-effect:non-scaling-stroke}.el-door{fill:#5E4630;stroke:#2F3634;stroke-width:1;vector-effect:non-scaling-stroke}
+.el-leaf{fill:#E8DCC4;stroke:#7A4A2A;stroke-width:1.2;vector-effect:non-scaling-stroke}.el-person{fill:#8C7B6B;fill-opacity:.55}
+.el-tile{fill:url(#tile);stroke:#B9AE95;stroke-width:1;vector-effect:non-scaling-stroke}.el-plaster{fill:#F2EEE6;stroke:#CFC8BA;stroke-width:1;vector-effect:non-scaling-stroke}
+.el-shutter{fill:#6F7A4E;fill-opacity:.85;stroke:#4B5233;stroke-width:1;vector-effect:non-scaling-stroke}.el-rail{stroke:#2F3634;stroke-width:3;vector-effect:non-scaling-stroke}
+.el-sun{fill:#F2C14E}.el-ray{stroke:#E0A21B;stroke-width:2.2;stroke-dasharray:8 4;vector-effect:non-scaling-stroke}
+.el-bld{fill:#C9C4BA;stroke:#8C877D;stroke-width:1;vector-effect:non-scaling-stroke}.el-court{fill:#B9D4A6;fill-opacity:.7}.el-plant{fill:#7FA35E;fill-opacity:.8}
+.el-light{fill:#F7E7A6;fill-opacity:.75}.el-gap{stroke:#B4233C;stroke-width:3;vector-effect:non-scaling-stroke}
+.iso{fill:rgba(217,119,6,.2);stroke:#B45309;stroke-width:1;vector-effect:non-scaling-stroke}.eye{fill:#B45309;stroke:#fff;stroke-width:1;vector-effect:non-scaling-stroke}
+svg [data-sight]{display:none}
+@media(max-width:560px){main{padding:10px 8px 60px}section{padding:11px 9px}h1{font-size:20px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#EFECF7"/><line x1="0" y1="0" x2="0" y2="10" stroke="#5B4A8A" stroke-opacity=".5" stroke-width="1.6"/></pattern>
+<pattern id="tile" width="30" height="60" patternUnits="userSpaceOnUse"><rect width="30" height="60" fill="#F3E9CF"/><path d="M0 0H30M0 0V60" stroke="#C9BC98" stroke-width="1.2"/></pattern>
+</defs></svg>
+<header class="top"><div class="bar"><span><a href="index.html">← <span class="en">Decisions</span><span class="fa">تصمیم‌ها</span></a> · <a href="../design-1405.html"><span class="en">Design 1405</span><span class="fa">طرح ۱۴۰۵</span></a></span>
+<span class="lang" role="group" aria-label="Language"><button type="button" data-lang="en">English</button><button type="button" data-lang="fa">فارسی</button></span></div></header>
+<main>
+<p class="small"><span class="status st-awaiting-you"><span class="en">awaiting you</span><span class="fa">منتظر شما</span></span> <span class="en">7 of 54</span><span class="fa">۷ از ۵۴</span></p>
+<h1><span class="en">D&#x27;s spiral stair has steps too shallow for a whole foot. Keep its 18 shallow steps, or 16 deeper ones in the same space?</span><span class="fa">پله‌های پلهٔ گرد D برای یک پای کامل کم‌عمق‌اند. همان ۱۸ پلهٔ کم‌عمق بماند، یا ۱۶ پلهٔ عمیق‌تر در همان فضا؟</span></h1>
+
+<p class="small"><span class="en">What it holds up:</span><span class="fa">چه چیزی منتظر آن است:</span> <span class="en">the spiral&#x27;s treads in the 3D model, and the upper landing&#x27;s rail</span><span class="fa">کف پله‌های پلهٔ گرد در مدل سه‌بعدی، و نردهٔ پاگرد بالا</span></p>
+<section><h2><span class="en">The options, side by side</span><span class="fa">گزینه‌ها، کنار هم</span></h2>
+<p class="small"><span class="en">Drawn from the plan data at the design page's scale and colours. Purple marks what an option changes; a red dashed outline is what it takes away. Options not yet built are sketches of the change on the current plan. Tap or hover a room for its area and flagged rules.</span><span class="fa">از دادهٔ نقشه، با مقیاس و رنگ صفحهٔ طرح. بنفش آنچه گزینه تغییر می‌دهد را نشان می‌دهد؛ خط‌چین قرمز آنچه برمی‌دارد. گزینه‌هایی که هنوز ساخته نشده‌اند طرحی از تغییر روی نقشهٔ فعلی‌اند. برای مساحت و قاعده‌های علامت‌خورده روی اتاق بزنید.</span></p>
+<div class="ctl" id="sight-ctl" hidden><label class="small"><span class="en">Sight from</span><span class="fa">دید از</span> <select id="sight-sel"></select></label> <span class="small"><span class="en">The design page's sight lines at standing height, on every option: tall pieces and walls stop the eye, low furniture doesn't.</span><span class="fa">خطوط دید صفحهٔ طرح در ارتفاع ایستاده، روی هر گزینه: کمد بلند و دیوار جلوی چشم را می‌گیرند و مبل کوتاه نه.</span></span></div>
+<div class="opts" id="opts"><div class="opt" data-opt="A"><h3><b class="key">A</b> <span class="en">As drawn</span><span class="fa">همان که هست</span> </h3><p class="small"><span class="en">18 steps, each 18 cm high, but only 13 cm deep where you walk: half a foot. Going down is where people fall.</span><span class="fa">۱۸ پله، هر کدام ۱۸ سانت ارتفاع، ولی جایی که پا می‌گذارید فقط ۱۳ سانت عمق: نصف یک پا. پایین آمدن همان جایی است که آدم‌ها می‌افتند.</span></p><figure class="opt-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -340 400.0 380.0" class="plan elev" data-view="wip-st-spiral-0" role="img"><g data-layer="marks"><rect data-k="floor0" x="0" y="0" width="400" height="30" class="el-floor"/><rect data-k="floor1" x="0" y="-320" width="400" height="48" class="el-floor"/><rect data-k="person" x="35" y="-175" width="40" height="175" class="el-person"/><rect data-k="run" x="30" y="-320" width="230.4" height="320" class="el-gap chg"/><g data-k="run:n" class="mk-note"><circle cx="145.2" cy="-160" r="6.2"/><text x="145.2" y="-156.4" font-size="8.5">1</text></g><rect data-k="t0" x="30" y="-17.8" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t1" x="42.8" y="-35.6" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t2" x="55.6" y="-53.3" width="12.8" height="17.7" class="el-platform chg"/><rect data-k="t3" x="68.4" y="-71.1" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t4" x="81.2" y="-88.9" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t5" x="94" y="-106.7" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t6" x="106.8" y="-124.4" width="12.8" height="17.7" class="el-platform chg"/><rect data-k="t7" x="119.6" y="-142.2" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t8" x="132.4" y="-160" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t9" x="145.2" y="-177.8" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t10" x="158" y="-195.6" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t11" x="170.8" y="-213.3" width="12.8" height="17.7" class="el-platform chg"/><rect data-k="t12" x="183.6" y="-231.1" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t13" x="196.4" y="-248.9" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t14" x="209.2" y="-266.7" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t15" x="222" y="-284.4" width="12.8" height="17.7" class="el-platform chg"/><rect data-k="t16" x="234.8" y="-302.2" width="12.8" height="17.8" class="el-platform chg"/><rect data-k="t17" x="247.6" y="-320" width="12.8" height="17.8" class="el-platform chg"/></g></svg></figure><ol class=notes><li value="1"><span class="en">18 risers of 178 mm; 128 mm going on the walkline</span><span class="fa">۱۸ پله با ارتفاع ۱۷۸ میلی‌متر؛ کف ۱۲۸ میلی‌متر روی خط حرکت</span></li></ol><button type="button" class="copy" data-line="Decision wip-st-spiral: option A (As drawn)"><span class="en">Copy my answer</span><span class="fa">کپی پاسخ من</span>: A</button><code class="line" dir="ltr">Decision wip-st-spiral: option A (As drawn)</code></div><div class="opt" data-opt="B"><h3><b class="key">B</b> <span class="en">16 deeper treads</span><span class="fa">۱۶ کف عمیق‌تر</span> <span class="pill ai"><span class="en">AI's answer</span><span class="fa">پاسخ هوش مصنوعی</span></span></h3><p class="small"><span class="en">16 steps, each a little taller, turning further round in the same space. Each step is 20 cm deep where you walk. You arrive upstairs facing another way, so the rail there is checked again.</span><span class="fa">۱۶ پله، هر کدام کمی بلندتر، که در همان فضا بیشتر می‌چرخند. هر پله جای پا ۲۰ سانت عمق دارد. بالا که برسید رو به جهت دیگری هستید، پس نردهٔ آنجا دوباره بررسی می‌شود.</span></p><figure class="opt-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -340 400.0 380.0" class="plan elev" data-view="wip-st-spiral-0" role="img"><g data-layer="marks"><rect data-k="floor0" x="0" y="0" width="400" height="30" class="el-floor"/><rect data-k="floor1" x="0" y="-320" width="400" height="48" class="el-floor"/><rect data-k="person" x="35" y="-175" width="40" height="175" class="el-person"/><rect data-k="run" x="30" y="-320" width="320" height="320" class="el-gap chg"/><g data-k="run:n" class="mk-note"><circle cx="190" cy="-160" r="6.2"/><text x="190" y="-156.4" font-size="8.5">1</text></g><rect data-k="t0" x="30" y="-20" width="20" height="20" class="el-platform chg"/><rect data-k="t1" x="50" y="-40" width="20" height="20" class="el-platform chg"/><rect data-k="t2" x="70" y="-60" width="20" height="20" class="el-platform chg"/><rect data-k="t3" x="90" y="-80" width="20" height="20" class="el-platform chg"/><rect data-k="t4" x="110" y="-100" width="20" height="20" class="el-platform chg"/><rect data-k="t5" x="130" y="-120" width="20" height="20" class="el-platform chg"/><rect data-k="t6" x="150" y="-140" width="20" height="20" class="el-platform chg"/><rect data-k="t7" x="170" y="-160" width="20" height="20" class="el-platform chg"/><rect data-k="t8" x="190" y="-180" width="20" height="20" class="el-platform chg"/><rect data-k="t9" x="210" y="-200" width="20" height="20" class="el-platform chg"/><rect data-k="t10" x="230" y="-220" width="20" height="20" class="el-platform chg"/><rect data-k="t11" x="250" y="-240" width="20" height="20" class="el-platform chg"/><rect data-k="t12" x="270" y="-260" width="20" height="20" class="el-platform chg"/><rect data-k="t13" x="290" y="-280" width="20" height="20" class="el-platform chg"/><rect data-k="t14" x="310" y="-300" width="20" height="20" class="el-platform chg"/><rect data-k="t15" x="330" y="-320" width="20" height="20" class="el-platform chg"/></g></svg></figure><ol class=notes><li value="1"><span class="en">16 risers of 200 mm; 200 mm going on the walkline</span><span class="fa">۱۶ پله با ارتفاع ۲۰۰ میلی‌متر؛ کف ۲۰۰ میلی‌متر روی خط حرکت</span></li></ol><button type="button" class="copy" data-line="Decision wip-st-spiral: option B (16 deeper treads)"><span class="en">Copy my answer</span><span class="fa">کپی پاسخ من</span>: B</button><code class="line" dir="ltr">Decision wip-st-spiral: option B (16 deeper treads)</code></div></div>
+<div class="legend"><span><i style="background:rgba(91,74,138,.25);border:2px solid #5B4A8A"></i><span class="en">changed or added</span><span class="fa">تغییر یا افزوده</span></span><span><i style="border:2px dashed #A8321F"></i><span class="en">taken away</span><span class="fa">برداشته</span></span><span><i style="background:#E9E0CE;border:1px solid #6C5A3E"></i><span class="en">furniture</span><span class="fa">مبلمان</span></span><span><i style="background:#DDEBF2;border:1px solid #2E6A8A"></i><span class="en">fixtures</span><span class="fa">تجهیزات</span></span><span>⚑ <span class="en">a rule flags this room</span><span class="fa">قاعده‌ای این اتاق را علامت زده</span></span></div>
+</section>
+<section class="viewer" id="viewer" hidden><h2><span class="en">Look closer</span><span class="fa">از نزدیک</span></h2>
+<div class="ctl"><span class="small"><span class="en">Show</span><span class="fa">نمایش</span></span><span id="v-keys"></span><button type="button" id="v-play">▶ <span class="en">Play the change</span><span class="fa">پخش تغییر</span></button></div>
+<div class="stage" id="v-stage"></div>
+<h2 style="margin-top:14px"><span class="en">Wipe between two options</span><span class="fa">کشیدن میان دو گزینه</span></h2>
+<div class="ctl"><label class="small"><span class="en">Left</span><span class="fa">چپ</span> <select id="w-a"></select></label><label class="small"><span class="en">Right</span><span class="fa">راست</span> <select id="w-b"></select></label><span id="w-views"></span></div>
+<div class="wipe" id="w-stage"></div>
+<input type="range" id="w-range" min="0" max="100" value="50" aria-label="wipe">
+</section>
+<section><h2><span class="en">The numbers that matter</span><span class="fa">عددهای مهم</span></h2><div class="scroll"><table class="nums"><thead><tr><th></th><th>A</th><th>B</th></tr></thead><tbody><tr><th scope=row><span class="en">Risers</span><span class="fa">پله‌ها</span><div class="small src">stairs-ai.json</div></th><td class="n"><span class="en">18</span><span class="fa">۱۸</span></td><td class="n"><span class="en">16</span><span class="fa">۱۶</span></td></tr><tr><th scope=row><span class="en">Riser</span><span class="fa">ارتفاع پله</span> <span class="small">(mm)</span><div class="small src">stairs-ai.json</div></th><td class="n best"><span class="en">178</span><span class="fa">۱۷۸</span> ✓</td><td class="n"><span class="en">200</span><span class="fa">۲۰۰</span></td></tr><tr><th scope=row><span class="en">Going on the walkline (at least 200)</span><span class="fa">کف روی خط حرکت (دست‌کم ۲۰۰)</span> <span class="small">(mm)</span><div class="small src">stair_check.py ST-spiral</div></th><td class="n"><span class="en">128</span><span class="fa">۱۲۸</span></td><td class="n best"><span class="en">200</span><span class="fa">۲۰۰</span> ✓</td></tr><tr><th scope=row><span class="en">Turn</span><span class="fa">چرخش</span> <span class="small">(°)</span></th><td class="n"><span class="en">330</span><span class="fa">۳۳۰</span></td><td class="n"><span class="en">458</span><span class="fa">۴۵۸</span></td></tr><tr><th scope=row><span class="en">Headroom</span><span class="fa">ارتفاع آزاد</span> <span class="small">(m)</span><div class="small src">stair_check.headroom: A under the fourth floor&#x27;s slab; B under its own treads a turn above (spiral_self)</div></th><td class="n best"><span class="en">2.56</span><span class="fa">۲٫۵۶</span> ✓</td><td class="n"><span class="en">2.26</span><span class="fa">۲٫۲۶</span></td></tr><tr><th scope=row><span class="en">Box</span><span class="fa">جعبه</span></th><td class="n"><span class="en">1.85 × 1.8 m</span><span class="fa">۱٫۸۵ × ۱٫۸ متر</span></td><td class="n"><span class="en">the same</span><span class="fa">همان</span></td></tr><tr><th scope=row><span class="en">Gap under an open tread with a 40 mm bar (under 100)</span><span class="fa">فاصله زیر کف باز با میلهٔ ۴۰ (کمتر از ۱۰۰)</span> <span class="small">(mm)</span><div class="small src">ST-open-riser: B needs a bar of at least 55 mm</div></th><td class="n best"><span class="en">88</span><span class="fa">۸۸</span> ✓</td><td class="n"><span class="en">110</span><span class="fa">۱۱۰</span></td></tr></tbody></table></div><p class="small"><span class="en">✓ marks the better value in each row.</span><span class="fa">✓ مقدار بهتر را در هر سطر نشان می‌دهد.</span></p></section>
+<section><h2><span class="en">What is being decided</span><span class="fa">چه چیزی تصمیم گرفته می‌شود</span></h2><p><span class="en">The spiral sits in D&#x27;s living room on the second floor and lands in the open upper hall on the third. A spiral&#x27;s treads narrow towards the column, so codes measure the going on a walkline some way out: Iran&#x27;s figures (secondary source) and IBC put it 300 mm from the narrow end and ask 200 mm there; DIN 18065 measures mid-width. With 330° shared by 18 treads, each tread turns 18.3°, which is 128 mm at 0.40 m from the centre. Only turning further per tread helps: a bigger box adds width, not going on the walkline. 16 treads of 28.6° each give 200 mm and turn about 460° in all; one full turn rises 2.51 m; less the 60 mm tread and the climb across a tread, 2.26 m stays clear under its own treads (stair_check.spiral_self).</span><span class="fa">پلهٔ گرد در نشیمن D در طبقهٔ دوم است و به راهروی باز بالا در طبقهٔ سوم می‌رسد. کف پلهٔ گرد به سمت ستون باریک می‌شود، پس مقررات عمق کف را روی خطی کمی دورتر می‌سنجند: عددهای ایرانی (منبع ثانویه) و IBC آن را ۳۰۰ میلی‌متر از لبهٔ باریک می‌گذارند و آن‌جا ۲۰۰ میلی‌متر می‌خواهند؛ DIN 18065 میانهٔ پهنا را می‌سنجد. با ۳۳۰ درجه میان ۱۸ پله، هر پله ۱۸٫۳ درجه می‌چرخد، یعنی ۱۲۸ میلی‌متر در فاصلهٔ ۰٫۴۰ متری از مرکز. فقط چرخش بیشتر هر پله کمک می‌کند: جعبهٔ بزرگ‌تر پهنا می‌افزاید، نه عمق کف روی خط حرکت. ۱۶ پلهٔ ۲۸٫۶ درجه‌ای ۲۰۰ میلی‌متر می‌دهند و روی هم حدود ۴۶۰ درجه می‌چرخند؛ یک دور کامل ۲٫۵۱ متر بالا می‌رود؛ با کسر ضخامت ۶۰ میلی‌متری کف و بالا رفتن روی یک کف، ۲٫۲۶ متر زیر پله‌های خودش آزاد می‌ماند.</span></p></section>
+<section class="ours"><h2><span class="en">Our answer (AI)</span><span class="fa">پاسخ ما (هوش مصنوعی)</span></h2><p><b>B: <span class="en">16 deeper treads</span><span class="fa">۱۶ کف عمیق‌تر</span>.</b> <span class="en">B gives every step room for the foot, at no cost in floor. Its steps are a little steeper than a straight stair&#x27;s, within what spiral stairs allow, and D&#x27;s upper floor keeps its own door to the shared landing, so the spiral is never the only way.</span><span class="fa">گزینهٔ B به هر پله جای کافی برای پا می‌دهد، بی‌آنکه کفی کم شود. پله‌هایش کمی تندتر از پلهٔ صاف‌اند، در حدی که پلهٔ گرد مجاز است، و طبقهٔ بالای D در خودش را به پاگرد مشترک دارد، پس پلهٔ گرد هیچ‌وقت تنها راه نیست.</span></p></section>
+
+<section><h2><span class="en">How to answer</span><span class="fa">چطور پاسخ بدهید</span></h2>
+<p><span class="en">Press "Copy my answer" under the option you choose and paste the line into the chat, with any note. The AI records it in the card's answer field (data/sources/in-progress.json, with the date) and rebuilds this page, which then shows your answer at the top.</span><span class="fa">زیر گزینهٔ انتخابی «کپی پاسخ من» را بزنید و خط را با هر یادداشتی در گفت‌وگو بچسبانید. هوش مصنوعی آن را با تاریخ در فیلد پاسخ کارت (data/sources/in-progress.json) ثبت می‌کند و این صفحه را دوباره می‌سازد، که آن‌وقت پاسخ شما را بالای صفحه نشان می‌دهد.</span></p>
+<div class="links"><a href="../../story/41-stairs-by-the-numbers.html"><span class="en">Story:</span><span class="fa">داستان:</span> 41. Stairs by the numbers</a> · <a href="../design-1405.html#wc-wip-st-spiral"><span class="en">The card on the design page</span><span class="fa">کارت در صفحهٔ طرح</span></a> · <a href="index.html"><span class="en">All decisions</span><span class="fa">همهٔ تصمیم‌ها</span></a></div>
+<div class="prevnext"><a href="wip-d-upper-open.html" rel="prev">← <span class="en">previous open decision</span><span class="fa">تصمیم باز قبلی</span></a> <a href="wip-st-core-box.html" rel="next"><span class="en">next open decision</span><span class="fa">تصمیم باز بعدی</span> →</a></div>
+</section>
+</main>
+<div class="tip" id="tip" role="status"></div>
+<script>
+const DATA={"id":"wip-st-spiral","keys":["A","B"],"rec":"B","labels":{"A":{"en":"As drawn","fa":"همان که هست"},"B":{"en":"16 deeper treads","fa":"۱۶ کف عمیق‌تر"}},"rooms":{"A":{},"B":{}},"views":1,"answer":null,"sight":[],"sight_default":""};
+const $=id=>document.getElementById(id);
+const LANG_KEY="khooneh-lang";
+function initialLang(){const q=new URLSearchParams(location.search).get("lang");if(q==="fa"||q==="en")return q;try{const s=localStorage.getItem(LANG_KEY);if(s==="fa"||s==="en")return s;}catch(e){}return String(navigator.language||"").toLowerCase().startsWith("fa")?"fa":"en";}
+let LANG=initialLang();
+function setLang(l){LANG=l;document.documentElement.lang=l;document.documentElement.dir=l==="fa"?"rtl":"ltr";document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on",b.dataset.lang===l));try{localStorage.setItem(LANG_KEY,l);}catch(e){}}
+document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+setLang(LANG);
+const FAD=s=>LANG==="fa"?String(s).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]).replace(/(\d|[۰-۹])\.(?=[۰-۹])/g,"$1٫"):String(s);
+const L=o=>o?(o[LANG]||o.en):"";
+/* copy my answer */
+function copyText(t){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(t);return new Promise((ok,no)=>{const a=document.createElement("textarea");a.value=t;a.setAttribute("readonly","");a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy")?ok():no();}catch(e){no(e);}document.body.removeChild(a);});}
+document.querySelectorAll("button.copy").forEach(b=>b.addEventListener("click",()=>{const t=b.dataset.line;copyText(t).then(()=>{b.classList.add("done");setTimeout(()=>b.classList.remove("done"),1600);}).catch(()=>{const c=b.nextElementSibling;if(c){const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r);}});}));
+document.querySelectorAll(".opt").forEach(o=>{if(o.dataset.opt===DATA.rec)o.classList.add("rec");});
+/* the drawings of each option */
+function figsOf(key){return [...document.querySelectorAll(`.opt[data-opt="${key}"] figure.opt-fig svg`)];}
+/* morph: keyed shapes tween to their place in the target option; the rest fade in or out */
+const NUM={rect:["x","y","width","height"],line:["x1","y1","x2","y2"]};
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function morph(live,target,ms){
+  const jobs=[],fades=[];
+  target.querySelectorAll(":scope > g[data-layer]").forEach(tl=>{
+    const ll=live.querySelector(`:scope > g[data-layer="${tl.dataset.layer}"]`);if(!ll)return;
+    if(tl.dataset.layer==="base"){ll.innerHTML=tl.innerHTML;return;}
+    const have=new Map([...ll.children].filter(e=>e.dataset.k).map(e=>[e.dataset.k,e]));
+    const want=new Set();
+    [...tl.children].forEach(te=>{const k=te.dataset.k;if(!k)return;want.add(k);const le=have.get(k);
+      if(le&&le.tagName==="g"&&te.tagName==="g"&&te.hasAttribute("data-x")&&le.hasAttribute("data-x")&&le.innerHTML===te.innerHTML){
+        /* a plan symbol that only moves: its group slides */
+        const from={x:+le.dataset.x,y:+le.dataset.y},to={x:+te.dataset.x,y:+te.dataset.y};
+        [...te.attributes].forEach(a=>{if(!["transform","data-x","data-y"].includes(a.name))le.setAttribute(a.name,a.value);});
+        jobs.push({el:le,from,to,g:true});}
+      else if(le&&le.tagName===te.tagName&&NUM[te.tagName]){const from={},to={};NUM[te.tagName].forEach(a=>{from[a]=+le.getAttribute(a);to[a]=+te.getAttribute(a);});
+        [...te.attributes].forEach(a=>{if(!NUM[te.tagName].includes(a.name))le.setAttribute(a.name,a.value);});
+        [...le.attributes].forEach(a=>{if(!te.hasAttribute(a.name))le.removeAttribute(a.name);});
+        jobs.push({el:le,from,to});}
+      else if(le&&le.outerHTML===te.outerHTML){}
+      else{const n=te.cloneNode(true);n.style.opacity=0;if(le){ll.insertBefore(n,le);fades.push({el:le,out:true});}else ll.appendChild(n);fades.push({el:n,out:false});}});
+    have.forEach((e,k)=>{if(!want.has(k))fades.push({el:e,out:true});});});
+  const t0=performance.now();
+  function step(now){const p=Math.min(1,(now-t0)/ms),q=ease(p);
+    jobs.forEach(j=>{if(j.g){const x=(j.from.x+(j.to.x-j.from.x)*q).toFixed(1),y=(j.from.y+(j.to.y-j.from.y)*q).toFixed(1);
+        j.el.setAttribute("transform",`translate(${x} ${y})`);j.el.dataset.x=x;j.el.dataset.y=y;return;}
+      for(const a in j.to)j.el.setAttribute(a,(j.from[a]+(j.to[a]-j.from[a])*q).toFixed(1));});
+    fades.forEach(f=>{f.el.style.opacity=f.out?1-q:q;});
+    if(p<1)requestAnimationFrame(step);else{fades.forEach(f=>{if(f.out)f.el.remove();else f.el.style.opacity="";});}}
+  requestAnimationFrame(step);
+}
+let CUR=DATA.keys[0],VIEW=0;
+function showStage(key,animate){
+  const stage=$("v-stage"),src=figsOf(key)[VIEW];if(!src)return;
+  const live=stage.querySelector("svg");
+  if(!live||!animate||matchMedia("(prefers-reduced-motion: reduce)").matches){stage.innerHTML="";stage.appendChild(src.cloneNode(true));}
+  else morph(live,src,750);
+  CUR=key;document.querySelectorAll("#v-keys button").forEach(b=>b.classList.toggle("on",b.dataset.k===key));}
+function keyLabel(k){return k+" · "+L(DATA.labels[k]);}
+function initViewer(){
+  if(!DATA.views)return;
+  $("viewer").hidden=false;
+  const vk=$("v-keys");
+  vk.innerHTML=(DATA.views>1?Array.from({length:DATA.views},(_,i)=>`<button type="button" data-view="${i}" class="${i===0?"on":""}">${i+1}</button>`).join("")+" ":"")+DATA.keys.map(k=>`<button type="button" data-k="${k}">${k}</button>`).join(" ");
+  vk.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.view!==undefined){VIEW=+b.dataset.view;vk.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("on",x===b));$("v-stage").innerHTML="";showStage(CUR,false);buildWipe();return;}showStage(b.dataset.k,true);});
+  showStage(DATA.keys[0],false);
+  let playing=null;
+  $("v-play").addEventListener("click",()=>{if(playing){clearInterval(playing);playing=null;return;}let i=DATA.keys.indexOf(CUR);playing=setInterval(()=>{i=(i+1)%DATA.keys.length;showStage(DATA.keys[i],true);},1700);});
+  const fill=sel=>{sel.innerHTML=DATA.keys.map(k=>`<option value="${k}">${k}</option>`).join("");};
+  fill($("w-a"));fill($("w-b"));$("w-a").value=DATA.keys[0];$("w-b").value=DATA.rec!==DATA.keys[0]?DATA.rec:DATA.keys[DATA.keys.length-1];
+  $("w-a").addEventListener("change",buildWipe);$("w-b").addEventListener("change",buildWipe);$("w-range").addEventListener("input",clipWipe);
+  buildWipe();
+}
+function buildWipe(){
+  const a=figsOf($("w-a").value)[VIEW],b=figsOf($("w-b").value)[VIEW],st=$("w-stage");if(!a||!b)return;
+  st.innerHTML="";st.appendChild(a.cloneNode(true));const top=document.createElement("div");top.className="top";top.appendChild(b.cloneNode(true));st.appendChild(top);
+  const bar=document.createElement("div");bar.className="wipe-bar";st.appendChild(bar);
+  const la=document.createElement("span");la.className="wipe-lab";la.style.left="6px";la.textContent=$("w-a").value;st.appendChild(la);
+  const lb=document.createElement("span");lb.className="wipe-lab";lb.style.right="6px";lb.textContent=$("w-b").value;st.appendChild(lb);
+  clipWipe();}
+function clipWipe(){const v=+$("w-range").value,st=$("w-stage"),top=st.querySelector(".top"),bar=st.querySelector(".wipe-bar");if(!top)return;top.style.clipPath=`inset(0 0 0 ${v}%)`;bar.style.left=`calc(${v}% - 1px)`;}
+initViewer();
+/* "Sight from": the design page's layer, drawn into every option's plan; one view at a time, in every drawing (side by
+   side, the closer look with its morph, and the wipe), so the same sight can be compared across the options. */
+(function(){const list=DATA.sight||[];if(!list.length)return;const sel=$("sight-sel"),css=document.createElement("style");document.head.appendChild(css);
+  $("sight-ctl").hidden=false;const NONE={en:"none",fa:"هیچ"};
+  const fill=()=>{const v=sel.value;sel.innerHTML=`<option value="">${L(NONE)}</option>`+list.map(x=>`<option value="${x.code}">${L(x.label)}</option>`).join("");sel.value=v;};
+  fill();const show=()=>{css.textContent=sel.value?`svg [data-sight="${sel.value.replace(/["\\]/g,"")}"]{display:inline}`:"";};
+  if(DATA.sight_default){sel.value=DATA.sight_default;show();}
+  sel.addEventListener("change",()=>{css.textContent=sel.value?`svg [data-sight="${sel.value.replace(/["\\]/g,"")}"]{display:inline}`:"";});
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",fill));})();
+/* hover or tap on a room */
+const tip=$("tip");
+function keyOf(el){const o=el.closest(".opt");if(o)return o.dataset.opt;if(el.closest("#v-stage"))return CUR;const w=el.closest(".wipe");if(w){return el.closest(".top")?$("w-b").value:$("w-a").value;}return DATA.keys[0];}
+function roomInfo(el){const id=el.dataset.room,k=keyOf(el),r=(DATA.rooms[k]||{})[id];if(!r)return null;
+  const f=r.f.length?(LANG==="fa"?"قاعده‌های علامت‌خورده: ":"Flagged rules: ")+r.f.join(", "):(LANG==="fa"?"هیچ قاعده‌ای علامت نزده":"No rule flags it");
+  return `<b>${L(r.n)}</b> · ${FAD(r.a.toFixed(1))} m²<br>${f}<br><span style="opacity:.75">${k} · ${id}</span>`;}
+function showTip(e,el){const h=roomInfo(el);if(!h){tip.style.display="none";return;}tip.innerHTML=h;tip.style.display="block";
+  const x=Math.min(e.clientX+12,innerWidth-270),y=Math.min(e.clientY+12,innerHeight-90);tip.style.left=x+"px";tip.style.top=y+"px";}
+document.addEventListener("pointermove",e=>{const el=e.target.closest&&e.target.closest("rect[data-room]");if(el&&e.pointerType==="mouse")showTip(e,el);else if(e.pointerType==="mouse")tip.style.display="none";});
+document.addEventListener("click",e=>{const el=e.target.closest&&e.target.closest("rect[data-room]");if(el)showTip(e,el);else tip.style.display="none";});
+</script>
+</body>
+</html>

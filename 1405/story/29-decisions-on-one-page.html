@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Decisions on one page</title><link rel="stylesheet" href="story.css"></head><body><main>
+<nav><a href="index.html">The story</a> · <a href="28-windows-for-the-seasons.html">Previous chapter</a></nav>
+<p class="meta">Chapter 29 · 9 November 2026 · built, awaiting the owner's answers</p>
+<h1>Decisions on one page</h1>
+<p>By the evening of 9 November the design page carried 48 cards under "Suggestions in progress". Some had already been answered in chat, some said the same thing twice, and some had been overtaken by later work. The owner asked for something easier: a page for each open question, with drawings left and right, an explanation, an animation, the AI's own answer, and later their answers shown on it.</p>
+<p>The AI first tidied the cards. Fifteen answers from 8 and 9 November went into a new answer field with their dates. Six cards were merged into the card that now holds their question, two were marked as superseded by later work, and the roof engineer's list took three more engineering items. What was left were real open questions, each with two to four options, a recommendation, and the story chapter it belongs to.</p>
+<p>Then the pages. Each option is drawn from the plan data at the main page's scale and colours, as a few small operations on the plan as it is now: a door widened, a store taken away, a wall moved, a guard or a gate drawn. What an option changes is purple; what it takes away is a red dashed outline. A button morphs one option into the other, a slider wipes between two, and a tap on a room gives its area and the rules that flag it. Decided changes show the plan before and after, taken once from the commits that made them.</p>
+<div class="decision"><b>A new question from the owner (9 November): small spaces.</b>
+<ul>
+<li>A room with a bed should be at least 10 m², or not have a bed.</li>
+<li>A space under 10 m² should have no wall or door, but still be recognised as a space; not so many walls removed that the homes lose their privacy.</li>
+<li>Today four single bedrooms are 7.7–8.6 m² (B's two children's rooms, A's and C's second rooms), and rule B3 allows them. The AI's answer: grow those four to 10 m² and keep their doors, because B's children become teenagers there; write down the second part, which 1405 mostly does already, with a list of ways to mark an open space: a raised platform, a floor or a rug, a beam, a half wall or shelf, a curtain on a track, a wide opening, built-in seats and desks, a pendant, a colour.</li>
+</ul></div>
+<div class="turn"><b>How the owner answers.</b> On each page a button copies a short line, such as "Decision wip-sc-carry: option C", to paste into the chat. The AI records it in the card's answer field with the date, rebuilds the pages, and the answer then shows at the top of the page and in the index.</div>
+<p class="meta">Files: <code>design/decisions/index.html</code>, <code>design/pages/build_decisions.py</code>, <code>design/pages/decisions.template.html</code>, <code>design/pages/decision_snapshots.py</code>, <code>design/data/sources/in-progress.json</code>, <code>design/data/sources/decisions/snapshots.json</code>, <code>design/tests/test_decisions.py</code>.</p>
+</main></body></html>
