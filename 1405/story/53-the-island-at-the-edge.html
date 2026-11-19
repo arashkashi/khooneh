@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>53. The island at the edge</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>53. The island at the edge</h1>
+<p class="date">19 November 2026</p>
+
+<p>You said yes to an island kitchen in the first-floor home, the step-free home for anyone, older parents too. The advice you
+accepted had four parts. The island stands at the living room's edge. The aisle beside it is at least 1.5 m, so a wheelchair
+can turn. The hob and the sink stay on the wall run. The island is for preparing and sitting, with knee room at one end at
+wheelchair height.</p>
+
+<h2>Why it had been left out</h2>
+<p>On 9 November the kitchen stayed a U along the walls: "an island would pinch against the living room's two columns". The
+numbers explain it. From the columns' east face to the front of the wall run there are only 1.70 m. A 0.9 m island and a
+1.5 m aisle need 2.4 m. So the island can't stand beside the columns. It has to stand between them.</p>
+
+<h2>Where it stands</h2>
+<p>The two columns are 3.6 m apart, and the island stands in their line. Its kitchen face is on the old kitchen line, 1.55 m
+from the wall run: the wheelchair's turning circle, with a little to spare. It keeps 1.0 m to each column, the ring every island
+keeps, so it is 1.6 m long and 0.9 m deep. The way in from the living room runs past its two ends. A wheelchair comes in at
+the south end and turns in the aisle.</p>
+<p>The line between the kitchen and the living room moved 0.9 m west, to the island's living-room face. No wall moved; it is
+the line between two open rooms. The island is the kitchen's edge, and it lies in its own room, so the 3D walk builds it (the walk
+places a piece in the room that holds its middle; B's first island was lost that way). The kitchen is now 13.3 m² and the
+living room 31.1 m², from 9.7 and 34.7. The open floor is the same.</p>
+
+<h2>What it is</h2>
+<p>The island is dry: no sink, no hob, no tea station. The fixture search had been free to put a sink on any island, and B's
+holds one. A's island is now marked dry, and the search leaves it alone. Its north end is 0.8 m of prep worktop at the usual
+0.90 m, with cupboards on the living side. Its south end is a seated place 0.8 m wide, its top at 0.80 m, with 0.70 m of knee
+room under it, open both to the kitchen and to the living room. Someone in a wheelchair can work there, facing the room, and
+two people can sit and talk while a third cooks. The plans draw the step where the top drops. The 3D model still builds the
+island as one block 0.9 m high; the lowered end is in the data, but it isn't modelled yet.</p>
+
+<h2>A rule for it</h2>
+<p>The kitchen rules already asked for 1.0 m round every island. That passes an island no wheelchair can turn beside. The
+new hard rule, KZ-step-free, holds every step-free home's kitchen to two things. There is a seated work place: a worktop at
+least 0.8 m wide, at most 0.80 m high, with 0.70 m of knee room under it. And there are 1.5 m between an island's long sides
+and the worktop or tall unit each one faces. The numbers come from DIN 18040-2 and the ADA. Each can be tuned in the rules file,
+and tests plant a fault at both ends of each range. Last version's U kitchen fails it, because it had no seated place. The
+island passes.</p>
+
+<h2>What the planner had to learn</h2>
+<p>Twice the kitchen planner put the twin fridge where it shouldn't stand. First it went across the yard window, which broke a
+hard rule (no tall piece in front of a window). Then it went into the island's ring, which narrowed the north way. Neither had
+ever been checked when the planner placed a fridge. Now it keeps cold appliances off windows and out of an island's ring, and
+it carries no run into the ring. The fridge stays on the north wall, beside the corner cupboard.</p>
+
+<h2>The score</h2>
+<p>Overall the index stays at 73.6. The first-floor home goes from 85.2 to 85.4. Every hard rule that passed before still
+passes. One soft flag is new: the bins under A's sink are a little more than 1.0 m from the prep board. This is your decision
+(card wip-a-island). Where exactly the island stands and which end is the seated one are AI decisions, open for your review
+(card wip-a-island-place).</p>
+
+</main>
+</body>
+</html>
