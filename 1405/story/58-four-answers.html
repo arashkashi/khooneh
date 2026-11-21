@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>58. Four answers, and a missing rule</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>58. Four answers, and a missing rule</h1>
+<p class="date">19-20 November 2026</p>
+
+<p>Late on 19 November you answered four questions about the big home. Each answer is now part of the design, and each one is
+measured.</p>
+
+<h2>A store under the stair</h2>
+<p>The floor audit had found floor under the big home's private stair, on the children's floor, that nothing used. The AI suggested
+leaving it open so the stair stays see-through. You chose the store instead. It sits under the returning flight and half the half
+landing: 3.1 m², 0.85 m deep, about 1.6 m high at the low end and 3 m at the top. A thin partition and a closed underside separate it
+from the stair. Its whole length opens to the passage behind a curtain, so everything in it can be reached from there, and the
+shelves step down as the stair comes down.</p>
+<p>No floor was added and none was lost. The stair keeps its whole box and is drawn exactly as before. On this floor the stair's room
+is now only the first flight and the gap between the flights, so no square metre is counted twice. The big home stays at 171.7 m²,
+and 3.1 m² of it is now storage. The new partition and the short wall to the play hall take 0.44 m² as wall.</p>
+<p>Your own rules shaped the store. A small store gets a curtain, not a door (your 7 November wish, rules S6 and S-open-small). The
+rule allowing one walk-in store per home (S5) was the harder one, because the big home already has its pantry. That rule exists to
+keep open floor that people can shape. Floor under a flight, too low to stand in at one end, could never be that kind of floor. So
+the rules now treat a store under a stair as a cupboard, and the rule still holds for every other store.</p>
+
+<h2>A top floor in two halves: an error, and a new rule</h2>
+<p>On 19 November the AI moved the big home's top-floor front door so it opens onto the living room. In doing so it accepted that the
+couple's side of that floor (the family hall, the master bedroom and its bath) could be reached from the front door only through the
+walk-through pantry: about 12 m through the living room and between shelves. The only other way in was the private stair from the floor
+below. A soft check flagged the route, but nothing stopped it. That was the AI's error. You then chose a hinged door at the pantry's
+living-room end, so the family side could be closed off from guests.</p>
+<p>On 20 November you saw the problem: "how someone would enter the unit and goes into the kitchen and then is able to walk to the
+master bed room on the 4th floor. the unit on the 4th floor seems to be divided into two separate part ... it seems some hard
+necessary movement and connection rule/config is missing." You were right. There is now a hard rule, MV-connect. On every floor of
+every home, every bedroom, living room, kitchen, study and bath must be reached from that floor's own front door. The way may run
+through halls, landings, the home's own stair and, by an allowance you can switch off, the living or dining space. It may never run
+through a store, a pantry, a bath or another bedroom. Halls must be at least 0.9 m wide, doors and openings at least 0.7 m, and no
+way may be longer than 20 m. You can tune each of these numbers. The rule is tested with planted faults at both ends of each range,
+and it counts in the goals. Run on every home, only the big home's top floor failed. The other homes, the small duplex's two floors
+and the children's floor all pass.</p>
+<p>The fix goes through the plan, not by hand. The walk-through pantry becomes a hall, 1.0 m wide. It opens to the entry and to the
+living room, and the pantry runs along it as a curtained alcove beside the stair. The couple's bedroom is now about 9 m from the
+front door, and the way does not cross the living room. Your door now stands at the hall's far end, where it opens into the family
+hall: one hinged door still closes the family side off from guests. Its new place replaces the place you chose, because the pantry
+is no longer the way. The pantry shrinks from 6.4 m² to a 2.9 m² alcove with 3.2 m of shelves. No floor is lost: the walls that go
+give back 0.3 m².</p>
+
+<h2>Clothes in the play hall</h2>
+<p>The homework corner can later become the youngest child's room. It has space for a bed and the desk, but not for a wardrobe as
+well. You said the clothes can go in a wardrobe in the children's play hall. That is now part of the check. A 0.9 m hinged wardrobe
+fits against the bedrooms' wall, between the two bedroom doors, with room to open it and with every path through the hall kept
+clear. It is not built now; the place is kept for when it is needed.</p>
+
+<h2>Summer shade, drawn</h2>
+<p>You confirmed the shading set. Hinged louvred shutters, like the ones on the yard side, go on the street windows of the reading
+corner and the top-floor street bedroom. A 0.6 m shelf-like sunshade goes over the top floor's yard glass and its door. The windows
+data, the plans and the sheets now show them, and the summer-shade study measures the building with them in place. On a clear
+15 July, the reading corner drops from 337 to 168 Wh of sun per m² of floor, the street bedroom from 296 to 144, and the living room
+from 253 to 190. Every room is now under the 200 limit, and 94% of the winter sun still comes in. That limit is now a rule
+(SH-summer-gain) that you can tune between 150 and 300. It is a soft rule, because it assumes someone closes the shutters.</p>
+
+</main>
+</body>
+</html>
