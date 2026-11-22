@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>87. The plant room's way up</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>87. The plant room's way up</h1>
+<p class="date">22 November 2026</p>
+
+<p>The owner, looking at the −2 sheet: "there is no riser here? is it correct?"</p>
+
+<h2>Yes, by design, but nothing showed it</h2>
+<p>No riser stands in the plant room. The boiler's flue runs along the ceilings of the plant room and the stores, comes up
+through the slab into a fire-rated casing on −1, and runs along the −1 ceilings into R1, the supply riser. The heating pipes,
+the pumped cold water and the rain tank's lines also leave along the ceilings to a riser's foot. The services file said all
+this in words. No drawing showed it, and the casing on −1 was on no plan and in no 3D model. A reader had to conclude the
+plant room was cut off.</p>
+
+<h2>Drawn from the data</h2>
+<p>Each route is now planned as data: a line along the ceiling on each level, at the ceiling's height under the beams, joined
+where it goes through the slab. A route never runs over the stair, the lift, a landing or a home. The −2 and −1 sheets draw
+the routes as thin dashed lines: brown for the flue (مسیر دودکش زیر سقف) and blue for the pipes (لوله‌های موتورخانه تا رایزر),
+with a ring where each goes through the slab. The flue's casing is now a room of its own size, 0.35 m square, on the plan and
+in the 3D model. It takes 0.12 m² of the foyer's floor.</p>
+<p>The boiler had no place in the data either. It now hangs on the plant room's wall by the stores, beside the door. The
+planned flue is 4.85 m on −2 and 2.70 m on −1, 7.55 m in all with six bends, under the 8 m limit. The services said 7.15 m.</p>
+
+<h2>What drawing it showed</h2>
+<p>The services put the casing in the foyer's "south-west corner". That corner is over earth, because −2 stops 1.8 m short
+of it. Only the foyer's north band lies over the floor below, a 0.3 m strip between R3 and the landing's door. The casing fits
+there only by standing 0.10 m into that door's opening, which cuts the door's clear width from 0.72 m to 0.62 m, under the 0.7 m minimum.</p>
+<p>The pipes go up through R3's foot, the only other way from −2 to −1. Its opening through the slab is 0.20 × 0.50 m clear.
+That cannot hold the eight heating pipes (a flow and a return per home) and the cold main.</p>
+<p>Two new hard rules make this a check and not a matter of reading:</p>
+<ul>
+<li><b>RS-plant-route.</b> Everything the plant room sends up has an unbroken route to its riser. A pipe run is at most 15 m
+long, a figure the owner can set from 8 to 25 m.</li>
+<li><b>RS-casing.</b> Every casing or riser a route goes up through is on the plan. A casing holds what goes up in it, stands
+over real floor and stands clear of doors.</li>
+</ul>
+<p>Both faults are now listed for the owner on card wip-plant-way-up.</p>
+
+<h2>Would a straight shaft be better?</h2>
+<p>It sounds simpler: a flue straight up from the plant room, with no 7.55 m of horizontal run. But that shaft would pass
+through the gym, the lobby, A's and C's second bedrooms, B's reading corner and B's couple's bath. That is 0.12 m² from A,
+0.12 m² from C and 0.25 m² from B, and an inspection hatch where a flue passes through a bedroom. It would also do nothing for
+the pipes. So it is not better.</p>
+<p>The card offers three choices:</p>
+<ul>
+<li><b>Widen R3's foot below the ground floor</b> to about 0.85 × 0.7 m. This costs about 0.7 m² of shared floor below
+ground and no floor in any home. It is recommended.</li>
+<li><b>The straight shaft.</b></li>
+<li><b>Put the boiler on the stair-house roof.</b> It would need no flue indoors, but the gas company and the engineer must
+accept it.</li>
+</ul>
+<p>The engineer checks whether 7.7 m with six bends suits the boiler's flue.</p>
+</main>
+</body>
+</html>
