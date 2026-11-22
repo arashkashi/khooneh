@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>77. Nothing empty, nothing black</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>77. Nothing empty, nothing black</h1>
+<p class="date">21 November 2026</p>
+
+<p>The owner looked at the grandparents' bathroom on the design page and saw two things. There was a strange empty space
+beside the stand-up shower. And there were black shapes they could not name. They asked for all of it to be fixed, and
+for rules so it could not happen again.</p>
+
+<h2>What the black shapes were</h2>
+<p>Three different things were drawn black, and each one had its own cause.</p>
+<ul>
+<li><b>The ceiling airer and the shelf over the washing machine.</b> Both were drawn the right way, as dashed outlines
+above the plan's cut. But each one also carries an invisible band, so that pointing at it shows its name and height. The
+floor sheets style that band. The design page had its own hand-made copy of the sheets' style rules, and the copy had
+lost that one line. A browser paints an unstyled shape black. So the design page drew every piece mounted overhead as a
+black block: 31 pieces across the building (10 towel-hook rails, 7 shower shelves, 6 coat rails, 4 airers and 4 washer
+shelves).</li>
+<li><b>The tall block on the west wall.</b> This is the concrete column, 0.5 × 1.2 m. It was drawn correctly: structure is
+drawn solid on a plan. But nothing said what it was. Every column and concrete wall now gives its name and size when you
+point at it, on the design page and on the floor sheets.</li>
+<li><b>"washer_shelf".</b> When the page's list of short names had no entry for a piece, the label fell back to the
+code's internal name. Nineteen kinds of piece had no short name. Labels now come from the catalogue's own names, in
+English and Persian, and never from the code's names.</li>
+</ul>
+<p>The design page and the decision pages now take their style rules from the same single source as the floor sheets, so
+they cannot drift apart again.</p>
+
+<h2>What the empty space was</h2>
+<p>On the published page, the level shower stood 0.5 m off the west wall. That left a pocket 0.5 × 0.85 m between the
+shower, the two walls and the column. Nobody could use it or clean it. The same pocket, in the same room shape two floors
+up, was the caretaker's dead floor on 11 November. The rules written then only warned about it, so the layout search kept
+choosing it.</p>
+<p>The page the owner saw was already older than the design. Earlier today, a change to give the bath a full-size basin had
+re-arranged the room. The pocket was gone, but something worse had taken its place. The basin stood in the south-west
+corner, and the washing machine and the WC boxed in the floor in front of it, leaving only a 0.2 m slot. No one could
+reach the basin to wash.</p>
+
+<h2>The bath, laid out again</h2>
+<p>The room is 2.6 × 2.9 m. It holds a tub, a level shower, a WC with room for a wheelchair in front of it, a basin and the
+washing machine, and the 1.5 m turning circle the grandparents' home keeps. The column takes a bite out of the west wall.
+The room optimiser searched it again with the new rule. Moving the fixtures alone, no arrangement passed every rule: the
+best one left 0.6 m in front of the WC, where 1.1 m is needed. Its next tier may move a light wall. The best answer moves
+the wall between the bath and A's store 0.2 m south. The bath gains 0.53 m², the store loses the same, and A's home keeps
+exactly the floor it had:</p>
+<ul>
+<li>a 1.7 m tub runs along the north wall, over the corner pocket the owner saw empty;</li>
+<li>the washing machine stands against the column's face, away from the water of the tub and the shower;</li>
+<li>the 0.6 m basin stands in the south-west corner, and the floor in front of it now opens to the room;</li>
+<li>the WC sits on the south wall, with its grab-rail side and 1.1 m clear in front;</li>
+<li>the level shower takes the south-east corner.</li>
+</ul>
+<p>One other arrangement moved no wall: the WC in the corner pocket, with the door where the door search already slides it.
+But its basin, in the far corner, would drain 5.4 m to the riser, deeper than the floor allows. The architect chose the
+wall move, as the owner has asked, and it stays open for the owner's review.</p>
+
+<h2>Two rules, so it does not happen again</h2>
+<ul>
+<li><b>DS-wet</b> (must hold). In a bath or WC, the layout may not leave a dead patch of 0.1 m² or more: a strip too narrow
+to clean, or a pocket nobody reaches. And no fixture may have the floor in front of it boxed in. The owner can set the
+size between 0.06 and 0.2 m². The bath search now counts a breach as a fault, not just a cost. The rule also measures each
+bath with its door where the door search actually puts it.</li>
+<li><b>PD-complete</b> (must hold). Every piece drawn on a plan has a real plan symbol. It has a name in English and
+Persian. If it hangs overhead, it is drawn dashed above the cut. And no page leaves a shape unstyled. The design page will
+not even be written if it would break this rule.</li>
+</ul>
+<!--ELSEWHERE-->
+</main>
+</body>
+</html>

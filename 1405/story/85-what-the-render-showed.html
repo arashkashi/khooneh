@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>85. What the render showed</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+<main>
+<p><a href="index.html">The story</a></p>
+<h1>85. What the render showed</h1>
+<p class="date">22 November 2026</p>
+
+<p>The first wide picture of the new passage on the big home's living floor did not look like the plan to the owner: "I guess the
+render of the passage on the forth floor does not match with the 2d drawings." A tall pillar stood between the private stair and
+the passage, and through the far door the family hall looked like a long, narrow corridor.</p>
+
+<h2>Measured, not guessed</h2>
+<p>The built model was cut through at 1.2 m above every floor and the cut set against the plan data the sheets draw. On the
+living floor the walls and doors in 3D were exactly the plan's. The pillar was the plan's own: a 0.5 m piece of wall where the
+passage meets the corner of the kitchen. The plans open two rooms of one home to each other only where they share at least
+0.6 m; here they share 0.5 m, so a wall was drawn, a thin grey stub on the sheet and a full-height fin in the picture. It was what
+remained of the old pantry's south wall when the passage took the pantry's place. The "corridor" was the family hall's door
+lined up with the bedroom's door 2.5 m beyond it, seen from straight in front.</p>
+
+<p>The stub is gone: the passage is opened to the kitchen by name, as the shared room's corner on the lower ground floor was, so it
+is open to the south over its whole width, like the stair beside it.</p>
+
+<h2>What the cut found elsewhere</h2>
+<ul>
+<li>The shared stair's small street window on the first to fourth floors was closed in 3D. It sits in the concrete street wall,
+which the model built whole, and the gap left for it was filled with a 0.25 m wall standing 0.125 m proud inside. The concrete now
+gets the window's opening, as a brick wall does.</li>
+<li>The caretaker's walnut lattice screen beside the entry on the second floor was built as a solid plastered wall. It is now a
+frame with slats, about half open, as drawn.</li>
+</ul>
+
+<h2>A rule so it is measured every time</h2>
+<p>Until now the check between the plans and the model counted furniture only. A new hard rule, model.match-walls, runs the
+model builder's own wall planning without Blender on every build and compares, floor by floor, its walls, concrete, door
+openings, windows, glass and lattice screens with the plan: no wall in 3D the plan lacks, none of the plan's missing, every door
+and window open and glazed, no gap the plan draws closed, every screen open. Its tolerance (5 cm, from 2 to 15 cm) is the owner's
+to tune.</p>
+</main>
+</body>
+</html>
